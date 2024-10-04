@@ -3,10 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArsipKeluarController;
 use App\Http\Controllers\ArsipMasukController;
+use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -36,6 +38,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/kelola_user/insert', [AdminController::class, 'insert_user']);
     Route::get('/admin/kelola_user/delete/{id}', [AdminController::class, 'delete_user']);
 
+    Route::get('/admin/kelola_instansi', [InstansiController::class , 'kelola_instansi'])->name('admin.kelola_instansi');
+    Route::get('/admin/kelola_instansi/add', [InstansiController::class, 'add_instansi'])->name('admin.kelola_instansi.add');
+    Route::post('/admin/kelola_instansi/insert', [InstansiController::class, 'insert_instansi'])->name('admin.kelola_instansi.insert');
+    Route::get('/admin/kelola_instansi/edit/{id}', [InstansiController::class , 'edit_instansi'])->name('admin.kelola_instansi.edit');
+    Route::put('/admin/kelola_instansi/update/{id}', [InstansiController::class , 'update_instansi'])->name('admin.kelola_instansi.update');
+    Route::get('/admin/kelola_instansi/delete/{id}', [InstansiController::class , 'delete_instansi'])->name('admin.kelola_instansi.delete');
+
+
     Route::get('/admin/tambah_dokumen', [AdminController::class, 'tambah_dokumen'])->name('admin.tambah_dokumen');
     Route::get('/admin/tambah_dokumen/insert', [AdminController::class, 'store'])->name('admin.store');
 
@@ -50,7 +60,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:pimpinan'])->group(function () {
-    Route::get('/pimpinan/dashboard', [PimpinanController::class, 'dashboard'])->name('agent.dashboard');
+    Route::get('/pimpinan/dashboard', [PimpinanController::class, 'dashboard'])->name('pimpinan.dashboard');
 });
 
 require __DIR__ . '/auth.php';

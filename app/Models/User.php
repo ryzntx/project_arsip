@@ -50,6 +50,7 @@ class User extends Authenticatable {
         ];
     }
 
+    // Ini yang dibawah manda yang buat??
     public function allData() {
         return DB::table('users')->get();
     }

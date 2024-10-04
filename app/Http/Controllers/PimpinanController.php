@@ -8,6 +8,6 @@ class PimpinanController extends Controller
 {
     public function dashboard()
     {
-        return view('pimpinan.dashboard');
+        return view('dashboard');
     }
 }

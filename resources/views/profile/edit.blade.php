@@ -25,7 +25,7 @@
                         <div class="card-body">
                             <div class="panel profile-cover" style="position: relative;">
                                 <div class="profile-cover__img" style="position: absolute; bottom: -50px; left: 20px;">
-                                    <img src="{{Storage::url(auth()->user()->photo_path)}}"
+                                    <img src="{{asset(Storage::url(auth()->user()->photo_path))}}"
                                         alt="Profile picture of Sonia Taylor"
                                         style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 3px solid white;" />
                                     <h3 class="h3" style="margin-top: 10px; font-weight: bold;">

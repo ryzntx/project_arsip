@@ -21,12 +21,22 @@
                             <span class="sidemenu-label">Dashboard</span>
                         </a>
                     </li>
+                    @if (auth()->user()->role=='admin')
+
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/kelola_user">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
                             <i class="ti-home sidemenu-icon menu-icon "></i>
                             <span class="sidemenu-label">Kelola User</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/kelola_instansi">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <span class="sidemenu-label">Kelola Instansi</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -62,6 +72,16 @@
                             </span>
                         </a>
                     </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pimpinan/kelola">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <span class="sidemenu-label">Kelola </span>
+                        </a>
+                    </li>
+                    @endif
 
 
                 <div class="slide-right" id="slide-right"><i class="fe fe-chevron-right"></i></div>

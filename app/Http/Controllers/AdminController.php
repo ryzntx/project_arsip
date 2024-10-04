@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Instansi;
 use App\Models\User;
 use App\Models\DokumenMasuk;
 use App\Models\DokumenKeluar;
@@ -88,6 +89,9 @@ class AdminController extends Controller
         // return redirect()->back()->with('pesan','data berhasil dihapus!!');
     }
 
+    // CRUD Kategori Dokumen
+
+    
 
     // TAMBAH DOKUMEN
     public function tambah_dokumen()
