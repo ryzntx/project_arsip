@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class ProfileController extends Controller
-{
+class ProfileController extends Controller {
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
-    {
+    public function edit(Request $request): View {
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -24,9 +22,18 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
+    public function update(ProfileUpdateRequest $request): RedirectResponse {
         $request->user()->fill($request->validated());
+
+        // Cek bila ada sebuah file yang di upload ke serve
+        if ($request->hasFile('photo_path') && $request->file('photo_path')->isValid()) {
+            // Ambil filenya dan simpen di variabel
+            $file = $request->file('photo_path');
+            // Upload file nya ke storage dengan nama folder foto_profil, dan nama file di hash. dan ambil path nya
+            $path = $file->storeAs('foto_profil', $file->hashName(), 'public');
+            // upload nama path filenya ke database
+            $request->user()->photo_path = $path;
+        }
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -40,8 +47,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
-    {
+    public function destroy(Request $request): RedirectResponse {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
