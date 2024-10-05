@@ -1,5 +1,5 @@
 @extends('layout.index')
-@section('title', 'Kelola Instansi')
+@section('title', 'Kelola Kategori')
 @section('content')
 
 <div class="main-content side-content pt-0">
@@ -15,11 +15,11 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h2 class="main-content-title tx-24 mg-b-5">Tabel Instansi</h2>
+                    <h2 class="main-content-title tx-24 mg-b-5">Tabel Kategori</h2>
 
                 </div>
                 <div class="d-flex">
-                    <a href="/admin/kelola_instansi/add">
+                    <a href="/admin/kelola_kategori/add">
                         <button type="button" class="btn btn-primary my-2 btn-icon-text">
                             <i class="ion ion-plus-circled"></i> Tambah Data</button>
                     </a>
@@ -39,21 +39,17 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;">No</th>
-                                        <th style="text-align: center;">Nama Instansi</th>
-                                        <th style="text-align: center;">Singkatan</th>
-                                        <th style="text-align: center;">Alamat</th>
+                                        <th style="text-align: center;">Nama Kategori</th>
                                         <th style="text-align: center;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($instansi as $data)
+                                    @foreach ($kategori as $data)
                                     <tr>
                                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                        <td style="text-align: center;">{{ $data->nama_instansi }}</td>
-                                        <td style="text-align: center;">{{ $data->singkatan_instansi }}</td>
-                                        <td style="text-align: center;">{{ $data->alamat }}</td>
+                                        <td style="text-align: center;">{{ $data->nama_kategori }}</td>
                                         <td style="text-align: center;">
-                                            <a href="/admin/kelola_instansi/edit/{{ $data->id }}" class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
+                                            <a href="/admin/kelola_kategori/edit/{{ $data->id }}" class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
                                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                                 data-target="#delete{{ $data->id }}">
                                                 <i class="fe fe-trash"></i>
@@ -69,7 +65,7 @@
             </div>
         </div>
 
-        @foreach ($instansi as $data)
+        @foreach ($kategori as $data)
 
         <div class="modal modal-danger fade" id="delete{{ $data->id }}">
             <div class="modal-dialog modal-sm">
@@ -84,7 +80,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
-                        <a href="{{ url('/admin/kelola_instansi/delete/'.$data->id ) }}" class="btn btn-outline btn-danger">Yes</a>
+                        <a href="{{ url('/admin/kelola_kategori/delete/'.$data->id ) }}" class="btn btn-outline btn-danger">Yes</a>
                     </div>
                 </div>
             </div>

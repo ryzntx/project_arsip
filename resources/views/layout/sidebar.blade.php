@@ -40,6 +40,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/kelola_kategori">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <span class="sidemenu-label">Kelola Kategori</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/tambah_dokumen">
                             <span class="shape1"></span>
                             <span class="shape2"></span>

@@ -29,12 +29,12 @@ class AdminController extends Controller
     public function kelola_user()
     {
         $user = User::all();
-        return view('admin.kelola_user', compact('user'));
+        return view('admin.user.kelola_user', compact('user'));
     }
 
     public function add_user()
     {
-        return view('admin.add_user');
+        return view('admin.user.add_user');
     }
 
     public function insert_user(Request $request)
@@ -74,7 +74,7 @@ class AdminController extends Controller
     $add_user->save();
 
     // User::create($data);
-    return redirect()->route('admin.kelola_user')->with('pesan', 'Data berhasil ditambahkan!');
+    return redirect()->route('admin.user.kelola_user')->with('pesan', 'Data berhasil ditambahkan!');
     // $this -> User->addData($data);
     // return redirect()->route('user')->with('pesan','data berhasil ditambahkan!!');
 }
@@ -91,7 +91,7 @@ class AdminController extends Controller
 
     // CRUD Kategori Dokumen
 
-    
+
 
     // TAMBAH DOKUMEN
     public function tambah_dokumen()

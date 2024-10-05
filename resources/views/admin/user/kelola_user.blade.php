@@ -65,13 +65,13 @@
                                         @endforeach
 
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         @foreach ($user as $data)
         <div class="modal modal-danger fade" id="delete{{ $data->id }}">
             <div class="modal-dialog modal-sm">
@@ -85,15 +85,15 @@
                   <p>Apakah anda yakin ingin menghapus data ini?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
-                  <a href="{{ url('/admin/kelola_user/delete/'.$data->id ) }}" class="btn btn-outline">Yes</a>
+                  <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
+                  <a href="{{ url('/admin/kelola_user/delete/'.$data->id ) }}" class="btn btn-outline btn-danger">Yes</a>
                 </div>
               </div>
               <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
           </div>
-
+    </div>
     @endforeach
 
 @endsection

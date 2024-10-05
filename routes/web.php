@@ -4,10 +4,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArsipKeluarController;
 use App\Http\Controllers\ArsipMasukController;
 use App\Http\Controllers\InstansiController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 
 Route::get('/', function () {
@@ -33,8 +35,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/admin/kelola_user', [AdminController::class, 'kelola_user'])->name('admin.kelola_user');
-    Route::get('/admin/kelola_user/add', [AdminController::class, 'add_user'])->name('admin.add_user');
+    Route::get('/admin/kelola_user', [AdminController::class, 'kelola_user'])->name('admin.user.kelola_user');
+    Route::get('/admin/kelola_user/add', [AdminController::class, 'add_user'])->name('admin.user.add_user');
     Route::post('/admin/kelola_user/insert', [AdminController::class, 'insert_user']);
     Route::get('/admin/kelola_user/delete/{id}', [AdminController::class, 'delete_user']);
 
@@ -44,6 +46,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/kelola_instansi/edit/{id}', [InstansiController::class , 'edit_instansi'])->name('admin.kelola_instansi.edit');
     Route::put('/admin/kelola_instansi/update/{id}', [InstansiController::class , 'update_instansi'])->name('admin.kelola_instansi.update');
     Route::get('/admin/kelola_instansi/delete/{id}', [InstansiController::class , 'delete_instansi'])->name('admin.kelola_instansi.delete');
+
+
+    Route::get('/admin/kelola_kategori', [KategoriController::class , 'kelola_kategori'])->name('admin.kelola_kategori');
+    Route::get('/admin/kelola_kategori/add', [KategoriController::class, 'add_kategori'])->name('admin.kelola_kategori.add');
+    Route::post('/admin/kelola_kategori/insert', [KategoriController::class, 'insert_kategori'])->name('admin.kelola_kategori.insert');
+    Route::get('/admin/kelola_kategori/edit/{id}', [kategoriController::class , 'edit_kategori'])->name('admin.kelola_kategori.edit');
+    Route::put('/admin/kelola_kategori/update/{id}', [kategoriController::class , 'update_kategori'])->name('admin.kelola_kategori.update');
+    Route::get('/admin/kelola_kategori/delete/{id}', [KategoriController::class , 'delete_kategori'])->name('admin.kelola_kategori.delete');
 
 
     Route::get('/admin/tambah_dokumen', [AdminController::class, 'tambah_dokumen'])->name('admin.tambah_dokumen');
