@@ -4,21 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::create('dokumen_keluars', function (Blueprint $table) {
             $table->id();
-            $table->string('no_dokumen');
-            $table->string('perihal');
+            $table->string('no_dokumen')->nullable();
+            $table->string('nama_dokumen');
             $table->string('penerima');
-            $table->string('asal_dokumen');
-            $table->string('status');
+            $table->string('pengirim');
             $table->string('lampiran');
+            $table->string('status');
+            $table->string('keterangan')->nullable();
+            $table->boolean('persetujuan')->default(false);
             $table->date('tanggal_keluar');
             $table->foreignId('instansi_id')->constrained();
             $table->foreignId('dokumen_kategori_id')->constrained();
@@ -30,8 +30,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::dropIfExists('dokumen_keluars');
     }
 };
