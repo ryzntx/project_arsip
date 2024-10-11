@@ -61,7 +61,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
     Route::get('/admin/tambah_dokumen', [TambahDokumenController::class, 'tambah_dokumen'])->name('admin.tambah_dokumen');
-    Route::post('/admin/tambah_dokumen/insert', [TambahDokumenController::class, 'store'])->name('admin.store');
+    Route::post('/admin/tambah_dokumen/insert', [TambahDokumenController::class, 'simpan'])->name('admin.simpan');
 
     // Route::get('/admin/tambah_dokumen/insert', [AdminController::class, 'store'])->name('admin.store');
 
