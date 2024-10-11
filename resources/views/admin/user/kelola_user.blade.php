@@ -21,7 +21,8 @@
                 <div class="d-flex">
                     <a href="/admin/kelola_user/add">
                         <button type="button" class="btn btn-primary my-2 btn-icon-text">
-                        <i class="ion ion-plus-circled"></i> Tambah User</button>
+                            <i class="fe fe-user-plus"></i>
+                            Tambah User</button>
                     </a>
                     </div>
                 </div>

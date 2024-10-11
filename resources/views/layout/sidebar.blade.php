@@ -13,6 +13,7 @@
             <div class="main-sidebar-body main-body-1">
                 <div class="slide-left disabled" id="slide-left"><i class="fe fe-chevron-left"></i></div>
                 <ul class="menu-nav nav">
+                    <li class="nav-header"><span class="nav-label">Dashboard</span></li>
                     <li class="nav-item">
                         <a class="nav-link" href="/dashboard">
                             <span class="shape1"></span>
@@ -22,12 +23,12 @@
                         </a>
                     </li>
                     @if (auth()->user()->role=='admin')
-
+                    <li class="nav-header"><span class="nav-label">Applications</span></li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/kelola_user">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <i class="ti-home sidemenu-icon fe fe-users "></i>
                             <span class="sidemenu-label">Kelola User</span>
                         </a>
                     </li>
@@ -35,7 +36,7 @@
                         <a class="nav-link" href="/admin/kelola_instansi">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <i class="ti-home sidemenu-icon fe fe-grid "></i>
                             <span class="sidemenu-label">Kelola Instansi</span>
                         </a>
                     </li>
@@ -43,7 +44,7 @@
                         <a class="nav-link" href="/admin/kelola_kategori">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <i class="ti-home sidemenu-icon fe fe-grid "></i>
                             <span class="sidemenu-label">Kelola Kategori</span>
                         </a>
                     </li>
@@ -59,7 +60,7 @@
                         <a class="nav-link" href="/admin/arsip_masuk">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <i class="ti-home sidemenu-icon fe fe-arrow-down-right "></i>
                             <span class="sidemenu-label">Arsip Dokumen Masuk</span>
                         </a>
                     </li>
@@ -67,7 +68,7 @@
                         <a class="nav-link" href="/admin/arsip_keluar">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <i class="ti-home sidemenu-icon fe fe-arrow-up-left "></i>
                             <span class="sidemenu-label">Arsip Dokumen Keluar</span>
                         </a>
                     </li>
@@ -75,7 +76,7 @@
                         <a class="nav-link with-sub" href="/admin/rekap">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i  class="ti-wallet sidemenu-icon menu-icon "></i>
+                            <i  class="ti-wallet sidemenu-icon fe fe-layers "></i>
                             <span class="sidemenu-label">Rekap Dokumen
                             </span>
                         </a>

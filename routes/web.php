@@ -3,12 +3,16 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArsipKeluarController;
 use App\Http\Controllers\ArsipMasukController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TambahDokumenController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -56,8 +60,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/kelola_kategori/delete/{id}', [KategoriController::class , 'delete_kategori'])->name('admin.kelola_kategori.delete');
 
 
-    Route::get('/admin/tambah_dokumen', [AdminController::class, 'tambah_dokumen'])->name('admin.tambah_dokumen');
-    Route::get('/admin/tambah_dokumen/insert', [AdminController::class, 'store'])->name('admin.store');
+    Route::get('/admin/tambah_dokumen', [TambahDokumenController::class, 'tambah_dokumen'])->name('admin.tambah_dokumen');
+    Route::post('/admin/tambah_dokumen/insert', [TambahDokumenController::class, 'store'])->name('admin.store');
 
     // Route::get('/admin/tambah_dokumen/insert', [AdminController::class, 'store'])->name('admin.store');
 

@@ -21,7 +21,8 @@
                 <div class="d-flex">
                     <a href="/admin/kelola_kategori/add">
                         <button type="button" class="btn btn-primary my-2 btn-icon-text">
-                            <i class="ion ion-plus-circled"></i> Tambah Data</button>
+                            <i class="fe fe-plus"></i>
+                            Tambah Kategori</button>
                     </a>
                 </div>
             </div>

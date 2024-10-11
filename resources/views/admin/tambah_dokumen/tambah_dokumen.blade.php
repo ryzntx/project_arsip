@@ -2,8 +2,8 @@
 @section('title', 'Sekretaris')
 @section('content')
 
-<form action="/admin/tambah_dokumen/insert" method="POST" enctype="multipart/form-data">
-    @csrf
+{{-- <form action="/admin/tambah_dokumen/insert" method="POST" enctype="multipart/form-data">
+    @csrf --}}
 
     <div class="main-content side-content pt-0">
         <div class="main-container container-fluid">
@@ -31,6 +31,10 @@
                 <div class="row row-sm form-container" id="formMasuk" style="display: none;">
                     <div class="col-lg-12 col-md-12">
                         <div class="card custom-card">
+                            <form action="/admin/tambah_dokumen/insert" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="jenis_dokumen" value="dokumen_masuk">
+
                             <div class="card-body">
                                 <h5>Form Dokumen Masuk</h5>
                                 <div class="form-group">
@@ -38,12 +42,16 @@
                                     <input type="date" class="form-control" name="tanggal_dokumen" id="tanggal_dokumen" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="namaDinas" class="tx-medium">Dinas</label>
-                                    <select id="namaDinas" name="dinas_id" class="form-control">
+                                    <label for="namaInstansi" class="tx-medium">Nama Instansi</label>
+                                    <select id="namaInstansi" name="instansi_id" class="form-control">
 
                                         <!-- Option list remains unchanged -->
                                         <option value="" selected>Pilih</option>
-                                        <option value="inspektorat">Inspektorat</option>
+                                        @foreach ($instansi as $data)
+                                            <option value="{{ $data->id }}">{{ $data->nama_instansi }}</option>
+
+                                        @endforeach
+                                        {{-- <option value="inspektorat">Inspektorat</option>
                                         <option value="setda">Sekertariat Daerah</option>
                                         <option value="disdik">Dinas Pendidikan</option>
                                         <option value="dinkes">Dinas Kesehatan</option>
@@ -119,7 +127,7 @@
                                         <option value="pus_cibatu">Puskesmas Cibatu</option>
                                         <option value="pus_sukasari">Puskesmas Sukasari</option>
                                         <option value="pus_pondoksalam">Puskesmas Pondoksalam</option>
-                                        <option value="pus_kiarapedes">Puskesmas Kiarapedes</option>
+                                        <option value="pus_kiarapedes">Puskesmas Kiarapedes</option> --}}
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -136,18 +144,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Kategori Dokumen:</label>
+                                    @foreach ($kategori as $data)
                                     <div>
-                                        <input type="radio" id="pilihan1" name="option" value="pilihan1">
-                                        <label for="pilihan1">Dokumen Kontrak Kegiatan</label>
+                                        <input type="radio" id="pilihan {{ $data->id }}" name="kategori_dokumen" value="{{ $data->id }}">
+                                        <label for="pilihan {{ $data->id }}">{{ $data->nama_kategori }}</label>
                                     </div>
-                                    <div>
-                                        <input type="radio" id="pilihan2" name="option" value="pilihan2">
-                                        <label for="pilihan2">Dokumen Kerjasama</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="pilihan3" name="option" value="pilihan3">
-                                        <label for="pilihan3">Dokumen Undangan</label>
-                                    </div>
+                                    @endforeach
+
+
                                 </div>
                                 <div class="form-group">
                                     <label class="tx-medium">Lampiran Dokumen</label>
@@ -162,7 +166,7 @@
                                 <button type="submit" class="btn btn-primary">Submit Dokumen</button>
                                 <a href="admin/tambah_dokumen/insert" class="btn btn-danger">Cancel</a>
                             </div>
-
+                        </form>
                             <!-- Submit Buttons -->
                         </div>
                     </div>
@@ -172,6 +176,10 @@
                 <div class="row row-sm form-container" id="formKeluar" style="display: none;">
                     <div class="col-lg-12 col-md-12">
                         <div class="card custom-card">
+                            <form action="/admin/tambah_dokumen/insert" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="jenis_dokumen" value="dokumen_keluar">
+
                             <div class="card-body">
                                 <h5>Form Dokumen Keluar</h5>
                                 <div class="form-group">
@@ -179,12 +187,15 @@
                                     <input type="date" class="form-control" name="tanggal_dokumen" id="tanggal_dokumen" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="namaDinas" class="tx-medium">Dinas</label>
-                                    <select id="namaDinas" name="dinas_id" class="form-control">
+                                    <label for="namaInstansi" class="tx-medium">Nama Instansi</label>
+                                    <select id="namaInstansi" name="instansi_id" class="form-control">
 
                                         <!-- Option list remains unchanged -->
                                         <option value="" selected>Pilih</option>
-                                        <option value="inspektorat">Inspektorat</option>
+                                        @foreach ($instansi as $data)
+                                            <option value="{{ $data->id }}">{{ $data->nama_instansi }}</option>
+
+                                        @endforeach                                        {{-- <option value="inspektorat">Inspektorat</option>
                                         <option value="setda">Sekertariat Daerah</option>
                                         <option value="disdik">Dinas Pendidikan</option>
                                         <option value="dinkes">Dinas Kesehatan</option>
@@ -260,7 +271,7 @@
                                         <option value="pus_cibatu">Puskesmas Cibatu</option>
                                         <option value="pus_sukasari">Puskesmas Sukasari</option>
                                         <option value="pus_pondoksalam">Puskesmas Pondoksalam</option>
-                                        <option value="pus_kiarapedes">Puskesmas Kiarapedes</option>
+                                        <option value="pus_kiarapedes">Puskesmas Kiarapedes</option> --}}
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -277,18 +288,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Kategori Dokumen:</label>
+                                    @foreach ($kategori as $data)
                                     <div>
-                                        <input type="radio" id="pilihan1" name="option" value="pilihan1">
-                                        <label for="pilihan1">Dokumen Kontrak Kegiatan</label>
+                                        <input type="radio" id="pilihan {{ $data->id }}" name="kategori_dokumen" value="{{ $data->id }}">
+                                        <label for="pilihan {{ $data->id }}">{{ $data->nama_kategori }}</label>
                                     </div>
-                                    <div>
-                                        <input type="radio" id="pilihan2" name="option" value="pilihan2">
-                                        <label for="pilihan2">Dokumen Kerjasama</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="pilihan3" name="option" value="pilihan3">
-                                        <label for="pilihan3">Dokumen Undangan</label>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="form-group">
                                     <label class="tx-medium">Lampiran Dokumen</label>
@@ -311,6 +316,7 @@
                                 <button type="submit" class="btn btn-primary">Submit Dokumen</button>
                                 <a href="admin/tambah_dokumen/insert" class="btn btn-danger">Cancel</a>
                             </div>
+                        </form>
                             <!-- Submit Buttons -->
                         </div>
                     </div>
@@ -319,7 +325,7 @@
             </div>
         </div>
     </div>
-</form>
+{{-- </form> --}}
 
 <!-- Script to toggle between forms based on document type -->
 <script>

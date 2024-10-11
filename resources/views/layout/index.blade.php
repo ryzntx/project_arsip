@@ -104,9 +104,7 @@
                                                 <h6 class="main-notification-title">{{ auth()->user()->name}}</h6>
                                                 <p class="main-notification-text">{{ auth()->user()->role}}</p>
                                             </div>
-                                            <a class="dropdown-item border-top" href="profile.html">
-                                                <i class="fe fe-user"></i> My Profile
-                                            </a>
+                
                                             <a class="dropdown-item" href="/profile/edit">
                                                 <i class="fe fe-edit"></i> Edit Profile
                                             </a>

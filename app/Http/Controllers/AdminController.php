@@ -93,11 +93,7 @@ class AdminController extends Controller
 
 
 
-    // TAMBAH DOKUMEN
-    public function tambah_dokumen()
-    {
-        return view('admin.tambah_dokumen');
-    }
+    
 
     // LAPORAN
     public function rekap()

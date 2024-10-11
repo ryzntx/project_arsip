@@ -33,6 +33,7 @@
                                 </div>
                                 <div class="profile-cover__action bg-img"
                                     style="height: 200px; background-color: #d1e0ff;">
+
                                     <!-- Background atau konten tambahan bisa diisi di sini -->
                                 </div>
                             </div>
