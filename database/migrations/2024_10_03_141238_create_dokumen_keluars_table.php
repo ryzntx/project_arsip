@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->string('lampiran');
             $table->enum('status', ['Menunggu Persetujuan', 'Disetujui', 'Ditolak', 'Menunggu Dikirim', 'Dikirimkan'])->default('Menunggu Persetujuan');
             $table->string('keterangan')->nullable();
-            $table->boolean('persetujuan')->default(false);
-            $table->date('tanggal_dikirim');
+            $table->string('persetujuan')->default('tidak');
+            $table->date('tanggal_keluar');
             $table->string('bukti_dikirimkan')->nullable();
             $table->foreignId('instansi_id')->constrained();
             $table->foreignId('dokumen_kategori_id')->constrained();

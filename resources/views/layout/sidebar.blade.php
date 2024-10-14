@@ -14,15 +14,15 @@
                 <div class="slide-left disabled" id="slide-left"><i class="fe fe-chevron-left"></i></div>
                 <ul class="menu-nav nav">
                     <li class="nav-header"><span class="nav-label">Dashboard</span></li>
+                    @if (auth()->user()->role=='admin')
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">
+                        <a class="nav-link" href="/admin/dashboard">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
                             <i class="ti-home sidemenu-icon menu-icon "></i>
                             <span class="sidemenu-label">Dashboard</span>
                         </a>
                     </li>
-                    @if (auth()->user()->role=='admin')
                     <li class="nav-header"><span class="nav-label">Applications</span></li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/kelola_user">
@@ -82,6 +82,14 @@
                         </a>
                     </li>
                     @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pimpinan/dashboard">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <span class="sidemenu-label">Dashboard</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/pimpinan/kelola">
                             <span class="shape1"></span>

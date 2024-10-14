@@ -17,8 +17,10 @@ class AdminController extends Controller
     protected $user;
     public function dashboard()
     {
-
-        return view('dashboard');
+        $total_dokumen_masuk = DokumenMasuk::count();
+        $total_dokumen_keluar = DokumenKeluar::count();
+        $total_dokumen = $total_dokumen_keluar + $total_dokumen_masuk;
+        return view('dashboard', compact('total_dokumen', 'total_dokumen_keluar', 'total_dokumen_masuk'));
     }
 
     // USER
@@ -93,7 +95,7 @@ class AdminController extends Controller
 
 
 
-    
+
 
     // LAPORAN
     public function rekap()

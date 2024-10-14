@@ -24,7 +24,7 @@
                     <div class="card custom-card">
                         <div class="card-body">
                             <div class="panel profile-cover" style="position: relative;">
-                                <div class="profile-cover__img" style="position: absolute; bottom: -50px; left: 20px;">
+                                <div class="profile-cover__img" style="position: absolute; bottom: -50px; left: 20px; ">
                                     <img src="{{asset(Storage::url(auth()->user()->photo_path))}}"
                                         alt="Profile picture of Sonia Taylor"
                                         style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 3px solid white;" />
@@ -32,7 +32,7 @@
                                         {{ auth()->user()->name }}</h3>
                                 </div>
                                 <div class="profile-cover__action bg-img"
-                                    style="height: 200px; background-color: #d1e0ff;">
+                                    style="height: 200px; background-color: #d1e0ff; background: url('{{asset(Storage::url(auth()->user()->photo_path))}}') no-repeat fixed center">
 
                                     <!-- Background atau konten tambahan bisa diisi di sini -->
                                 </div>

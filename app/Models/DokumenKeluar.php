@@ -17,7 +17,7 @@ class DokumenKeluar extends Model {
         'status',
         'persetujuan',
         'keterangan',
-        'tanggal_dikirim',
+        'tanggal_keluar',
         'bukti_diterima',
         'instansi_id',
         'dokumen_kategori_id',

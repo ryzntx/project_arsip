@@ -112,11 +112,11 @@
                         </div>
                         <form action="/admin/tambah_dokumen/insert" method="post" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="jenis_dokumen" value="dokumen_masuk" required>
+                            <input type="hidden" name="jenis_dokumen" value="dokumen_keluar" required>
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="tx-medium">Tanggal</label>
-                                    <input type="date" class="form-control" name="tanggal_dokumen" id="tanggal_dokumen"
+                                    <input type="date" class="form-control" name="tanggal_keluar" id="tanggal_keluar"
                                         required>
                                 </div>
                                 <div class="form-group">
@@ -126,7 +126,7 @@
                                         <!-- Option list remains unchanged -->
                                         <option value="" selected>Pilih</option>
                                         @foreach ($instansi as $data)
-                                        <option value="{{$data->singkatan_instansi}}">{{$data->nama_instansi}}
+                                        <option value="{{$data->id}}">{{$data->nama_instansi}}
                                         </option>
                                         @endforeach
                                     </select>
@@ -147,7 +147,7 @@
                                     <label>Kategori Dokumen:</label>
                                     @foreach ($kategori as $data)
                                     <div>
-                                        <input type="radio" id="pilihan{{$data->id}}" name="kategori_dokumen"
+                                        <input type="radio" id="pilihan{{$data->id}}" name="kategori_id"
                                             value="{{$data->id}}">
                                         <label for="pilihan{{$data->id}}">{{$data->nama_kategori}}</label>
                                     </div>

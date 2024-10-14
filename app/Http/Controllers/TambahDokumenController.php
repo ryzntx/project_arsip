@@ -111,14 +111,15 @@ class TambahDokumenController extends Controller
                 'nama_dokumen' => $request->nama_dokumen,
                 'penerima' => $request->nama_penerima,
                 'pengirim' => $request->nama_pengirim,
-                'tanggal_dikirim' => $request->tanggal_dikirim,
+                'tanggal_keluar' => $request->tanggal_keluar,
                 'keterangan' => $request->keterangan,
-                'status' => 'Menunggu Persetujuan',
-                'persetujuan' => '0',
+                'status' => ($request->pengajuan_ke_pimpinan=='ya')?'Menunggu Persetujuan':'Menunggu Dikirim',
+                'persetujuan' => $request->pengajuan_ke_pimpinan,
                 'instansi_id' => $request->dinas_id,
                 'dokumen_kategori_id' => $request->kategori_id,
                 'user_id' => auth()->user()->id,
             ];
+
 
             // Memeriksa apakah file diunggah dan merupakan file dokumen yang valid
             if ($request->hasFile('file_dokumen') && $request->file('file_dokumen')->isValid()) {
