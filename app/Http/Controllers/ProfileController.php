@@ -11,56 +11,68 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller {
     /**
-     * Display the user's profile form.
+     * Menampilkan formulir profil pengguna.
      */
-    public function edit(Request $request): View {
+    public function ubah_profil(Request $request): View {
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Update informasi profil pengguna.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse {
+    public function update_profil(ProfileUpdateRequest $request): RedirectResponse {
+        // Mengisi data pengguna dengan data yang telah divalidasi
         $request->user()->fill($request->validated());
 
-        // Cek bila ada sebuah file yang di upload ke serve
+        // Cek bila ada sebuah file yang di upload ke server
         if ($request->hasFile('photo_path') && $request->file('photo_path')->isValid()) {
-            // Ambil filenya dan simpen di variabel
+            // Ambil file yang diupload dan simpan di variabel
             $file = $request->file('photo_path');
-            // Upload file nya ke storage dengan nama folder foto_profil, dan nama file di hash. dan ambil path nya
+            // Upload file ke storage dengan nama folder 'foto_profil', nama file di-hash, dan ambil path-nya
             $path = $file->storeAs('foto_profil', $file->hashName(), 'public');
-            // upload nama path filenya ke database
+            // Simpan path file yang diupload ke database
             $request->user()->photo_path = $path;
         }
 
+        // Jika email pengguna berubah, set email_verified_at menjadi null
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
+        // Simpan perubahan data pengguna ke database
         $request->user()->save();
 
+        // Redirect ke halaman edit profil dengan pesan status 'profile-updated'
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * Delete the user's account.
+     * Hapus akun pengguna.
      */
-    public function destroy(Request $request): RedirectResponse {
+    public function hapus_profil(Request $request): RedirectResponse {
+        // Validasi password pengguna sebelum penghapusan
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
 
+        // Dapatkan pengguna yang terautentikasi
         $user = $request->user();
 
+        // Logout pengguna
         Auth::logout();
 
+        // Hapus akun pengguna
         $user->delete();
 
+        // Invalidasi sesi saat ini
         $request->session()->invalidate();
+
+        // Regenerasi token sesi
         $request->session()->regenerateToken();
 
+        // Redirect ke halaman utama
         return Redirect::to('/');
     }
 }

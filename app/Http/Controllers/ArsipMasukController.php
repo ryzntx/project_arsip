@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ArsipMasukController extends Controller
 {
-    public function index()
+    public function kelola_arsip_masuk()
     {
         $data = DokumenMasuk::with('dokumen_kategori')->with('instansi')->get();
         return view('admin.arsip_masuk.arsip_masuk', compact('data'));
     }
 
-    public function download($path_pdf){
+    public function download_arsip_masuk($path_pdf){
         if (!Storage::disk('public')->exists($path_pdf)) {
             abort(404);
         }

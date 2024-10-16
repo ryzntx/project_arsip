@@ -19,6 +19,7 @@ class KategoriController extends Controller
     {
         return view('admin.kategori.add_kategori');
     }
+
     public function insert_kategori(Request $request)
     {
         $request->validate([
