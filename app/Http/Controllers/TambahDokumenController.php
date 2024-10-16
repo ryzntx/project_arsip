@@ -15,9 +15,8 @@ use Illuminate\Support\Facades\Storage;
 class TambahDokumenController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan halaman tambah_dokumen
      */
-    // TAMBAH DOKUMEN
     public function tambah_dokumen()
     {
         $instansi = Instansi::all();
@@ -26,7 +25,7 @@ class TambahDokumenController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data dokumen ke database
      */
     public function simpan(Request $request) {
 
@@ -63,19 +62,19 @@ class TambahDokumenController extends Controller
             $file_name = $dtFormat . '_' . $original_name;
 
                 // Memeriksa apakah file yang diunggah adalah file dokumen yang valid (DOC atau DOCX)
-                if ($this->isValidDocumentFile($file)) {
+                if ($this->cekFileDokumen($file)) {
 
                     // Mengunggah file DOCX ke penyimpanan publik
                     $uploadPath = $file->storeAs('dokumen/masuk', $file_name, 'public');
 
                     // Mengonversi file DOCX yang diunggah ke PDF
-                    $pdfFileName = $this->convertDocxToPdf(storage_path("app/public/" . $uploadPath), storage_path('app/public/dokumen/masuk'));
+                    $pdfFileName = $this->konversiDocxKePdf(storage_path("app/public/" . $uploadPath), storage_path('app/public/dokumen/masuk'));
 
                     // Menghapus file DOCX yang diunggah
                     Storage::disk('public')->delete($uploadPath);
 
                     // Mengompres dan mengoptimalkan file PDF yang telah dikonversi
-                    $pdfCompress = $this->compressAndOptimizePdf(storage_path('app/public/dokumen/masuk/' . $pdfFileName), storage_path('app/public/dokumen/masuk'));
+                    $pdfCompress = $this->kompressFilePdf(storage_path('app/public/dokumen/masuk/' . $pdfFileName), storage_path('app/public/dokumen/masuk'));
 
                     // Menghapus file PDF yang telah dikonversi
                     Storage::disk('public')->delete('dokumen/masuk/' . $pdfFileName);
@@ -87,7 +86,7 @@ class TambahDokumenController extends Controller
                     $uploadPath = $file->storeAs('dokumen/masuk', $file_name, 'public');
 
                     // Mengompres dan mengoptimalkan file PDF yang diunggah
-                    $pdfCompress = $this->compressAndOptimizePdf(storage_path('app/public/' . $uploadPath), storage_path('app/public/dokumen/masuk'));
+                    $pdfCompress = $this->kompressFilePdf(storage_path('app/public/' . $uploadPath), storage_path('app/public/dokumen/masuk'));
 
                     // Menghapus file PDF yang diunggah
                     Storage::disk('public')->delete($uploadPath);
@@ -133,19 +132,19 @@ class TambahDokumenController extends Controller
                 $file_name = $dtFormat . '_' . $original_name;
 
                 // Memeriksa apakah file yang diunggah adalah file dokumen yang valid (DOC atau DOCX)
-                if ($this->isValidDocumentFile($file)) {
+                if ($this->cekFileDokumen($file)) {
 
                     // Mengunggah file DOCX ke penyimpanan publik
                     $uploadPath = $file->storeAs('dokumen/keluar', $file_name, 'public');
 
                     // Mengonversi file DOCX yang diunggah ke PDF
-                    $pdfFileName = $this->convertDocxToPdf(storage_path("app/public/" . $uploadPath), storage_path('app/public/dokumen/keluar'));
+                    $pdfFileName = $this->konversiDocxKePdf(storage_path("app/public/" . $uploadPath), storage_path('app/public/dokumen/keluar'));
 
                     // Menghapus file DOCX yang diunggah
                     Storage::disk('public')->delete($uploadPath);
 
                     // Mengompres dan mengoptimalkan file PDF yang telah dikonversi
-                    $pdfCompress = $this->compressAndOptimizePdf(storage_path('app/public/dokumen/keluar/' . $pdfFileName), storage_path('app/public/dokumen/keluar'));
+                    $pdfCompress = $this->kompressFilePdf(storage_path('app/public/dokumen/keluar/' . $pdfFileName), storage_path('app/public/dokumen/keluar'));
 
                     // Menghapus file PDF yang telah dikonversi
                     Storage::disk('public')->delete('dokumen/keluar/' . $pdfFileName);
@@ -157,7 +156,7 @@ class TambahDokumenController extends Controller
                     $uploadPath = $file->storeAs('dokumen/keluar', $file_name, 'public');
 
                     // Mengompres dan mengoptimalkan file PDF yang diunggah
-                    $pdfCompress = $this->compressAndOptimizePdf(storage_path('app/public/' . $uploadPath), storage_path('app/public/dokumen/keluar'));
+                    $pdfCompress = $this->kompressFilePdf(storage_path('app/public/' . $uploadPath), storage_path('app/public/dokumen/keluar'));
 
                     // Menghapus file PDF yang diunggah
                     Storage::disk('public')->delete($uploadPath);
@@ -184,32 +183,32 @@ class TambahDokumenController extends Controller
     /**
      * Mengonversi file DOCX ke PDF menggunakan LibreOffice.
      *
-     * @param string $docxFilePath Path dari file DOCX yang akan dikonversi.
-     * @param string $outputDir Direktori tempat file PDF yang dikonversi akan disimpan.
+     * @param string $lokasiFileDocx Path dari file DOCX yang akan dikonversi.
+     * @param string $folderMenyimpan Direktori tempat file PDF yang dikonversi akan disimpan.
      * @return string|int Nama file PDF yang dikonversi jika konversi berhasil, jika tidak maka kode error.
      */
-    private function convertDocxToPdf($docxFilePath, $outputDir) {
+    private function konversiDocxKePdf($lokasiFileDocx, $folderMenyimpan) {
         // Memastikan direktori output ada
-        if (!is_dir($outputDir)) {
-            mkdir($outputDir, 0777, true);
+        if (!is_dir($folderMenyimpan)) {
+            mkdir($folderMenyimpan, 0777, true);
         }
 
         // Mendefinisikan path file output
-        $pdfFilePath = $outputDir . '/' . pathinfo($docxFilePath, PATHINFO_FILENAME) . '.pdf';
+        $lokasiPDF = $folderMenyimpan . '/' . pathinfo($lokasiFileDocx, PATHINFO_FILENAME) . '.pdf';
 
-        $pdfFileName = pathinfo($docxFilePath, PATHINFO_FILENAME) . '.pdf';
+        $namaPdf = pathinfo($lokasiFileDocx, PATHINFO_FILENAME) . '.pdf';
 
         // Perintah untuk mengonversi DOCX ke PDF menggunakan LibreOffice
-        $command = 'soffice --headless --convert-to pdf ' . escapeshellarg($docxFilePath) . ' --outdir ' . escapeshellarg($outputDir);
+        $perintah = 'soffice --headless --convert-to pdf ' . escapeshellarg($lokasiFileDocx) . ' --outdir ' . escapeshellarg($folderMenyimpan);
 
         // Menjalankan perintah
-        exec($command, $output, $res);
+        exec($perintah, $hasil_perintah, $hasil);
 
         // Memeriksa apakah konversi berhasil
-        if ($res == 0) {
-            return $pdfFileName;
+        if ($hasil == 0) {
+            return $namaPdf;
         } else {
-            return $res;
+            return $hasil;
         }
 
     }
@@ -220,41 +219,41 @@ class TambahDokumenController extends Controller
      * @param  \Illuminate\Http\UploadedFile  $file
      * @return bool
      */
-    private function isValidDocumentFile($file) {
-        $validExtensions = ['doc', 'docx'];
+    private function cekFileDokumen($file) {
+        $daftarExtensi = ['doc', 'docx'];
 
-        $extension = $file->getClientOriginalExtension();
+        $extensiDariFile = $file->getClientOriginalExtension();
 
-        return in_array($extension, $validExtensions);
+        return in_array($extensiDariFile, $daftarExtensi);
     }
 
     /**
      * Mengompres dan mengoptimalkan file PDF menggunakan Ghostscript.
      *
-     * @param string $pdfFilePath Path dari file PDF yang akan dikompres dan dioptimalkan.
-     * @param string $outputDir Direktori tempat file PDF yang dikompres dan dioptimalkan akan disimpan.
+     * @param string $lokasiFilePdf Path dari file PDF yang akan dikompres dan dioptimalkan.
+     * @param string $temmpatMenyimpan Direktori tempat file PDF yang dikompres dan dioptimalkan akan disimpan.
      * @return string Path dari file PDF yang dikompres dan dioptimalkan.
      */
-    private function compressAndOptimizePdf($pdfFilePath, $outputDir) {
+    private function kompressFilePdf($lokasiFilePdf, $temmpatMenyimpan) {
         // Memastikan direktori output ada
-        if (!is_dir($outputDir)) {
-            mkdir($outputDir, 0777, true);
+        if (!is_dir($temmpatMenyimpan)) {
+            mkdir($temmpatMenyimpan, 0777, true);
         }
 
         // Mendefinisikan path file output
-        $compressedPdfFilePath = $outputDir . '/' . pathinfo($pdfFilePath, PATHINFO_FILENAME) . '_compressed.pdf';
+        $lokasiFilePdfTerkompres = $temmpatMenyimpan . '/' . pathinfo($lokasiFilePdf, PATHINFO_FILENAME) . '_compressed.pdf';
 
         // Perintah untuk mengompres dan mengoptimalkan PDF menggunakan Ghostscript
-        $command = 'gswin64c -sDEVICE=pdfwrite -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=' . escapeshellarg($compressedPdfFilePath) . ' ' . escapeshellarg($pdfFilePath) . ' 2>&1';
+        $perintah = 'gswin64c -sDEVICE=pdfwrite -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=' . escapeshellarg($lokasiFilePdfTerkompres) . ' ' . escapeshellarg($lokasiFilePdf) . ' 2>&1';
 
         // Menjalankan perintah
-        exec($command, $output, $res);
+        exec($perintah, $hasil_perintah, $hasil);
 
         // Memeriksa apakah kompresi dan optimasi berhasil
-        if ($res == 0) {
-            return $compressedPdfFilePath;
+        if ($hasil == 0) {
+            return $lokasiFilePdfTerkompres;
         } else {
-            return $res;
+            return $hasil;
         }
     }
 }
