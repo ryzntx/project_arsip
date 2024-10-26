@@ -58,10 +58,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Route::get('/admin/tambah_dokumen/insert', [AdminController::class, 'store'])->name('admin.store');
 
-    Route::get('/admin/arsip_masuk', [ArsipMasukController::class, 'kelola_arsip_masuk'])->name('admin.arsip_masuk');
-    Route::get('/admin/arsip_masuk/download/{path_pdf}', [ArsipMasukController::class, 'download_arsip_masuk'])->name('admin.arsip_masuk');
+    Route::get('/admin/arsip_masuk', [ArsipMasukController::class, 'kelola_arsip_masuk'])->name('admin.kelola_arsipMasuk');
+    Route::get('/admin/arsip_masuk/download/{path_pdf}', [ArsipMasukController::class, 'download_arsip_masuk'])->name('admin.kelola_arsipMasuk');
+    Route::get('/admin/arsip_masuk/edit/{id}', [ArsipMasukController::class, 'edit_arsipMasuk'])->name('admin.kelola_arsipMasuk.edit');
+    Route::put('/admin/arsip_masuk/update/{id}', [ArsipMasukController::class, 'update_arsipMasuk'])->name('admin.kelola_arsipMasuk.update');
 
-    Route::get('/admin/arsip_keluar', [ArsipKeluarController::class, 'kelola_arsip_keluar'])->name('admin.arsip_keluar');
+
+    Route::get('/admin/arsip_keluar', [ArsipKeluarController::class, 'kelola_arsip_keluar'])->name('admin.kelola_arsipKeluar');
+    Route::get('/admin/arsip_keluar/print/{id}',[ArsipKeluarController::class,'print'])->name('admin.kelola_arsipKeluar.print');
+    Route::get('/admin/arsip_keluar/edit/{id}', [ArsipKeluarController::class, 'edit_arsipKeluar'])->name('admin.kelola_arsipKeluar.edit');
+    Route::put('/admin/arsip_keluar/update/{id}', [ArsipKeluarController::class, 'update_arsipKeluar'])->name('admin.kelola_arsipKeluar.update');
+    Route::get('/admin/arsip_keluar/delete/{id}', [ArsipKeluarController::class, 'delete_arsipKeluar'])->name('admin.kelola_arsipKeluar.delete');
+
 
     Route::get('/admin/rekap', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
 

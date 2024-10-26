@@ -17,7 +17,7 @@
 
             <div class="card custom-card">
                 <div class="card-header">
-                    Tambah Data
+                    Edit Data
                 </div>
                 <div class="card-body">
 

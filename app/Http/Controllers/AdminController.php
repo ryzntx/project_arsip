@@ -14,4 +14,5 @@ class AdminController extends Controller {
         return view('dashboard', compact('total_dokumen', 'total_dokumen_keluar', 'total_dokumen_masuk'));
     }
 
+    
 }

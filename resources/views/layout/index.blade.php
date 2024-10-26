@@ -30,6 +30,13 @@
         <!-- Select2 css -->
         <link href="{{ asset('assets') }}/plugins/select2/css/select2.min.css" rel="stylesheet">
 
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/datatables.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/css/buttons.dataTables.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/responsive.dataTables.min.css')}}">
+
     </head>
 
     <body class="ltr main-body leftmenu">
@@ -104,7 +111,7 @@
                                                 <h6 class="main-notification-title">{{ auth()->user()->name}}</h6>
                                                 <p class="main-notification-text">{{ auth()->user()->role}}</p>
                                             </div>
-                
+
                                             <a class="dropdown-item" href="/profile/edit">
                                                 <i class="fe fe-edit"></i> Edit Profile
                                             </a>
@@ -261,38 +268,46 @@
         <a href="#top" id="back-to-top"><i class="fe fe-arrow-up"></i></a>
 
         <!-- Jquery js-->
-        <script src="{{ asset('assets') }}/plugins/jquery/jquery.min.js"></script>
+        <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 
         <!-- Bootstrap js-->
-        <script src="{{ asset('assets') }}/plugins/bootstrap/js/popper.min.js"></script>
-        <script src="{{ asset('assets') }}/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 
         <!-- Perfect-scrollbar js -->
-        <script src="{{ asset('assets') }}/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+        <script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
         <!-- Sidemenu js -->
-        <script src="{{ asset('assets') }}/plugins/sidemenu/sidemenu.js" id="leftmenu"></script>
+        <script src="{{ asset('assets/plugins/sidemenu/sidemenu.js') }}" id="leftmenu"></script>
 
         <!-- Sidebar js -->
-        <script src="{{ asset('assets') }}/plugins/sidebar/sidebar.js"></script>
+        <script src="{{ asset('assets/plugins/sidebar/sidebar.js') }}" id="leftMenu"></script>
 
         <!-- Select2 js-->
-        <script src="{{ asset('assets') }}/plugins/select2/js/select2.min.js"></script>
-        <script src="{{ asset('assets') }}/js/select2.js"></script>
+        <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2.js') }}"></script>
+
+        <script src="{{asset('assets/plugins/datatable/datatables.min.js')}}"></script>
+        <script src="{{asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
+        <script src="{{asset('assets/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
+        <script src="{{asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+        <script src="{{asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+        <script src="{{asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+        <script src="{{asset('assets/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
 
         <!-- Color Theme js -->
-        <script src="{{ asset('assets') }}/js/themeColors.js"></script>
+        <script src="{{ asset('assets/js/themeColors.js') }}"></script>
 
         <!-- Sticky js -->
-        <script src="{{ asset('assets') }}/js/sticky.js"></script>
+        <script src="{{ asset('assets/js/sticky.js') }}"></script>
 
         <!-- Custom js -->
-        <script src="{{ asset('assets') }}/js/custom.js"></script>
+        <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {{-- <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
         <!-- Bootstrap -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
 
 
     </body>

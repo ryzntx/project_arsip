@@ -36,14 +36,14 @@
                             <input type="hidden" name="jenis_dokumen" value="dokumen_masuk" required>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label class="tx-medium">Tanggal Dokumen Masuk</label>
+                                    <label class="tx-medium">Tanggal</label>
                                     <input type="date" class="form-control" name="tanggal_masuk" id="tanggal_masuk"
                                         required value="{{old('tanggal_masuk')}}">
                                 </div>
                                 <div class="form-group">
                                     <label class="tx-medium">Nama Dokumen</label>
                                     <input type="text" class="form-control" name="nama_dokumen" id="nama_dokumen"
-                                        required value="{{ old('nama_dokumen') }}">
+                                    value="{{ old('nama_dokumen') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="namaDinas" class="tx-medium">Dinas / Instansi</label>
@@ -62,12 +62,12 @@
                                 <div class="form-group">
                                     <label class="tx-medium">Pengirim</label>
                                     <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim"
-                                        value="{{ old('nama_pengirim') }}">
+                                        value="{{ old('nama_pengirim') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="tx-medium">Penerima</label>
                                     <input type="text" class="form-control" name="nama_penerima" id="nama_penerima"
-                                        value="{{ old('nama_penerima') }}">
+                                        value="{{ old('nama_penerima') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Kategori Dokumen:</label>
@@ -173,7 +173,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit Dokumen</button>
+                                <button type="submit" class="btn btn-primary">Simpan Dokumen</button>
                                 <button type="reset" class="btn btn-danger">Reset</button>
                             </div>
                         </form>
