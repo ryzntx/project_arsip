@@ -158,12 +158,7 @@
     </div>
 </div>
 
-<script type="module">
-
-    $('#dokumenKeluar-tabel').DataTable({
-        "responsive": true,
-        "autoWidth": true,
-    });
+<script>
 
     function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
         // kita siapin dulu nih variabel nya
@@ -208,5 +203,11 @@
         // udah deh segitu aja
     }
 
+</script>
+<script type="module">
+    $('#dokumenKeluar-tabel').DataTable({
+        "responsive": true,
+        "autoWidth": true,
+    });
 </script>
 @endsection

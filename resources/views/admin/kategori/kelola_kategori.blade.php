@@ -51,8 +51,8 @@
                                         <td style="text-align: center;">{{ $data->nama_kategori }}</td>
                                         <td style="text-align: center;">
                                             <a href="/admin/kelola_kategori/edit/{{ $data->id }}" class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
-                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                                data-target="#delete{{ $data->id }}">
+                                            <button  class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#delete{{ $data->id }}">
                                                 <i class="fe fe-trash"></i>
                                             </button>
                                         </td>
@@ -72,15 +72,14 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ $data->nama_instansi }}</h4>
+                        <h4 class="modal-title">Hapus data?</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <p>Apakah anda yakin ingin menghapus data ini?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
                         <a href="{{ url('/admin/kelola_kategori/delete/'.$data->id ) }}" class="btn btn-outline btn-danger">Yes</a>
                     </div>
                 </div>
