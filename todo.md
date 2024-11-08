@@ -1,9 +1,9 @@
 -   Pencarian Cerdas [need ui]
 -   Template Dokumen Keluar [2/5] [CRUD DONE]
-    - Kelola Template
+    - Kelola Template [done]
         - CRUD
         - Preview Template
-    - Pilih Template (TambahDokumen)
+    - Pilih Template (TambahDokumen) [half]
     - Preview Template
     - Process Template
 -   Rekap Arsip

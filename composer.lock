@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d283d826dff2d00f43ff9f7998e11387",
+    "content-hash": "96eca8f122de6c14ebeee08959b289ad",
     "packages": [
         {
             "name": "brick/math",
@@ -2050,6 +2050,126 @@
                 }
             ],
             "time": "2024-06-28T09:40:51+00:00"
+        },
+        {
+            "name": "mostafaznv/pdf-optimizer",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mostafaznv/pdf-optimizer.git",
+                "reference": "f7db1bd2ffd93325b6d5efdcf7df6610121b36fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mostafaznv/pdf-optimizer/zipball/f7db1bd2ffd93325b6d5efdcf7df6610121b36fd",
+                "reference": "f7db1bd2ffd93325b6d5efdcf7df6610121b36fd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": "^8.2",
+                "psr/log": "^3.0",
+                "symfony/process": "^6.2|^7.0"
+            },
+            "require-dev": {
+                "league/flysystem-aws-s3-v3": "^3.0",
+                "orchestra/testbench": "^v8.19.0|^9.0",
+                "pestphp/pest": "^2.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mostafaznv\\PdfOptimizer\\PdfOptimizerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Helpers/Utils.php"
+                ],
+                "psr-4": {
+                    "Mostafaznv\\PdfOptimizer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mostafaznv",
+                    "email": "mostafa.zeinivand@gmail.com"
+                }
+            ],
+            "description": "PDF optimization tool for PHP and Laravel applications",
+            "keywords": [
+                "compress-pdf",
+                "ghostscript",
+                "laravel",
+                "mostafaznv",
+                "pdf",
+                "pdf-compressor",
+                "pdf-optimizer",
+                "php",
+                "tiny-pdf"
+            ],
+            "support": {
+                "docs": "https://github.com/mostafaznv/pdf-optimizer/blob/master/README.md",
+                "issues": "https://github.com/mostafaznv/pdf-optimizer/issues",
+                "source": "https://github.com/mostafaznv/pdf-optimizer"
+            },
+            "time": "2024-07-20T15:16:11+00:00"
+        },
+        {
+            "name": "ncjoes/office-converter",
+            "version": "v1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ncjoes/office-converter.git",
+                "reference": "aca98bafc17bc4b1e89983bc36ea413768b75198"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ncjoes/office-converter/zipball/aca98bafc17bc4b1e89983bc36ea413768b75198",
+                "reference": "aca98bafc17bc4b1e89983bc36ea413768b75198",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.11",
+                "phpunit/phpunit": "7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NcJoes\\OfficeConverter\\": "src/OfficeConverter"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chukwuemeka Nwobodo",
+                    "email": "jc.nwobodo@gmail.com"
+                }
+            ],
+            "description": "PHP Wrapper for LibreOffice",
+            "keywords": [
+                "converter",
+                "office"
+            ],
+            "support": {
+                "issues": "https://github.com/ncjoes/office-converter/issues",
+                "source": "https://github.com/ncjoes/office-converter/tree/v1.0.7"
+            },
+            "time": "2024-08-23T02:02:38+00:00"
         },
         {
             "name": "nesbot/carbon",
