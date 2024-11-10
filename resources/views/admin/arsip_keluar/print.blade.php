@@ -20,7 +20,7 @@
     </style>
 </head>
 <body>
-    <iframe id="iframePDF" src="{{ Storage::url($data->lampiran) }}" frameborder="0"></iframe>
+    <iframe id="iframePDF" src="{{ Storage::url($arsip_keluar->lampiran) }}" frameborder="0"></iframe>
     <script>
         var iframe = document.getElementById('iframePDF');
         if (iframe.src) {

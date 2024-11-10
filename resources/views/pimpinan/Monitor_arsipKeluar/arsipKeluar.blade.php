@@ -61,8 +61,6 @@
                                                     </ul>
                                                 </div>
                                                 <a href="{{ route('admin.kelola_arsipKeluar.print', $item->id) }}" target="_blank" class="btn btn-primary btn-sm">Cetak</a>
-                                                <a href="{{ route('admin.kelola_arsipKeluar.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="{{ route('admin.kelola_arsipKeluar.delete', $item->id) }}" class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
                                             </div>
                                             </td>
                                         </tr>
@@ -79,29 +77,6 @@
             </div>
             <!-- End Row -->
         </div>
-        @foreach ($arsip_keluar as $item)
-
-        <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
-                        <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-                    </div>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-        @endforeach
     </div>
 </div>
 
@@ -158,7 +133,7 @@
     </div>
 </div>
 
-<script type="module">
+<script>
 
     $('#dokumenKeluar-tabel').DataTable({
         "responsive": true,

@@ -15,4 +15,9 @@ class PimpinanController extends Controller
         $total_dokumen = $total_dokumen_keluar + $total_dokumen_masuk;
         return view('dashboard', compact('total_dokumen', 'total_dokumen_keluar', 'total_dokumen_masuk'));
     }
+
+    public function rekapDokumen()
+    {
+        return view('rekap_dokumen');
+    }
 }

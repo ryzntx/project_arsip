@@ -10,7 +10,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h2 class="main-content-title tx-24 mg-b-5">Arsip Dokumen Keluar</h2>
+                    <h2 class="main-content-title tx-24 mg-b-5">Arsip Dokumen Masuk</h2>
 
                 </div>
             </div>
@@ -42,7 +42,7 @@
                                         <div class="form-group">
                                             <label class="tx-medium">Tanggal</label>
                                             <input type="date" class="form-control" name="tanggal_keluar" id="tanggal_keluar"
-                                            value="{{ old('tanggal_keluar')??$arsip_keluar->tanggal_keluar }}" required>
+                                            value="{{ old('tanggal_keluar')??$arsip_masuk->tanggal_keluar }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="namaDinas" class="tx-medium">Dinas</label>
@@ -51,28 +51,28 @@
                                                 <!-- Option list remains unchanged -->
                                                 <option value="" selected>Pilih</option>
                                                 @foreach ($instansi as $data)
-                                                <option value="{{$data->id}}" {{ old('instansi_id', $arsip_keluar->instansi_id) == $data->id ? 'selected' : '' }}>{{$data->nama_instansi}}</option>
+                                                <option value="{{$data->id}}" {{ old('instansi_id', $arsip_masuk->instansi_id) == $data->id ? 'selected' : '' }}>{{$data->nama_instansi}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="tx-medium">Pengirim</label>
-                                            <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim" value="{{ old('pengirim')??$arsip_keluar->pengirim }}" >
+                                            <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim" value="{{ old('pengirim')??$arsip_masuk->pengirim }}" >
                                         </div>
                                         <div class="form-group">
                                             <label class="tx-medium">Penerima</label>
-                                            <input type="text" class="form-control" name="nama_penerima" id="nama_penerima" value="{{ old('penerima')??$arsip_keluar->penerima }}">
+                                            <input type="text" class="form-control" name="nama_penerima" id="nama_penerima" value="{{ old('penerima')??$arsip_masuk->penerima }}">
                                         </div>
                                         <div class="form-group">
                                             <label class="tx-medium">Nama Dokumen</label>
-                                            <input type="text" class="form-control" name="nama_dokumen" id="nama_dokumen" value="{{ old('nama_dokumen')??$arsip_keluar->nama_dokumen }}" required>
+                                            <input type="text" class="form-control" name="nama_dokumen" id="nama_dokumen" value="{{ old('nama_dokumen')??$arsip_masuk->nama_dokumen }}" required>
                                         </div>
                                         <div class=" form-group">
                                             <label>Kategori Dokumen:</label>
                                             @foreach ($kategori as $data)
                                             <div>
                                                 <input type="radio" id="pilihan{{$data->id}}" name="kategori_id"
-                                                    value="{{$data->id}}" {{ (old('dokumen_kategori_id', $arsip_keluar->dokumen_kategori_id) == $data->id) ? 'checked' : '' }}>
+                                                    value="{{$data->id}}" {{ (old('dokumen_kategori_id', $arsip_masuk->dokumen_kategori_id) == $data->id) ? 'checked' : '' }}>
                                                 <label for="pilihan{{$data->id}}">{{$data->nama_kategori}}</label>
                                             </div>
                                             @endforeach
@@ -84,8 +84,8 @@
                                         <div class="form-group">
                                             <label class="tx-medium">Perlu Pengajuan ke Pimpinan?</label>
                                             <select name="pengajuan_ke_pimpinan" class="form-control">
-                                                <option value="tidak" {{ old('pesetujuan', $arsip_keluar->persetujuan) == $data->id ? 'selected' : '' }} selected>Tidak</option>
-                                                <option value="ya" {{ old('pesetujuan', $arsip_keluar->persetujuan) == $data->id ? 'selected' : '' }} selected>Ya</option>
+                                                <option value="tidak" {{ old('pesetujuan', $arsip_masuk->persetujuan) == $data->id ? 'selected' : '' }} selected>Tidak</option>
+                                                <option value="ya" {{ old('pesetujuan', $arsip_masuk->persetujuan) == $data->id ? 'selected' : '' }} selected>Ya</option>
                                             </select>
                                         </div>
 

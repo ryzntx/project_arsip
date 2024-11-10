@@ -1,5 +1,5 @@
 @extends('layout.index')
-@section('title', 'Sekretaris')
+@section('title', 'Pimpinan')
 @section('content')
 
 <div class="main-content side-content pt-0">
@@ -38,7 +38,6 @@
                                         <th style="text-align: center;">Dinas</th>
                                         <th style="text-align: center;">Kategori</th>
                                         <th style="text-align: center;">Tanggal</th>
-                                        <th style="text-align: center;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,12 +48,6 @@
                                         <td>{{ $item->instansi->singkatan_instansi }}</td>
                                         <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                         <td>{{ $item->tanggal_masuk }}</td>
-                                        <td>
-                                            <div class="d-flex gap-1">
-                                                <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="#" class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
-                                            </div>
-                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -65,32 +58,6 @@
             </div>
         </div>
     <!-- End Row -->
-</div>
-
-@foreach ($arsip_masuk as $item)
-
-        <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
-                        <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-                    </div>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-        @endforeach
-    </div>
 </div>
 
 <!-- Modal -->
@@ -147,7 +114,7 @@
     </div>
 </div>
 
-<script type="module">
+<script>
     $('#dokumenMasuk-tabel').DataTable({
         "responsive" : true,
         "autowidth"  : true,

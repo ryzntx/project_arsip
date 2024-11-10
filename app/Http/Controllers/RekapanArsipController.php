@@ -8,6 +8,6 @@ class RekapanArsipController extends Controller
 {
     //
     public function kelola_rekap() {
-        return view('admin.rekap_dokumen');
+        return view('rekap_dokumen');
     }
 }

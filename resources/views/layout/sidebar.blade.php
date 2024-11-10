@@ -25,6 +25,14 @@
                     </li>
                     <li class="nav-header"><span class="nav-label">Applications</span></li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/pencarian_dokumen">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="ti-home sidemenu-icon menu-icon "></i>
+                            <span class="sidemenu-label">Pencarian Dokumen</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/kelola_user">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
@@ -73,7 +81,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="/admin/rekap">
+                        <a class="nav-link with-sub" href="/admin/rekap_dokumen">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
                             <i  class="ti-wallet sidemenu-icon fe fe-layers "></i>
@@ -90,12 +98,37 @@
                             <span class="sidemenu-label">Dashboard</span>
                         </a>
                     </li>
+                    <li class="nav-header"><span class="nav-label">Applications</span></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/pimpinan/kelola">
+                        <a class="nav-link" href="/pimpinan/pencarianDokumen">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
                             <i class="ti-home sidemenu-icon menu-icon "></i>
-                            <span class="sidemenu-label">Kelola </span>
+                            <span class="sidemenu-label">Pencarian Dokumen</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pimpinan/arsipMasuk">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="ti-home sidemenu-icon fe fe-arrow-down-right "></i>
+                            <span class="sidemenu-label">Arsip Dokumen Masuk</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pimpinan/arsipKeluar">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="ti-home sidemenu-icon fe fe-arrow-up-left "></i>
+                            <span class="sidemenu-label">Arsip Dokumen Keluar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link with-sub" href="/pimpinan/rekapDokumen">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i  class="ti-wallet sidemenu-icon fe fe-layers "></i>
+                            <span class="sidemenu-label">Rekap Dokumen</span>
                         </a>
                     </li>
                     @endif

@@ -11,29 +11,31 @@ use Illuminate\Http\Request;
 class ArsipKeluarController extends Controller {
 
     protected $arsip_keluar;
+
+    // FITUR ADMIN
     public function kelola_arsip_keluar() {
         $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->get();
-        return view('admin.kelola_arsipKeluar.arsip_keluar', compact('arsip_keluar'));
+        return view('admin.arsip_keluar.kelola_arsipKeluar', compact('arsip_keluar'));
     }
     public function print($id)
     {
         $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->find($id);
-        return view('admin.kelola_arsipKeluar.print', compact('arsip_keluar'));
+        return view('admin.arsip_keluar.print', compact('arsip_keluar'));
     }
 
-    public function edit_arsipKeluar($id){
+    public function edit_arsip_keluar($id){
         $arsip_keluar = DokumenKeluar::FindOrFail($id);
         $instansi = Instansi::all();
         $kategori = DokumenKategori::all();
 
-        return view('admin.kelola_arsipKeluar.edit_arsipKeluar', compact('arsip_keluar', 'instansi', 'kategori'));
+        return view('admin.arsip_keluar.edit_arsipKeluar', compact('arsip_keluar', 'instansi', 'kategori'));
         // To-do tampilan edit
     }
 
-    public function update_arsipKeluar(Request $request, $id){
+    public function update_arsip_keluar(Request $request, $id){
         $arsip_keluar = DokumenKeluar::findOrFail($id);
 
-        $request->validate([
+        $data = [
                 'nama_dokumen' => $request->nama_dokumen,
                 'penerima' => $request->nama_penerima,
                 'pengirim' => $request->nama_pengirim,
@@ -45,21 +47,29 @@ class ArsipKeluarController extends Controller {
                 'dokumen_kategori_id' => $request->kategori_id,
                 'user_id' => auth()->user()->id,
 
-        ]);
+        ];
 
-        $arsip_keluar->update($request->all());
+        $arsip_keluar->update($data);
 
-        return redirect()->route('admin.kelola_arsipKeluar')->with('pesan','Data berhasil diubah!');
+        return redirect()->route('admin.arsip_keluar')->with('pesan','Data berhasil diubah!');
 
         // To-Do Fungsi update
 
     }
 
-    public function delete_arsipKeluar($id){
+    public function delete_arsip_keluar($id){
         // To-Do Fungsi Delete
         $arsip_keluar = DokumenKeluar::findOrFail($id);
         $arsip_keluar->delete();
 
         return redirect()->back()->with('pesan', 'Data berhasil dihapus!');
+    }
+
+    // FITUR PIMPINAN
+    public function show()
+    {
+        $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->get();
+        return view('pimpinan.Monitor_arsipKeluar.arsipKeluar', compact('arsip_keluar'));
+
     }
 }

@@ -21,6 +21,9 @@
                 </div>
                 <div class="card-body">
 
+                    <div class="row">
+                        <div class="col-6">
+
                     <form action="/admin/arsip_keluar/update/{{ $arsip_keluar->id }}" method="POST" enctype="multipart/form-data">
                         {{-- enctype wajib seperti itu untuk mengupload file  --}}
                         @csrf
@@ -79,13 +82,14 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="tx-medium">Lampiran Dokumen</label>
-                                            <input type="file" name="file_dokumen" id="file_dokumen" class="form-control">
+                                            <input type="file" name="file_dokumen" id="file_dokumen" class="form-control"
+                                            value="{{ $arsip_keluar->lampiran }}">
                                     </div>
                                         <div class="form-group">
                                             <label class="tx-medium">Perlu Pengajuan ke Pimpinan?</label>
                                             <select name="pengajuan_ke_pimpinan" class="form-control">
-                                                <option value="tidak" {{ old('pesetujuan', $arsip_keluar->persetujuan) == $data->id ? 'selected' : '' }} selected>Tidak</option>
-                                                <option value="ya" {{ old('pesetujuan', $arsip_keluar->persetujuan) == $data->id ? 'selected' : '' }} selected>Ya</option>
+                                                <option value="tidak" {{ old('pesetujuan', $arsip_keluar->persetujuan) == 'tidak' ? 'selected' : '' }} >Tidak</option>
+                                                <option value="ya" {{ old('pesetujuan', $arsip_keluar->persetujuan) == 'ya' ? 'selected' : '' }} >Ya</option>
                                             </select>
                                         </div>
 
@@ -109,6 +113,14 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                <div class="col-6">
+                    <div class="pdf-viewer-container">
+                        <iframe id="pdf-viewer" src="{{ asset('/laraview/#../storage/'.$arsip_keluar->lampiran) }}" width="100%" height="500px" style="border: none;"
+                            allowfullscreen webkitallowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
                 </div>
             </div>
         </div>
