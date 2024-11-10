@@ -37,6 +37,8 @@
         <link rel="stylesheet" href="{{asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/plugins/datatable/responsive.dataTables.min.css')}}">
 
+        <link rel="stylesheet" href="{{asset('assets/plugins/docx-viewer/dist/thumbnail.css')}}">
+
     </head>
 
     <body class="ltr main-body leftmenu">
@@ -72,6 +74,16 @@
                             <a href="index.html"><img src="{{ asset('assets') }}/img/brand/logo-light.png"
                                     class="mobile-logo-dark" alt="logo"></a>
                         </div>
+                        <div class="main-header-center d-none d-lg-block">
+                            <form action="{{route('pencarian')}}" method="get">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="typehead"
+                                        placeholder="Pencarian Dokumen" autocomplete="off" name="query">
+                                    <button type="submit" class="btn btn-primary"><i class="fe fe-search"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="main-header-right">
                         <button class="navbar-toggler navresponsive-toggler" type="button" data-bs-toggle="collapse"
@@ -79,6 +91,7 @@
                             aria-expanded="false" aria-label="Toggle navigation">
                             <i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
                         </button><!-- Navresponsive closed -->
+
                         <div
                             class="navbar navbar-expand-lg  nav nav-item  navbar-nav-right responsive-navbar navbar-dark  ">
                             <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
@@ -151,116 +164,6 @@
             @include('layout.footer')
             <!--End Footer-->
 
-            <!-- Sidebar -->
-            {{-- <div class="sidebar sidebar-right sidebar-animate">
-				<div class="sidebar-icon">
-					<a href="#" class="text-end float-end text-dark fs-20" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right"><i class="fe fe-x"></i></a>
-				</div>
-				<div class="sidebar-body">
-					<h5>Todo</h5>
-					<div class="d-flex p-3">
-						<label class="ckbox"><input checked  type="checkbox"><span>Hangout With friends</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<div class="d-flex p-3 border-top">
-						<label class="ckbox"><input type="checkbox"><span>Prepare for presentation</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<div class="d-flex p-3 border-top">
-						<label class="ckbox"><input type="checkbox"><span>Prepare for presentation</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<div class="d-flex p-3 border-top">
-						<label class="ckbox"><input checked type="checkbox"><span>System Updated</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<div class="d-flex p-3 border-top">
-						<label class="ckbox"><input type="checkbox"><span>Do something more</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<div class="d-flex p-3 border-top">
-						<label class="ckbox"><input  type="checkbox"><span>System Updated</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<div class="d-flex p-3 border-top">
-						<label class="ckbox"><input  type="checkbox"><span>Find an Idea</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<div class="d-flex p-3 border-top mb-0">
-						<label class="ckbox"><input  type="checkbox"><span>Project review</span></label>
-						<span class="ms-auto">
-							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
-							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
-						</span>
-					</div>
-					<h5>Overview</h5>
-					<div class="p-4">
-						<div class="main-traffic-detail-item">
-							<div>
-								<span>Founder &amp; CEO</span> <span>24</span>
-							</div>
-							<div class="progress">
-								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" class="progress-bar progress-bar-xs wd-20p" role="progressbar"></div>
-							</div><!-- progress -->
-						</div>
-						<div class="main-traffic-detail-item">
-							<div>
-								<span>UX Designer</span> <span>1</span>
-							</div>
-							<div class="progress">
-								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" class="progress-bar progress-bar-xs bg-secondary wd-15p" role="progressbar"></div>
-							</div><!-- progress -->
-						</div>
-						<div class="main-traffic-detail-item">
-							<div>
-								<span>Recruitment</span> <span>87</span>
-							</div>
-							<div class="progress">
-								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="45" class="progress-bar progress-bar-xs bg-success wd-45p" role="progressbar"></div>
-							</div><!-- progress -->
-						</div>
-						<div class="main-traffic-detail-item">
-							<div>
-								<span>Software Engineer</span> <span>32</span>
-							</div>
-							<div class="progress">
-								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar progress-bar-xs bg-info wd-25p" role="progressbar"></div>
-							</div><!-- progress -->
-						</div>
-						<div class="main-traffic-detail-item">
-							<div>
-								<span>Project Manager</span> <span>32</span>
-							</div>
-							<div class="progress">
-								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar progress-bar-xs bg-danger wd-25p" role="progressbar"></div>
-							</div><!-- progress -->
-						</div>
-					</div>
-				</div>
-			</div> --}}
-            <!-- End Sidebar -->
-
         </div>
         <!-- End Page -->
 
@@ -272,7 +175,7 @@
 
         <!-- Bootstrap js-->
         <script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
         <!-- Perfect-scrollbar js -->
         <script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
@@ -295,6 +198,14 @@
         <script src="{{asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
         <script src="{{asset('assets/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
 
+        <script crossorigin src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+        <script crossorigin src="https://unpkg.com/tiff.js@1.0.0/tiff.min.js"></script>
+
+        <script src="{{asset('assets/plugins/docx-viewer/dist/docx-preview.min.js')}}"></script>
+        <script src="{{asset('assets/plugins/docx-viewer/dist/thumbnail.js')}}"></script>
+        <script src="{{asset('assets/plugins/docx-viewer/dist/tiff-preprocessor.js')}}"></script>
+
+
         <!-- Color Theme js -->
         <script src="{{ asset('assets/js/themeColors.js') }}"></script>
 
@@ -303,11 +214,6 @@
 
         <!-- Custom js -->
         <script src="{{ asset('assets/js/custom.js') }}"></script>
-
-        {{-- <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-        <!-- Bootstrap -->
-        {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
 
 
     </body>

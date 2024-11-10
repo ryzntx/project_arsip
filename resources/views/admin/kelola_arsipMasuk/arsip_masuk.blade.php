@@ -31,67 +31,68 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table mb-0" id="dokumenMasuk-tabel" style="width: 100%">
-                                <thead>
-                                    <tr class="border-bottom">
-                                        <th style="text-align: center;">No</th>
-                                        <th style="text-align: center;">Nama Dokumen</th>
-                                        <th style="text-align: center;">Dinas</th>
-                                        <th style="text-align: center;">Kategori</th>
-                                        <th style="text-align: center;">Tanggal</th>
-                                        <th style="text-align: center;">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($arsip_masuk as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td class="text-wrap" onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">{{ $item->nama_dokumen }}</td>
-                                        <td>{{ $item->instansi->singkatan_instansi }}</td>
-                                        <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
-                                        <td>{{ $item->tanggal_masuk }}</td>
-                                        <td>
-                                            <div class="d-flex gap-1">
-                                                <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="#" class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    <thead>
+                                        <tr class="border-bottom">
+                                            <th style="text-align: center;">No</th>
+                                            <th style="text-align: center;">Nama Dokumen</th>
+                                            <th style="text-align: center;">Dinas</th>
+                                            <th style="text-align: center;">Kategori</th>
+                                            <th style="text-align: center;">Tanggal</th>
+                                            <th style="text-align: center;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($arsip_masuk as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td class="text-wrap"
+                                                onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                {{ $item->nama_dokumen }}</td>
+                                            <td>{{ $item->instansi->singkatan_instansi }}</td>
+                                            <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
+                                            <td>{{ $item->tanggal_masuk }}</td>
+                                            <td>
+                                                <div class="d-flex gap-1">
+                                                    <a href="#" class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-{{ $item->id }}">Hapus</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- End Row -->
         </div>
-    <!-- End Row -->
+    </div>
 </div>
 
 @foreach ($arsip_masuk as $item)
-
-        <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
-                        <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-                    </div>
-                </div>
+<div class="modal fade" id="delete-{{ $item->id }}" tabindex="-1" aria-labelledby="delete-{{ $item->id }}Label"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="delete-{{ $item->id }}Label">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- /.modal-content -->
+            <div class="modal-body">
+                <p>Apakah anda yakin ingin menghapus data ini?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
+            </div>
         </div>
-        <!-- /.modal-dialog -->
-        @endforeach
     </div>
 </div>
+
+@endforeach
 
 <!-- Modal -->
 <div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">
@@ -140,19 +141,22 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i class="fa fa-file-download me-2"></i>Unduh PDF</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-x me-2"></i>Tutup</button>
+                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
+                        class="fa fa-file-download me-2"></i>Unduh PDF</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                        class="fa fa-x me-2"></i>Tutup</button>
             </div>
         </div>
     </div>
 </div>
-
 <script type="module">
     $('#dokumenMasuk-tabel').DataTable({
         "responsive" : true,
         "autowidth"  : true,
     });
+    </script>
 
+<script>
     function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
         // kita siapin dulu nih variabel nya
         var tabel = document.getElementById(
@@ -170,14 +174,15 @@
             modal.show();
             // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
             // tapi dengan cara kita cek di setiap baris tabel nya
-            document.querySelectorAll('#dokumenMasuk-tabel tbody tr.selected').forEach(function (row) {
+            document.querySelectorAll('#dokumenMasuk-tabel tbody tr').forEach(function (row) {
                 // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
                 row.classList.remove('selected');
             });
             // trus tambahin lagi class selected nya deh
             // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
-            tabel.classList.add('selected');
-
+            // selected row add class
+            document.querySelector('#dokumenMasuk-tabel tbody tr td.text-wrap').parentElement.classList.add('selected');
+            // tabel.classList.add('selected');
         }
 
         // trus kita tampilin deh data nya ke right-panel
@@ -198,7 +203,12 @@
 
         // udah deh segitu aja
     }
-
+    // on modal close
+    document.getElementById('lihatPDF').addEventListener('hidden.bs.modal', function (event) {
+        var tabel = document.getElementById('dokumenMasuk-tabel');
+        tabel.classList.remove('selected');
+        document.querySelector('#dokumenMasuk-tabel tbody tr td.text-wrap').parentElement.classList.remove('selected');
+    });
 </script>
 
 @endsection
