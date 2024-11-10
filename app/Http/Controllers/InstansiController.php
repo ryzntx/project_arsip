@@ -34,7 +34,7 @@ class InstansiController extends Controller
 
         Instansi::create($request->all());
 
-        return redirect()->route('admin.instansi.kelola_instansi')->with('pesan','Data berhasil di tambahkan!');
+        return redirect()->route('admin.kelola_instansi')->with('pesan','Data berhasil di tambahkan!');
     }
 
     public function edit_instansi($id){
@@ -59,7 +59,7 @@ class InstansiController extends Controller
 
         $instansi->update($request->all());
 
-        return redirect()->route('admin.instansi.kelola_instansi')->with('pesan','Data berhasil di ubah!');
+        return redirect()->route('admin.kelola_instansi')->with('pesan','Data berhasil di ubah!');
 
         // To-Do Fungsi update
 

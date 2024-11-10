@@ -23,7 +23,7 @@
                             <span class="sidemenu-label">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-header"><span class="nav-label">Applications</span></li>
+                    <li class="nav-header"><span class="nav-label">Data Master</span></li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/pencarian_dokumen">
                             <span class="shape1"></span>
@@ -36,7 +36,7 @@
                         <a class="nav-link" href="/admin/kelola_user">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon fe fe-users "></i>
+                            <i class="sidemenu-icon fe fe-users "></i>
                             <span class="sidemenu-label">Kelola User</span>
                         </a>
                     </li>
@@ -44,7 +44,7 @@
                         <a class="nav-link" href="/admin/kelola_instansi">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon fe fe-grid "></i>
+                            <i class="sidemenu-icon fe fe-briefcase "></i>
                             <span class="sidemenu-label">Kelola Instansi</span>
                         </a>
                     </li>
@@ -52,15 +52,24 @@
                         <a class="nav-link" href="/admin/kelola_kategori">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon fe fe-grid "></i>
+                            <i class="sidemenu-icon fe fe-bookmark "></i>
                             <span class="sidemenu-label">Kelola Kategori</span>
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/template_dokumen">
+                            <span class="shape1"></span>
+                            <span class="shape2"></span>
+                            <i class="sidemenu-icon fe fe-file-text "></i>
+                            <span class="sidemenu-label">Kelola Template Dokumen</span>
+                        </a>
+                    </li>
+                    <li class="nav-header"><span class="nav-label">Kelola Arsip</span></li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/tambah_dokumen">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon fe fe-file-plus"></i>
+                            <i class="sidemenu-icon fe fe-file-plus"></i>
                             <span class="sidemenu-label">Tambah Dokumen</span>
                         </a>
                     </li>
@@ -68,7 +77,7 @@
                         <a class="nav-link" href="/admin/arsip_masuk">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon fe fe-arrow-down-right "></i>
+                            <i class="sidemenu-icon fe fe-arrow-down-right "></i>
                             <span class="sidemenu-label">Arsip Dokumen Masuk</span>
                         </a>
                     </li>
@@ -76,15 +85,16 @@
                         <a class="nav-link" href="/admin/arsip_keluar">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-home sidemenu-icon fe fe-arrow-up-left "></i>
+                            <i class="sidemenu-icon fe fe-arrow-up-left "></i>
                             <span class="sidemenu-label">Arsip Dokumen Keluar</span>
                         </a>
                     </li>
+                    <li class="nav-header"><span class="nav-label">Laporan</span></li>
                     <li class="nav-item">
                         <a class="nav-link with-sub" href="/admin/rekap_dokumen">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i  class="ti-wallet sidemenu-icon fe fe-layers "></i>
+                            <i  class="sidemenu-icon fe fe-layers "></i>
                             <span class="sidemenu-label">Rekap Dokumen
                             </span>
                         </a>

@@ -162,11 +162,14 @@
 </div>
 
 <script>
+<<<<<<< HEAD:resources/views/admin/arsip_keluar/kelola_arsipKeluar.blade.php
 
     $('#dokumenKeluar-tabel').DataTable({
         "responsive": true,
         "autoWidth": true,
     });
+=======
+>>>>>>> a13ba0cbbce8bec64b8657848e2003f355adfe3f:resources/views/admin/kelola_arsipKeluar/arsip_keluar.blade.php
 
     function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
         // kita siapin dulu nih variabel nya
@@ -211,5 +214,11 @@
         // udah deh segitu aja
     }
 
+</script>
+<script type="module">
+    $('#dokumenKeluar-tabel').DataTable({
+        "responsive": true,
+        "autoWidth": true,
+    });
 </script>
 @endsection
