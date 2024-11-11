@@ -31,48 +31,18 @@
                             <div class="table-responsive">
                                 <table class="table mb-0" id="dokumenMasuk-tabel" style="width: 100%">
                                     <thead>
-<<<<<<< HEAD:resources/views/admin/arsip_masuk/kelola_arsipMasuk.blade.php
-                                    <tr class="border-bottom" style="text-align: center;">
-                                        <th>No</th>
-                                        <th>Nama Dokumen</th>
-                                        <th>Dinas</th>
-                                        <th>Kategori</th>
-                                        <th>Tanggal</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($arsip_masuk as $item)
-                                    <tr style="text-align: center;">
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td class="text-wrap" onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">{{ $item->nama_dokumen }}</td>
-                                        <td>{{ $item->instansi->singkatan_instansi }}</td>
-                                        <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
-                                        <td>{{ $item->tanggal_masuk }}</td>
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-1">
-                                                <a href="{{ route('admin.arsip_masuk.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="{{ route('admin.arsip_masuk.delete', $item->id) }}" class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    @endforeach
-                                </tbody>
-                            </table>
-=======
-                                        <tr class="border-bottom">
-                                            <th style="text-align: center;">No</th>
-                                            <th style="text-align: center;">Nama Dokumen</th>
-                                            <th style="text-align: center;">Dinas</th>
-                                            <th style="text-align: center;">Kategori</th>
-                                            <th style="text-align: center;">Tanggal</th>
-                                            <th style="text-align: center;">Aksi</th>
+                                        <tr class="border-bottom" style="text-align: center;">
+                                            <th>No</th>
+                                            <th>Nama Dokumen</th>
+                                            <th>Dinas</th>
+                                            <th>Kategori</th>
+                                            <th>Tanggal</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($arsip_masuk as $item)
-                                        <tr>
+                                        <tr style="text-align: center;">
                                             <td>{{ $loop->iteration }}</td>
                                             <td class="text-wrap"
                                                 onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
@@ -81,137 +51,114 @@
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_masuk }}</td>
                                             <td>
-                                                <div class="d-flex gap-1">
-                                                    <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#delete-{{ $item->id }}">Hapus</a>
+                                                <div class="d-flex justify-content-center gap-1">
+                                                    <a href="{{ route('admin.arsip_masuk.edit', $item->id) }}"
+                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="{{ route('admin.arsip_masuk.delete', $item->id) }}"
+                                                        class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
                                                 </div>
                                             </td>
                                         </tr>
+
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
->>>>>>> a13ba0cbbce8bec64b8657848e2003f355adfe3f:resources/views/admin/kelola_arsipMasuk/arsip_masuk.blade.php
                         </div>
                     </div>
                 </div>
+                <!-- End Row -->
             </div>
-            <!-- End Row -->
         </div>
     </div>
-</div>
 
-@foreach ($arsip_masuk as $item)
-<<<<<<< HEAD:resources/views/admin/arsip_masuk/kelola_arsipMasuk.blade.php
-
-        <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
-                        <a href="{{ url('/admin/arsip_masuk/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-                    </div>
+    @foreach ($arsip_masuk as $item)
+    <div class="modal fade" id="delete-{{ $item->id }}" tabindex="-1" aria-labelledby="delete-{{ $item->id }}Label"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="delete-{{ $item->id }}Label">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-=======
-<div class="modal fade" id="delete-{{ $item->id }}" tabindex="-1" aria-labelledby="delete-{{ $item->id }}Label"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="delete-{{ $item->id }}Label">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Apakah anda yakin ingin menghapus data ini?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
->>>>>>> a13ba0cbbce8bec64b8657848e2003f355adfe3f:resources/views/admin/kelola_arsipMasuk/arsip_masuk.blade.php
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}"
+                        class="btn btn-outline btn-danger">Yes</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@endforeach
+    @endforeach
 
-<!-- Modal -->
-<div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lihatPDFLabel">Detail Dokumen</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Add your modal content here -->
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="kategori_dokumen" class="form-label">Kategori Dokumen</label>
-                            <input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control"
-                                readonly>
+    <!-- Modal -->
+    <div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lihatPDFLabel">Detail Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your modal content here -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="kategori_dokumen" class="form-label">Kategori Dokumen</label>
+                                <input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="nama_dokumen" class="form-label">Nama Dokumen</label>
+                                <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="pengirim" class="form-label">Pengirim</label>
+                                <input type="text" name="pengirim" id="pengirim" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="penerima" class="form-label">Penerima</label>
+                                <input type="text" name="penerima" id="penerima" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="dinas" class="form-label">Dinas</label>
+                                <input type="text" name="dinas" id="dinas" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="tanggal_masuk" class="form-label">Tanggal</label>
+                                <input type="text" name="tanggal_masuk" id="tanggal_masuk" class="form-control"
+                                    readonly>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="nama_dokumen" class="form-label">Nama Dokumen</label>
-                            <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="pengirim" class="form-label">Pengirim</label>
-                            <input type="text" name="pengirim" id="pengirim" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="penerima" class="form-label">Penerima</label>
-                            <input type="text" name="penerima" id="penerima" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="dinas" class="form-label">Dinas</label>
-                            <input type="text" name="dinas" id="dinas" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggal_masuk" class="form-label">Tanggal</label>
-                            <input type="text" name="tanggal_masuk" id="tanggal_masuk" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="pdf-viewer-container">
-                            <iframe id="pdf-viewer" src="" width="100%" height="500px" style="border: none;"
-                                allowfullscreen webkitallowfullscreen></iframe>
+                        <div class="col-6">
+                            <div class="pdf-viewer-container">
+                                <iframe id="pdf-viewer" src="" width="100%" height="500px" style="border: none;"
+                                    allowfullscreen webkitallowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
-                        class="fa fa-file-download me-2"></i>Unduh PDF</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
-                        class="fa fa-x me-2"></i>Tutup</button>
+                <div class="modal-footer">
+                    <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
+                            class="fa fa-file-download me-2"></i>Unduh PDF</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                            class="fa fa-x me-2"></i>Tutup</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<<<<<<< HEAD:resources/views/admin/arsip_masuk/kelola_arsipMasuk.blade.php
-
-<script>
-=======
-<script type="module">
->>>>>>> a13ba0cbbce8bec64b8657848e2003f355adfe3f:resources/views/admin/kelola_arsipMasuk/arsip_masuk.blade.php
+    <script type="module">
     $('#dokumenMasuk-tabel').DataTable({
-        "responsive" : true,
-        "autowidth"  : true,
+        "responsive": true,
+        "autowidth": true,
     });
     </script>
 
-<script>
+    <script>
     function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
         // kita siapin dulu nih variabel nya
         var tabel = document.getElementById(
@@ -229,7 +176,7 @@
             modal.show();
             // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
             // tapi dengan cara kita cek di setiap baris tabel nya
-            document.querySelectorAll('#dokumenMasuk-tabel tbody tr').forEach(function (row) {
+            document.querySelectorAll('#dokumenMasuk-tabel tbody tr').forEach(function(row) {
                 // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
                 row.classList.remove('selected');
             });
@@ -259,11 +206,12 @@
         // udah deh segitu aja
     }
     // on modal close
-    document.getElementById('lihatPDF').addEventListener('hidden.bs.modal', function (event) {
+    document.getElementById('lihatPDF').addEventListener('hidden.bs.modal', function(event) {
         var tabel = document.getElementById('dokumenMasuk-tabel');
         tabel.classList.remove('selected');
-        document.querySelector('#dokumenMasuk-tabel tbody tr td.text-wrap').parentElement.classList.remove('selected');
+        document.querySelector('#dokumenMasuk-tabel tbody tr td.text-wrap').parentElement.classList.remove(
+            'selected');
     });
-</script>
+    </script>
 
-@endsection
+    @endsection

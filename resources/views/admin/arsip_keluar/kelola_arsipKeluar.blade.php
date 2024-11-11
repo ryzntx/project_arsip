@@ -45,32 +45,40 @@
                                         @foreach ($arsip_keluar as $item)
                                         <tr style="text-align: center;">
                                             <td>{{ $loop->iteration }}</td>
-                                            <td class="text-wrap" onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">{{ $item->nama_dokumen }}</td>
+                                            <td class="text-wrap"
+                                                onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                {{ $item->nama_dokumen }}</td>
                                             <td>{{ $item->instansi->singkatan_instansi }}</td>
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
                                             <td>
-                                                <a href="{{ route('admin.arsip_keluar.tambah_bukti', $item->id) }}" class="btn btn-warning btn-sm">Bukti Terima</a>
+                                                <!-- <a href="{{ route('admin.arsip_keluar.tambah_bukti', $item->id) }}"
+                                                    class="btn btn-warning btn-sm">Bukti Terima</a> -->
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-1">
-                                                <div class="dropdown shadow-sm">
-                                                    <a class="btn btn-info btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Status
-                                                      </a>
-                                                    <ul class="dropdown-menu text-center align-middle shadow-sm rounded-5">
-                                                        <p>{{ $item->status }}</p>
-                                                    </ul>
+                                                    <div class="dropdown shadow-sm">
+                                                        <a class="btn btn-info btn-sm dropdown-toggle" href="#"
+                                                            role="button" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Status
+                                                        </a>
+                                                        <ul
+                                                            class="dropdown-menu text-center align-middle shadow-sm rounded-5">
+                                                            <p>{{ $item->status }}</p>
+                                                        </ul>
+                                                    </div>
+                                                    <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
+                                                        target="_blank" class="btn btn-primary btn-sm">Cetak</a>
+                                                    <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}"
+                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="{{ route('admin.arsip_keluar.delete', $item->id) }}"
+                                                        class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
                                                 </div>
-                                                <a href="{{ route('admin.arsip_keluar.print', $item->id) }}" target="_blank" class="btn btn-primary btn-sm">Cetak</a>
-                                                <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="{{ route('admin.arsip_keluar.delete', $item->id) }}" class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
-                                            </div>
                                             </td>
                                         </tr>
 
                                         @endforeach
-
 
                                     </tbody>
                                 </table>
@@ -95,8 +103,10 @@
                         <p>Apakah anda yakin ingin menghapus data ini?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline btn-primary pull-left" data-dismiss="modal">No</button>
-                        <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
+                        <button type="button" class="btn btn-outline btn-primary pull-left"
+                            data-dismiss="modal">No</button>
+                        <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}"
+                            class="btn btn-outline btn-danger">Yes</a>
                     </div>
                 </div>
             </div>
@@ -154,7 +164,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i class="fa fa-file-download me-2"></i>Unduh PDF</a>
+                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
+                        class="fa fa-file-download me-2"></i>Unduh PDF</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
         </div>
@@ -162,63 +173,53 @@
 </div>
 
 <script>
-<<<<<<< HEAD:resources/views/admin/arsip_keluar/kelola_arsipKeluar.blade.php
-
-    $('#dokumenKeluar-tabel').DataTable({
-        "responsive": true,
-        "autoWidth": true,
-    });
-=======
->>>>>>> a13ba0cbbce8bec64b8657848e2003f355adfe3f:resources/views/admin/kelola_arsipKeluar/arsip_keluar.blade.php
-
-    function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
-        // kita siapin dulu nih variabel nya
-        var tabel = document.getElementById(
+function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
+    // kita siapin dulu nih variabel nya
+    var tabel = document.getElementById(
         'dokumenKeluar-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
-        var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
+    var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
 
-        // Fungsi untuk menampilkan/menutup right-panel
-        // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
-        if (tabel.classList.contains('selected')) {
-            // Toggle modal to show
-            modal.hide();
-            // Kalau ada kita hapus dulu
-            tabel.classList.remove('selected');
-        } else {
-            modal.show();
-            // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
-            // tapi dengan cara kita cek di setiap baris tabel nya
-            document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function (row) {
-                // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
-                row.classList.remove('selected');
-            });
-            // trus tambahin lagi class selected nya deh
-            // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
-            tabel.classList.add('selected');
+    // Fungsi untuk menampilkan/menutup right-panel
+    // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
+    if (tabel.classList.contains('selected')) {
+        // Toggle modal to show
+        modal.hide();
+        // Kalau ada kita hapus dulu
+        tabel.classList.remove('selected');
+    } else {
+        modal.show();
+        // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
+        // tapi dengan cara kita cek di setiap baris tabel nya
+        document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function(row) {
+            // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
+            row.classList.remove('selected');
+        });
+        // trus tambahin lagi class selected nya deh
+        // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
+        tabel.classList.add('selected');
 
-        }
-
-        // trus kita tampilin deh data nya ke right-panel
-        document.getElementById('kategori_dokumen').value = kategori_dokumen;
-        document.getElementById('nama_dokumen').value = nama_dokumen;
-        document.getElementById('penerima').value = penerima;
-        document.getElementById('pengirim').value = pengirim;
-        document.getElementById('dinas').value = dinas;
-        document.getElementById('tanggal_keluar').value = tanggal;
-
-
-        // Menampilkan PDF di iframe
-        var viewer = document.getElementById('pdf-viewer');
-        viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
-
-        // udah deh segitu aja
     }
 
+    // trus kita tampilin deh data nya ke right-panel
+    document.getElementById('kategori_dokumen').value = kategori_dokumen;
+    document.getElementById('nama_dokumen').value = nama_dokumen;
+    document.getElementById('penerima').value = penerima;
+    document.getElementById('pengirim').value = pengirim;
+    document.getElementById('dinas').value = dinas;
+    document.getElementById('tanggal_keluar').value = tanggal;
+
+
+    // Menampilkan PDF di iframe
+    var viewer = document.getElementById('pdf-viewer');
+    viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
+
+    // udah deh segitu aja
+}
 </script>
 <script type="module">
-    $('#dokumenKeluar-tabel').DataTable({
-        "responsive": true,
-        "autoWidth": true,
-    });
+$('#dokumenKeluar-tabel').DataTable({
+    "responsive": true,
+    "autoWidth": true,
+});
 </script>
 @endsection

@@ -11,3 +11,11 @@
 
 - Persetujuan Pimpinan
 
+- Infografis Dashboard
+  - Grafik Dokumen Masuk & Dokumen Keluar
+  - Filter Bulan, Tahun, Kategori Dokumen
+  - Bentuk Grafik
+  - Infografis Harian di samping kanan bentuk List (Data Dokumen Masuk & Keluar)
+  - 
+
+- Notif ke Telegram
