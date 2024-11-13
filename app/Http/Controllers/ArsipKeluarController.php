@@ -7,6 +7,7 @@ use App\Models\DokumenKategori;
 use App\Models\DokumenKeluar;
 use App\Models\Instansi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArsipKeluarController extends Controller {
 
@@ -65,21 +66,22 @@ class ArsipKeluarController extends Controller {
         return redirect()->back()->with('pesan', 'Data berhasil dihapus!');
     }
 
-    public function insert_bukti(Request $request) {
-        $data = [
-            'nama' => $request->nama,
-            'tanggal' => $request->tanggal,
-            'jumlah' => $request->jumlah,
-            'keterangan' => $request->keterangan,
-        ];
+    public function insert_bukti(Request $request, $id) {
+
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'tanggal' => 'required|date',
-            'jumlah' => 'required|numeric',
-            'keterangan' => 'nullable|string',
+            'foto_bukti'=> 'image',
         ]);
 
-        DokumenKeluar::create($data);
+        $file = Request()->foto_bukti;
+        $fileName = Str::uuid()->toString().'.' . $file->extension();
+        $lokasi_file = $file->storeAs('dokumen/keluar/foto_bukti', $fileName, 'public');
+
+        $data = [
+            'bukti_diterima' => $lokasi_file,
+
+        ];
+
+        DokumenKeluar::findOrFail($id)->update($data);
 
         return redirect()->back()->with('success', 'Bukti terima berhasil ditambahkan');
 

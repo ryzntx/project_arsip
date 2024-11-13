@@ -91,7 +91,7 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::put('/admin/arsip_keluar/update/{id}', [ArsipKeluarController::class, 'update_arsip_keluar'])->name('admin.arsip_keluar.update');
     Route::get('/admin/arsip_keluar/delete/{id}', [ArsipKeluarController::class, 'delete_arsip_keluar'])->name('admin.arsip_keluar.delete');
     // Route::get("/admin/arsip_keluar/add", [ArsipKeluarController::class, "add_bukti"])->name("admin.arsip_keluar.add");
-    Route::get("/admin/arsip_keluar/tambah_bukti", [ArsipKeluarController::class, "insert_bukti"])->name("admin.arsip_keluar.bukti");
+    Route::post("/admin/arsip_keluar/tambah_bukti/{id}", [ArsipKeluarController::class, "insert_bukti"])->name("admin.arsip_keluar.bukti");
 
 
     Route::get('/admin/rekap_dokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
