@@ -18,6 +18,11 @@ class ArsipMasukController extends Controller
         $arsip_masuk = DokumenMasuk::with('dokumen_kategori')->with('instansi')->get();
         return view('admin.arsip_masuk.kelola_arsipMasuk', compact('arsip_masuk'));
     }
+    public function print($id)
+    {
+        $arsip_masuk = DokumenMasuk::with('dokumen_kategori')->with('instansi')->find($id);
+        return view('admin.arsip_masuk.print', compact('arsip_masuk'));
+    }
 
     public function edit_arsip_masuk($id)
     {
@@ -60,7 +65,7 @@ class ArsipMasukController extends Controller
     }
 
     // FITUR PIMPINAN
-    public function show()
+    public function monitoring_arsip_masuk()
     {
         $arsip_masuk = DokumenMasuk::with('dokumen_kategori')->with('instansi')->get();
         return view('pimpinan.Monitor_arsipMasuk.arsipMasuk', compact('arsip_masuk'));

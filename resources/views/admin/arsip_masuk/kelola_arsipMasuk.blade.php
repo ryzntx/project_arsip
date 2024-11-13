@@ -4,6 +4,14 @@
 
 <div class="main-content side-content pt-0">
 
+    @if (Session('pesan'))
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-check"></i>Success</h4>
+            {{ Session('pesan') }}
+        </div>
+    @endif
+
     <div class="main-container container-fluid">
         <div class="inner-body">
 
@@ -52,10 +60,13 @@
                                             <td>{{ $item->tanggal_masuk }}</td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-1">
+                                                    <a href="{{ route('admin.arsip_masuk.print', $item->id) }}"
+                                                        target="_blank" class="btn btn-primary btn-sm">Cetak</a>
                                                     <a href="{{ route('admin.arsip_masuk.edit', $item->id) }}"
                                                         class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="{{ route('admin.arsip_masuk.delete', $item->id) }}"
-                                                        class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete{{ $item->id }}">
+                                                            Hapus
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -66,13 +77,14 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
                 <!-- End Row -->
             </div>
         </div>
     </div>
 
-    @foreach ($arsip_masuk as $item)
+    {{-- @foreach ($arsip_masuk as $item)
     <div class="modal fade" id="delete-{{ $item->id }}" tabindex="-1" aria-labelledby="delete-{{ $item->id }}Label"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -92,6 +104,31 @@
             </div>
         </div>
     </div>
+
+    @endforeach --}}
+
+    @foreach ($arsip_masuk as $item)
+        <div class="modal modal-danger fade" id="delete{{ $item->id }}">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Apakah anda yakin ingin menghapus data ini?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
+                  <a href="{{ url('/admin/arsip_masuk/delete/'.$item->id ) }}" class="btn btn-outline">Yes</a>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+
 
     @endforeach
 

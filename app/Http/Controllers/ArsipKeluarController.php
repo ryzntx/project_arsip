@@ -65,8 +65,28 @@ class ArsipKeluarController extends Controller {
         return redirect()->back()->with('pesan', 'Data berhasil dihapus!');
     }
 
+    public function insert_bukti(Request $request) {
+        $data = [
+            'nama' => $request->nama,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'keterangan' => $request->keterangan,
+        ];
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+            'jumlah' => 'required|numeric',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        DokumenKeluar::create($data);
+
+        return redirect()->back()->with('success', 'Bukti terima berhasil ditambahkan');
+
+    }
+
     // FITUR PIMPINAN
-    public function show()
+    public function monitoring_arsip_keluar()
     {
         $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->get();
         return view('pimpinan.Monitor_arsipKeluar.arsipKeluar', compact('arsip_keluar'));

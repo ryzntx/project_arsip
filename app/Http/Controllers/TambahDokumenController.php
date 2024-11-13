@@ -130,7 +130,7 @@ class TambahDokumenController extends Controller {
             }
             // Get content from pdf
             $content = Pdf::getText(
-                Storage::disk("public")->path($data["lampiran"]), 'C:/laragon/bin/git/mingw64/bin/pdftotext'
+                Storage::disk("public")->path($data["lampiran"]), 'C:\poppler-24.08.0\Library\bin\pdftotext'
             );
             // Remove special characters
             $content = preg_replace('/[^A-Za-z0-9\s]/', '', $content);

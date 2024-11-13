@@ -52,9 +52,10 @@
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
                                             <td>
-                                                <!-- <a href="{{ route('admin.arsip_keluar.tambah_bukti', $item->id) }}"
-                                                    class="btn btn-warning btn-sm">Bukti Terima</a> -->
+                                                <a href="{{ route('admin.arsip_keluar.insert') }}" class="btn btn-warning btn-sm" id="tambahBuktiterima" data-toggle="modal">
+                                                    Bukti Terima</a>
                                             </td>
+
                                             <td>
                                                 <div class="d-flex justify-content-center gap-1">
                                                     <div class="dropdown shadow-sm">
@@ -89,6 +90,7 @@
             </div>
             <!-- End Row -->
         </div>
+
         @foreach ($arsip_keluar as $item)
 
         <div class="modal modal-danger fade" id="delete{{ $item->id }}">
@@ -116,6 +118,48 @@
         @endforeach
     </div>
 </div>
+
+<!-- Modal Tambah Bukti-->
+<div class="modal fade" id="tambahBuktiterima" tabindex="-1" aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahBuktiterima">Tambah Bukti Terima</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url('/admin/arsip_keluar/insert') }}" method="POST">
+                    @csrf <!-- Pastikan untuk menyertakan token CSRF -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tanggal" class="form-label">Tanggal</label>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="jumlah" class="form-label">Jumlah</label>
+                                <input type="number" class="form-control" id="jumlah" name="jumlah" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <textarea class="form-control" id="keterangan" name="keterangan"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline btn-danger">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">
