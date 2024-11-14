@@ -46,6 +46,7 @@ class TemplateDokumen extends Controller {
                 '_',
                 $request->nama_dokumen
             ) . '-' . time();
+            // $filename = $file->has
             $path = $file->storeAs('dokumen/template', $namaFile . '.' . $file->getClientOriginalExtension(), 'public');
             $data['file'] = $path;
 
@@ -54,7 +55,6 @@ class TemplateDokumen extends Controller {
 
             // convert to json for save to database
             $data['data'] = json_encode($var);
-
         }
 
         DokumenTemplate::create($data);
