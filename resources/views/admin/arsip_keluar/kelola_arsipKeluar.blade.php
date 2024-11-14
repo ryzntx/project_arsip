@@ -55,7 +55,6 @@
                                                 <a href="#" class="btn btn-warning btn-sm" id="BuktiTerima" data-bs-toggle="modal" data-bs-target="#tambahBuktiterima{{ $item->id }}">
                                                     Bukti Terima</a>
                                             </td>
-
                                             <td>
                                                 <div class="d-flex justify-content-center gap-1">
                                                     <div class="dropdown shadow-sm">
@@ -72,9 +71,11 @@
                                                     <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
                                                         target="_blank" class="btn btn-primary btn-sm">Cetak</a>
                                                     <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}"
-                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                        class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
                                                     <a href="{{ route('admin.arsip_keluar.delete', $item->id) }}"
-                                                        class="btn btn-danger btn-sm" data-toggle="modal">Hapus</a>
+                                                        class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete{{ $item->id }}">
+                                                        <i class="fe fe-trash"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -94,19 +95,19 @@
         @foreach ($arsip_keluar as $item)
 
         <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-l">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
+                            <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
                     </div>
                     <div class="modal-body">
                         <p>Apakah anda yakin ingin menghapus data ini?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline btn-primary pull-left"
-                            data-dismiss="modal">No</button>
+                            data-bs-dismiss="modal">No</button>
                         <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}"
                             class="btn btn-outline btn-danger">Yes</a>
                     </div>
