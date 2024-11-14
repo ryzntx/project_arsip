@@ -20,6 +20,6 @@
   - Infografis Harian di samping kanan bentuk List (Data Dokumen Masuk & Keluar)
   - 
 
-- Notif ke Telegram 
+- Notif ke Telegram [2/3] [TINGGAL BENERIN ISI PESAN NYA!]
   - Butuh API
   - Fungsi pakai cURL
