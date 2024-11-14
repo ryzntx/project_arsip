@@ -6,7 +6,6 @@ use App\Http\Controllers\ArsipMasukController;
 use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\Pencarian;
-use App\Http\Controllers\PencarianController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapanArsipController;
@@ -15,8 +14,6 @@ use App\Http\Controllers\TemplateDokumen;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-
 
 Route::get("/", function () {
     if (Auth::check()) {
@@ -91,7 +88,6 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     // Route::get("/admin/arsip_keluar/add", [ArsipKeluarController::class, "add_bukti"])->name("admin.arsip_keluar.add");
     Route::post("/admin/arsip_keluar/tambah_bukti/{id}", [ArsipKeluarController::class, "insert_bukti"])->name("admin.arsip_keluar.bukti");
 
-
     Route::get('/admin/rekap_dokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
 
     Route::get("admin/template_dokumen", [TemplateDokumen::class, 'kelola_template'])->name('admin.template_dokumen');
@@ -114,7 +110,7 @@ Route::middleware(['auth', 'role:pimpinan'])->group(function () {
     Route::get('/pimpinan/arsipKeluar', [ArsipKeluarController::class, 'monitoring_arsip_keluar'])->name('pimpinan.arsipKeluar');
     Route::get('/pimpinan/arsipKeluar/print/{id}', [ArsipMasukController::class, 'print'])->name('pimpinan.arsipKeluar.print');
 
-    Route::get('/pimpinan/rekapDokumen', [PimpinanController::class, 'rekapDokumen'])->name('[pimpinan.rekapDokumen');
+    Route::get('/pimpinan/rekapDokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('pimpinan.rekapDokumen');
 });
 
 require __DIR__ . "/auth.php";

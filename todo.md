@@ -6,6 +6,7 @@
     - Pilih Template (TambahDokumen)
     - Preview Template
     - Process Template
+    
 -   Rekap Arsip [4/4][DONE]
     -   Filter (Tanggal[hari, bulan, tahun], Kategori Surat, Instansi, Jenis Surat [Keluar, Masuk], ) 
     -   Cetak Rekap Arsip
