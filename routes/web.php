@@ -42,8 +42,6 @@ Route::middleware("auth")->group(function () {
         "detail_pencarian",
     ])->name("pencarian.detail");
 
-    Route::get('/admin/pencarian_dokumen', [PencarianController::class, 'pencarian'])->name('pencarian_dokumen');
-    Route::get('/admin/pencarian_dokumen/search', [PencarianController::class, 'search'])->name('pencarian.search');
 });
 
 Route::middleware(["auth", "role:admin"])->group(function () {

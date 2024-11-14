@@ -78,7 +78,7 @@
                             <form action="{{route('pencarian')}}" method="get">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="typehead"
-                                        placeholder="Pencarian Dokumen" autocomplete="off" name="query">
+                                        placeholder="Pencarian Dokumen" autocomplete="off" name="kata_kunci">
                                     <button type="submit" class="btn btn-primary"><i class="fe fe-search"
                                             aria-hidden="true"></i></button>
                                 </div>
