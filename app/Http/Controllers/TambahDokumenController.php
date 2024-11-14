@@ -254,14 +254,17 @@ class TambahDokumenController extends Controller {
                     ->with("error", "File dokumen harus diunggah!")
                     ->withInput();
             }
-            PdfDocument::create([
+            // Get content from pdf
+            $content = Pdf::getText(
+                Storage::disk("public")->path($data["lampiran"]), 'C:/laragon/bin/git/mingw64/bin/pdftotext'
+            );
+            // Remove special characters
+            $content = preg_replace('/[^A-Za-z0-9\s]/', '', $content);
+            $content = Str::limit($content, 60000);
+            // Insert to pdf_documents table
+            PdfDocument::insert([
                 "title" => $data["nama_dokumen"],
-                "content" => Str::limit(
-                    Pdf::getText(
-                        Storage::disk("public")->path($data["lampiran"]), 'pdftotext'
-                    ),
-                    60000
-                ),
+                "content" => $content,
                 "file_name" => $data["lampiran"],
             ]);
             // Membuat record 'DokumenKeluar' baru di database dengan array data
