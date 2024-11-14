@@ -6,7 +6,7 @@ use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
 use App\Models\PdfDocument;
 use Illuminate\Http\Request;
-use Str;
+use Illuminate\Support\Str;
 
 class Pencarian extends Controller {
 
