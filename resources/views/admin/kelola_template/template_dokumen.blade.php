@@ -38,20 +38,19 @@
                                 <div class="table-responsive">
                                     <table class="table mb-0" id="templateDokumen-table" style="width: 100%">
                                         <thead>
-                                            <tr class="border-bottom">
-                                                <th style="text-align: center;">No</th>
-                                                <th style="text-align: center;">Nama Dokumen</th>
-                                                <th style="text-align: center;">Kategori Template</th>
-                                                <th style="text-align: center;">Aksi</th>
+                                            <tr class="border-bottom" style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Nama Dokumen</th>
+                                                <th>Kategori Template</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($data as $items)
-                                                <tr>
-                                                    <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                                    <td style="text-align: center;">{{ $items->nama }}</td>
-                                                    <td style="text-align: center;">{{ $items->kategori->nama_kategori }}
-                                                    </td>
+                                                <tr style="text-align: center;">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $items->nama }}</td>
+                                                    <td>{{ $items->kategori->nama_kategori }}</td>
                                                     <td>
                                                         <a href="/admin/template_dokumen/lihat/{{ $items->id }}"
                                                             class="btn btn-primary btn-sm">
