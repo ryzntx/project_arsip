@@ -260,7 +260,7 @@
 
                     messageTop: message,
 
-                    autoPrint: false,
+                    autoPrint: true,
                 }],
             });
 
