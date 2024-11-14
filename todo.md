@@ -1,4 +1,4 @@
--   Pencarian Cerdas [need ui]
+-   Pencarian Cerdas [3/3]
 -   Template Dokumen Keluar [2/5] [CRUD DONE]
     - Kelola Template
         - CRUD
@@ -18,4 +18,6 @@
   - Infografis Harian di samping kanan bentuk List (Data Dokumen Masuk & Keluar)
   - 
 
-- Notif ke Telegram
+- Notif ke Telegram 
+  - Butuh API
+  - Fungsi pakai cURL
