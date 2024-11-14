@@ -18,11 +18,13 @@ class Pencarian extends Controller {
      */
     public function pencarian(Request $request) {
         // Jika query pencarian tidak diberikan, maka tampilkan semua dokumen PDF
-        $pencarian = [];
         if ($request->query('kata_kunci') !== null) {
             // Melakukan pencarian dokumen PDF berdasarkan query yang diberikan
             $pencarian = PdfDocument::search($request->query("kata_kunci"))->paginate(
-                10);
+                5);
+        } else {
+            // Menampilkan semua dokumen PDF
+            $pencarian = PdfDocument::paginate(5);
         }
 
         // Mengembalikan view hasil pencarian dengan data pencarian
