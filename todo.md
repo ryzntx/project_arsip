@@ -6,8 +6,9 @@
     - Pilih Template (TambahDokumen)
     - Preview Template
     - Process Template
--   Rekap Arsip
-    -   Filter (Tanggal[hari, bulan, tahun], Kategori Surat, Instansi, Jenis Surat [Keluar, Masuk], )
+-   Rekap Arsip [4/4][DONE]
+    -   Filter (Tanggal[hari, bulan, tahun], Kategori Surat, Instansi, Jenis Surat [Keluar, Masuk], ) 
+    -   Cetak Rekap Arsip
 
 - Persetujuan Pimpinan
 

@@ -39,6 +39,25 @@
 
         <link rel="stylesheet" href="{{asset('assets/plugins/docx-viewer/dist/thumbnail.css')}}">
 
+        <!-- Datepicker -->
+        <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.css') }}" rel="stylesheet" />
+
+        <!-- Daterange Picker -->
+        <link href="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
+
+        <style>
+        body.dt-print-view h1 {
+            text-align: center;
+            margin-top: 1em;
+        }
+
+        body.dt-print-view div {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 1em;
+        }
+        </style>
+
     </head>
 
     <body class="ltr main-body leftmenu">
@@ -205,6 +224,12 @@
         <script src="{{asset('assets/plugins/docx-viewer/dist/thumbnail.js')}}"></script>
         <script src="{{asset('assets/plugins/docx-viewer/dist/tiff-preprocessor.js')}}"></script>
 
+        <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+
+        <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/moment.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+
+
 
         <!-- Color Theme js -->
         <script src="{{ asset('assets/js/themeColors.js') }}"></script>
@@ -215,6 +240,28 @@
         <!-- Custom js -->
         <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+        <script>
+        //datepicker
+        $('.datePickers').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        //daterangepicker
+        $('.daterange').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            autoUpdateInput: false,
+            open: 'right',
+            drop: 'down',
+            autoApply: true,
+
+        });
+        </script>
+
+        @stack('scripts')
 
     </body>
 
