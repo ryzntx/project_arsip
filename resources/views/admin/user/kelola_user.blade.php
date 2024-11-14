@@ -31,34 +31,35 @@
 
             <!-- Row -->
             <div class="row row-sm">
-                <div class="col-lg-12">
+                <div class="col-md-12" id="left-panel">
                     <div class="card custom-card">
+                        <div class="card-header  border-bottom-0 pb-0">
+                        </div>
                         <div class="card-body">
-                            <div class="table-responsive border">
-                                <table class="table text-nowrap text-md-nowrap mg-b-0">
-
+                            <div class="table-responsive">
+                                <table class="table mb-0" id="kelolaUser-table" style="width: 100%">
                                     <thead>
-                                        <tr>
-                                            <th style="text-align: center;">No</th>
-                                            <th style="text-align: center;">Nama</th>
-                                            <th style="text-align: center;">Email</th>
-                                            <th style="text-align: center;">Role</th>
+                                        <tr class="border-bottom" style="text-align: center;">
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
                                             {{-- <th>Password</th> --}}
-                                            <th style="text-align: center;">Action</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $no = 1; ?>
                                         @foreach ($user as $data)
-                                        <tr>
-                                            <td style="text-align: center;">{{ $no++ }}</td>
-                                            <td style="text-align: center;">{{ $data->name }}</td>
-                                            <td style="text-align: center;">{{ $data->email }}</td>
-                                            <td style="text-align: center;">{{ $data->role }}</td>
+                                        <tr style="text-align: center;">
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $data->name }}</td>
+                                            <td>{{ $data->email }}</td>
+                                            <td>{{ $data->role }}</td>
                                             {{-- <td>{{ $data->password }}</td> --}}
-                                            <td style="text-align: center;">
-                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete{{ $data->id }}" >
-                                                     <i class="fe fe-trash"></i>
+                                            <td>
+                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{ $data->id }}">
+                                                   <i class="fe fe-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -75,10 +76,10 @@
             </div>
         @foreach ($user as $data)
         <div class="modal modal-danger fade" id="delete{{ $data->id }}">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-l">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title">{{ $data->name }}</h4>
                 </div>

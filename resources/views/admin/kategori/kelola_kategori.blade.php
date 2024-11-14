@@ -31,25 +31,24 @@
 
         <!-- Row -->
         <div class="row row-sm">
-            <div class="col-lg-12">
+            <div class="col-md-12" id="left-panel">
                 <div class="card custom-card">
                     <div class="card-body">
                         <div class="table-responsive border">
                             <table class="table text-nowrap text-md-nowrap mg-b-0">
-
                                 <thead>
-                                    <tr>
-                                        <th style="text-align: center;">No</th>
-                                        <th style="text-align: center;">Nama Kategori</th>
-                                        <th style="text-align: center;">Action</th>
+                                    <tr style="text-align: center;">
+                                        <th>No</th>
+                                        <th>Nama Kategori</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($kategori as $data)
-                                    <tr>
-                                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                        <td style="text-align: center;">{{ $data->nama_kategori }}</td>
-                                        <td style="text-align: center;">
+                                    <tr style="text-align: center;">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $data->nama_kategori }}</td>
+                                        <td>
                                             <a href="/admin/kelola_kategori/edit/{{ $data->id }}" class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
                                             <button  class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                 data-bs-target="#delete{{ $data->id }}">

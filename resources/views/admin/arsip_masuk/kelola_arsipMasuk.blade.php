@@ -4,11 +4,9 @@
 
 <div class="main-content side-content pt-0">
 
-    @if (Session('pesan'))
-        <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close" aria-hidden="true">&times;</button>
-            <h4><i class="icon fa fa-check"></i>Success</h4>
-            {{ Session('pesan') }}
+    @if(session('pesan'))
+        <div class="alert alert-primary">
+            {{ session('pesan') }}
         </div>
     @endif
 
@@ -63,9 +61,9 @@
                                                     <a href="{{ route('admin.arsip_masuk.print', $item->id) }}"
                                                         target="_blank" class="btn btn-primary btn-sm">Cetak</a>
                                                     <a href="{{ route('admin.arsip_masuk.edit', $item->id) }}"
-                                                        class="btn btn-warning btn-sm">Edit</a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete{{ $item->id }}">
-                                                            Hapus
+                                                        class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete{{ $item->id }}">
+                                                        <i class="fe fe-trash"></i>
                                                     </button>
                                                 </div>
                                             </td>
@@ -77,42 +75,19 @@
                             </div>
                         </div>
                     </div>
-                    </div>
                 </div>
+            </div>
                 <!-- End Row -->
-            </div>
         </div>
     </div>
-
-    {{-- @foreach ($arsip_masuk as $item)
-    <div class="modal fade" id="delete-{{ $item->id }}" tabindex="-1" aria-labelledby="delete-{{ $item->id }}Label"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="delete-{{ $item->id }}Label">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}"
-                        class="btn btn-outline btn-danger">Yes</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @endforeach --}}
+</div>
 
     @foreach ($arsip_masuk as $item)
         <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-l">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
                 </div>
@@ -120,16 +95,14 @@
                   <p>Apakah anda yakin ingin menghapus data ini?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
-                  <a href="{{ url('/admin/arsip_masuk/delete/'.$item->id ) }}" class="btn btn-outline">Yes</a>
+                  <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
+                  <a href="{{ url('/admin/arsip_masuk/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
                 </div>
               </div>
               <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
           </div>
-
-
     @endforeach
 
     <!-- Modal -->
