@@ -32,22 +32,26 @@
                             <div class="table-responsive">
                                 <table class="table mb-0" id="dokumenMasuk-tabel" style="width: 100%">
                                 <thead>
-                                    <tr class="border-bottom">
-                                        <th style="text-align: center;">No</th>
-                                        <th style="text-align: center;">Nama Dokumen</th>
-                                        <th style="text-align: center;">Dinas</th>
-                                        <th style="text-align: center;">Kategori</th>
-                                        <th style="text-align: center;">Tanggal</th>
+                                    <tr class="border-bottom" style="text-align: center;">
+                                        <th>No</th>
+                                        <th>Nama Dokumen</th>
+                                        <th>Dinas</th>
+                                        <th>Kategori</th>
+                                        <th>Tanggal</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($arsip_masuk as $item)
-                                    <tr>
+                                    <tr style="text-align: center;">
                                         <td>{{ $loop->iteration }}</td>
                                         <td class="text-wrap" onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">{{ $item->nama_dokumen }}</td>
                                         <td>{{ $item->instansi->singkatan_instansi }}</td>
                                         <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                         <td>{{ $item->tanggal_masuk }}</td>
+                                        <td class="d-flex justify-content-center gap-1">
+                                            <a href="{{ route('pimpinan.arsipMasuk.print', $item->id) }}" target="_blank" class="btn btn-primary btn-sm">Cetak</a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -58,6 +62,8 @@
             </div>
         </div>
     <!-- End Row -->
+</div>
+</div>
 </div>
 
 <!-- Modal -->

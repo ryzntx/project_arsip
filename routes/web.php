@@ -6,6 +6,7 @@ use App\Http\Controllers\ArsipMasukController;
 use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\Pencarian;
+use App\Http\Controllers\PencarianController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapanArsipController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\TemplateDokumen;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
 
 Route::get("/", function () {
     if (Auth::check()) {
@@ -74,7 +77,8 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::get('/admin/tambah_dokumen/ambiltemplate/{id}', [TambahDokumenController::class, 'jsonGetDataDokTemplate'])->name('admin.ambil_template');
 
     Route::get('/admin/arsip_masuk', [ArsipMasukController::class, 'kelola_arsip_masuk'])->name('admin.arsip_masuk');
-    Route::get('/admin/arsip_masuk/download/{path_pdf}', [ArsipMasukController::class, 'download_arsip_masuk'])->name('admin.arsip_masuk');
+    // Route::get('/admin/arsip_masuk/download/{path_pdf}', [ArsipMasukController::class, 'download_arsip_masuk'])->name('admin.arsip_masuk');
+    Route::get('/admin/arsip_masuk/print/{id}', [ArsipMasukController::class, 'print'])->name('admin.arsip_masuk.print');
     Route::get('/admin/arsip_masuk/edit/{id}', [ArsipMasukController::class, 'edit_arsip_masuk'])->name('admin.arsip_masuk.edit');
     Route::put('/admin/arsip_masuk/update/{id}', [ArsipMasukController::class, 'update_arsip_masuk'])->name('admin.arsip_masuk.update');
     Route::get('/admin/arsip_masuk/delete/{id}', [ArsipMasukController::class, 'delete_arsip_masuk'])->name('admin.arsip_masuk.delete');
@@ -84,6 +88,9 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::get('/admin/arsip_keluar/edit/{id}', [ArsipKeluarController::class, 'edit_arsip_keluar'])->name('admin.arsip_keluar.edit');
     Route::put('/admin/arsip_keluar/update/{id}', [ArsipKeluarController::class, 'update_arsip_keluar'])->name('admin.arsip_keluar.update');
     Route::get('/admin/arsip_keluar/delete/{id}', [ArsipKeluarController::class, 'delete_arsip_keluar'])->name('admin.arsip_keluar.delete');
+    // Route::get("/admin/arsip_keluar/add", [ArsipKeluarController::class, "add_bukti"])->name("admin.arsip_keluar.add");
+    Route::post("/admin/arsip_keluar/tambah_bukti/{id}", [ArsipKeluarController::class, "insert_bukti"])->name("admin.arsip_keluar.bukti");
+
 
     Route::get('/admin/rekap_dokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
 
@@ -101,9 +108,11 @@ Route::middleware(['auth', 'role:pimpinan'])->group(function () {
 
     // Route::get('/pimpinan/pencarianDokumen', [PencarianController::class, 'pencarian'])->name('pencarian');
 
-    Route::get('/pimpinan/arsipMasuk', [ArsipMasukController::class, 'show'])->name('pimpinan.arsipMasuk');
+    Route::get('/pimpinan/arsipMasuk', [ArsipMasukController::class, 'monitoring_arsip_masuk'])->name('pimpinan.arsipMasuk');
+    Route::get('/pimpinan/arsipMasuk/print/{id}', [ArsipMasukController::class, 'print'])->name('pimpinan.arsipMasuk.print');
 
-    Route::get('/pimpinan/arsipKeluar', [ArsipKeluarController::class, 'show'])->name('pimpinan.arsipKeluar');
+    Route::get('/pimpinan/arsipKeluar', [ArsipKeluarController::class, 'monitoring_arsip_keluar'])->name('pimpinan.arsipKeluar');
+    Route::get('/pimpinan/arsipKeluar/print/{id}', [ArsipMasukController::class, 'print'])->name('pimpinan.arsipKeluar.print');
 
     Route::get('/pimpinan/rekapDokumen', [PimpinanController::class, 'rekapDokumen'])->name('[pimpinan.rekapDokumen');
 });

@@ -52,9 +52,10 @@
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
                                             <td>
-                                                <!-- <a href="{{ route('admin.arsip_keluar.tambah_bukti', $item->id) }}"
-                                                    class="btn btn-warning btn-sm">Bukti Terima</a> -->
+                                                <a href="#" class="btn btn-warning btn-sm" id="BuktiTerima" data-bs-toggle="modal" data-bs-target="#tambahBuktiterima{{ $item->id }}">
+                                                    Bukti Terima</a>
                                             </td>
+
                                             <td>
                                                 <div class="d-flex justify-content-center gap-1">
                                                     <div class="dropdown shadow-sm">
@@ -89,6 +90,7 @@
             </div>
             <!-- End Row -->
         </div>
+
         @foreach ($arsip_keluar as $item)
 
         <div class="modal modal-danger fade" id="delete{{ $item->id }}">
@@ -116,6 +118,45 @@
         @endforeach
     </div>
 </div>
+
+@foreach ($arsip_keluar as $item)
+<!-- Modal Tambah Bukti-->
+<div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1" aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahBuktiterima">Tambah Bukti Terima</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url('/admin/arsip_keluar/tambah_bukti/'.$item->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf <!-- Pastikan untuk menyertakan token CSRF -->
+                    <div class="row">
+                        <div class="col-12">
+                            @if($item->bukti_diterima == null)
+                                <div class="form-group">
+                                    <label for="foto_bukti" class="form-label">Lampiran Bukti Terima</label>
+                                    <input type="file" class="form-control" id="foto_bukti" name="foto_bukti" required>
+                                </div>
+                            @else
+                            <img src={{ asset('storage/' . $item->bukti_diterima) }} class="img-thumbnail"/>
+                            @endif
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @if($item->bukti_diterima == null)
+                            <button type="submit" class="btn btn-outline btn-danger">Tambah</button>
+                        @endif
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 
 <!-- Modal -->
 <div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">

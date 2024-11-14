@@ -31,37 +31,39 @@
                             <div class="table-responsive">
                                 <table class="table mb-0" id="dokumenKeluar-tabel" style="width: 100%">
                                     <thead>
-                                        <tr class="border-bottom">
-                                            <th style="text-align: center;">No</th>
-                                            <th style="text-align: center;">Nama Dokumen</th>
-                                            <th style="text-align: center;">Dinas</th>
-                                            <th style="text-align: center;">Kategori</th>
-                                            <th style="text-align: center;">Tanggal</th>
-                                            <th style="text-align: center;">Bukti Diterima</th>
-                                            <th style="text-align: center;">Aksi</th>
+                                        <tr class="border-bottom" style="text-align: center;">
+                                            <th>No</th>
+                                            <th>Nama Dokumen</th>
+                                            <th>Dinas</th>
+                                            <th>Kategori</th>
+                                            <th>Tanggal</th>
+                                            <th>Bukti Diterima</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($arsip_keluar as $item)
-                                        <tr>
+                                        <tr style="text-align: center;">
                                             <td>{{ $loop->iteration }}</td>
                                             <td class="text-wrap" onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">{{ $item->nama_dokumen }}</td>
                                             <td>{{ $item->instansi->singkatan_instansi }}</td>
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
                                             <td></td>
-                                            <td>
-                                                <div class="d-flex gap-1">
-                                                <div class="dropdown shadow-sm">
-                                                    <a class="btn btn-info btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Status
-                                                      </a>
-                                                    <ul class="dropdown-menu text-center align-middle shadow-sm rounded-5">
-                                                        <p>{{ $item->status }}</p>
-                                                    </ul>
+                                            <td class="d-flex justify-content-center gap-1">
+                                                <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
+                                                    target="_blank" class="btn btn-primary btn-sm">Cetak</a>
+                                                <a href="#" target="_blank" class="btn btn-warning btn-sm">
+                                                    Tandatangani Dokumen</a>
+                                                <div class="confirm-dropdown-sm">
+                                                    <div class="dropdown">
+                                                        <select  id="confirm-dropdown" class="btn btn-danger btn-sm dropdown-toggle" >
+                                                            <option value="" selected>Konfimasi Status </option>
+                                                            <option value="terima">Disetujui</option>
+                                                            <option value="tolak">Ditolak</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <a href="{{ route('admin.kelola_arsipKeluar.print', $item->id) }}" target="_blank" class="btn btn-primary btn-sm">Cetak</a>
-                                            </div>
                                             </td>
                                         </tr>
 
