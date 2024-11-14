@@ -8,6 +8,7 @@ use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
 use App\Models\Instansi;
 use App\Models\PdfDocument;
+use App\Notifications\SignDocumentKeluars;
 use App\OfficeConverter;
 use App\PdfOptimzer;
 use DateTime;
@@ -322,6 +323,14 @@ class TambahDokumenController extends Controller {
             "content" => $content,
             "file_name" => $data["lampiran"],
         ]);
+        if ($request->pengajuan_ke_pimpinan == "ya") {
+            // Mengirim notifikasi ke telegram
+            $user = auth()->user();
+            $user->notify(new SignDocumentKeluars('608092781'));
+            /*
+         * 608092781 === ID Chat Telegram
+         */
+        }
         // Membuat record 'DokumenKeluar' baru di database dengan array data
         return DokumenKeluar::create($data);
     }
