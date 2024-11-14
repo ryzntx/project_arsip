@@ -18,13 +18,12 @@ class ArsipKeluarController extends Controller {
         $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->get();
         return view('admin.arsip_keluar.kelola_arsipKeluar', compact('arsip_keluar'));
     }
-    public function print($id)
-    {
+    public function print($id) {
         $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->find($id);
         return view('admin.arsip_keluar.print', compact('arsip_keluar'));
     }
 
-    public function edit_arsip_keluar($id){
+    public function edit_arsip_keluar($id) {
         $arsip_keluar = DokumenKeluar::FindOrFail($id);
         $instansi = Instansi::all();
         $kategori = DokumenKategori::all();
@@ -33,32 +32,32 @@ class ArsipKeluarController extends Controller {
         // To-do tampilan edit
     }
 
-    public function update_arsip_keluar(Request $request, $id){
+    public function update_arsip_keluar(Request $request, $id) {
         $arsip_keluar = DokumenKeluar::findOrFail($id);
 
         $data = [
-                'nama_dokumen' => $request->nama_dokumen,
-                'penerima' => $request->nama_penerima,
-                'pengirim' => $request->nama_pengirim,
-                'tanggal_keluar' => $request->tanggal_keluar,
-                'keterangan' => $request->keterangan,
-                'status' => ($request->pengajuan_ke_pimpinan=='ya')?'Menunggu Persetujuan':'Menunggu Dikirim',
-                'persetujuan' => $request->pengajuan_ke_pimpinan,
-                'instansi_id' => $request->dinas_id,
-                'dokumen_kategori_id' => $request->kategori_id,
-                'user_id' => auth()->user()->id,
+            'nama_dokumen' => $request->nama_dokumen,
+            'penerima' => $request->nama_penerima,
+            'pengirim' => $request->nama_pengirim,
+            'tanggal_keluar' => $request->tanggal_keluar,
+            'keterangan' => $request->keterangan,
+            'status' => ($request->pengajuan_ke_pimpinan == 'ya') ? 'Menunggu Persetujuan' : 'Menunggu Dikirim',
+            'persetujuan' => $request->pengajuan_ke_pimpinan,
+            'instansi_id' => $request->dinas_id,
+            'dokumen_kategori_id' => $request->kategori_id,
+            'user_id' => auth()->user()->id,
 
         ];
 
         $arsip_keluar->update($data);
 
-        return redirect()->route('admin.arsip_keluar')->with('pesan','Data berhasil diubah!');
+        return redirect()->route('admin.arsip_keluar')->with('pesan', 'Data berhasil diubah!');
 
         // To-Do Fungsi update
 
     }
 
-    public function delete_arsip_keluar($id){
+    public function delete_arsip_keluar($id) {
         // To-Do Fungsi Delete
         $arsip_keluar = DokumenKeluar::findOrFail($id);
         $arsip_keluar->delete();
@@ -69,15 +68,15 @@ class ArsipKeluarController extends Controller {
     public function insert_bukti(Request $request, $id) {
 
         $request->validate([
-            'foto_bukti'=> 'image',
+            'foto_bukti' => 'image',
         ]);
 
-        $file = Request()->foto_bukti;
-        $fileName = Str::uuid()->toString().'.' . $file->extension();
+        $file = $request->foto_bukti;
+        $fileName = Str::uuid()->toString() . '.' . $file->extension();
         $lokasi_file = $file->storeAs('dokumen/keluar/foto_bukti', $fileName, 'public');
 
         $data = [
-            'bukti_diterima' => $lokasi_file,
+            'bukti_dikirimkan' => $lokasi_file,
 
         ];
 
@@ -88,8 +87,7 @@ class ArsipKeluarController extends Controller {
     }
 
     // FITUR PIMPINAN
-    public function monitoring_arsip_keluar()
-    {
+    public function monitoring_arsip_keluar() {
         $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->get();
         return view('pimpinan.Monitor_arsipKeluar.arsipKeluar', compact('arsip_keluar'));
 
