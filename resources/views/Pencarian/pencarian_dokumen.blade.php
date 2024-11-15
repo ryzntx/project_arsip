@@ -19,15 +19,17 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="card custom-card search-page">
                             <div class="card-body pb-2">
+                                <form action="{{ route('pencarian') }}" method="get">
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control border-end-0" name="kata_kunci"
+                                            Value="{{ request()->query('kata_kunci') }}"
+                                            placeholder="Pencarian Dokumen.....">
 
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control border-end-0"
-                                        Value="{{ request()->query('query') }}" placeholder="Pencarian Dokumen.....">
-
-                                    <button class="btn ripple btn-primary" type="button"><i class="fa fa-search"></i> Cari
-                                        Data</button>
-                                </div>
-
+                                        <button class="btn ripple btn-primary" type="submit"><i class="fa fa-search"></i>
+                                            Cari
+                                            Data</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         @foreach ($pencarian as $item)
@@ -48,8 +50,10 @@
                     </div>
                     <!-- /row -->
                 </div>
+                {{ $pencarian->links() }}
             </div>
         </div>
     </div>
+
 
 @endsection

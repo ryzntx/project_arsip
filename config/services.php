@@ -12,8 +12,10 @@ return [
     | location for this type of information, allowing packages to have
     | a conventional file to locate the various service credentials.
     |
-    */
-
+     */
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE'),
+    ],
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

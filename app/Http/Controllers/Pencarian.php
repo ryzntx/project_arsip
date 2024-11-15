@@ -6,7 +6,7 @@ use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
 use App\Models\PdfDocument;
 use Illuminate\Http\Request;
-use Str;
+use Illuminate\Support\Str;
 
 class Pencarian extends Controller {
 
@@ -17,10 +17,16 @@ class Pencarian extends Controller {
      * @return \Illuminate\View\View Mengembalikan view hasil pencarian dengan data pencarian.
      */
     public function pencarian(Request $request) {
-        // Melakukan pencarian dokumen PDF berdasarkan query yang diberikan
-        $pencarian = PdfDocument::search($request->query("query"))->paginate(
-            10
-        );
+        // Jika query pencarian tidak diberikan, maka tampilkan semua dokumen PDF
+        if ($request->query('kata_kunci') !== null) {
+            // Melakukan pencarian dokumen PDF berdasarkan query yang diberikan
+            $pencarian = PdfDocument::search($request->query("kata_kunci"))->paginate(
+                5);
+        } else {
+            // Menampilkan semua dokumen PDF
+            $pencarian = PdfDocument::paginate(5);
+        }
+
         // Mengembalikan view hasil pencarian dengan data pencarian
         return view("pencarian/pencarian_dokumen", compact("pencarian"));
     }
@@ -39,6 +45,7 @@ class Pencarian extends Controller {
         $dokumen = DokumenMasuk::where("nama_dokumen", $title)
             ->with("instansi")
             ->with("dokumen_kategori")
+            ->join('pdf_documents', 'dokumen_masuks.nama_dokumen', '=', 'pdf_documents.title')
             ->first();
         // Jika dokumen masuk tidak ditemukan, maka cari dokumen keluar
         if ($dokumen == null) {
@@ -46,6 +53,7 @@ class Pencarian extends Controller {
             $dokumen = DokumenKeluar::where("nama_dokumen", $title)
                 ->with("instansi")
                 ->with("dokumen_kategori")
+                ->join('pdf_documents', 'dokumen_keluars.nama_dokumen', '=', 'pdf_documents.title')
                 ->first();
         }
         // Mengembalikan tampilan detail pencarian
