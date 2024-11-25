@@ -10,7 +10,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h2 class="main-content-title tx-24 mg-b-5">DAFTAR DOKUMEN MASUK</h2>
+                    <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue">DOKUMEN MASUK</h2>
                 </div>
             </div>
             <!-- End Page Header -->
@@ -114,7 +114,6 @@
             </div>
             <div class="modal-footer">
                 <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i class="fa fa-file-download me-2"></i>Unduh PDF</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-x me-2"></i>Tutup</button>
             </div>
         </div>
     </div>

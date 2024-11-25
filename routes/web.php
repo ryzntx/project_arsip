@@ -88,7 +88,6 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     // Route::get("/admin/arsip_keluar/add", [ArsipKeluarController::class, "add_bukti"])->name("admin.arsip_keluar.add");
     Route::post("/admin/arsip_keluar/tambah_bukti/{id}", [ArsipKeluarController::class, "insert_bukti"])->name("admin.arsip_keluar.bukti");
 
-    Route::get('/admin/rekap_dokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
 
     Route::get("admin/template_dokumen", [TemplateDokumen::class, 'kelola_template'])->name('admin.template_dokumen');
     Route::get("admin/template_dokumen/add", [TemplateDokumen::class, 'add_template'])->name('admin.template_dokumen.add');
@@ -97,6 +96,10 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::get("admin/template_dokumen/edit/{id}", [TemplateDokumen::class, 'edit_template'])->name('admin.template_dokumen.edit');
     Route::get("admin/template_dokumen/update/{id}", [TemplateDokumen::class, 'update_template'])->name('admin.template_dokumen.update');
     Route::get("admin/template_dokumen/delete/{id}", [TemplateDokumen::class, 'delete_template'])->name('admin.template_dokumen.delete');
+
+    
+    Route::get('/admin/rekap_dokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
+
 });
 
 Route::middleware(['auth', 'role:pimpinan'])->group(function () {
@@ -108,7 +111,7 @@ Route::middleware(['auth', 'role:pimpinan'])->group(function () {
     Route::get('/pimpinan/arsipMasuk/print/{id}', [ArsipMasukController::class, 'print'])->name('pimpinan.arsipMasuk.print');
 
     Route::get('/pimpinan/arsipKeluar', [ArsipKeluarController::class, 'monitoring_arsip_keluar'])->name('pimpinan.arsipKeluar');
-    Route::get('/pimpinan/arsipKeluar/print/{id}', [ArsipMasukController::class, 'print'])->name('pimpinan.arsipKeluar.print');
+    Route::get('/pimpinan/arsipKeluar/print/{id}', [ArsipKeluarController::class, 'print'])->name('pimpinan.arsipKeluar.print');
 
     Route::get('/pimpinan/rekapDokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('pimpinan.rekapDokumen');
 });

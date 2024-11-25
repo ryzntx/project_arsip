@@ -119,7 +119,7 @@
                             <span class="sidemenu-label">Pencarian Dokumen</span>
                         </a>
                     </li>
-                    <li class="nav-header"><span class="nav-label">Applications</span></li>
+                    <li class="nav-header"><span class="nav-label">Data Master</span></li>
                     <li class="nav-item">
                         <a class="nav-link" href="/pimpinan/arsipMasuk">
                             <span class="shape1"></span>
@@ -136,6 +136,7 @@
                             <span class="sidemenu-label">Arsip Dokumen Keluar</span>
                         </a>
                     </li>
+                    <li class="nav-header"><span class="nav-label">Laporan</span></li>
                     <li class="nav-item">
                         <a class="nav-link with-sub" href="/pimpinan/rekapDokumen">
                             <span class="shape1"></span>

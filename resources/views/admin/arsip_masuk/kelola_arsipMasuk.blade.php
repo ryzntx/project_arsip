@@ -16,7 +16,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h2 class="main-content-title tx-24 mg-b-5">DAFTAR DOKUMEN MASUK</h2>
+                    <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue" >DOKUMEN MASUK</h2>
                 </div>
             </div>
             <!-- End Page Header -->

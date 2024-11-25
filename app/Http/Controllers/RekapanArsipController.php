@@ -40,7 +40,7 @@ class RekapanArsipController extends Controller {
 
         if (isset($rquery['kategori_dokumen'])) {
             $arsip_masuk = $arsip_masuk->where('dokumen_kategori_id', $rquery['kategori_dokumen']);
-            $arsip_keluar = $arsip_keluar->where('Bdokumen_kategori_id', $rquery['kategori_dokumen']);
+            $arsip_keluar = $arsip_keluar->where('dokumen_kategori_id', $rquery['kategori_dokumen']);
         }
         if (isset($rquery['instansi'])) {
             $arsip_masuk = $arsip_masuk->where('instansi_id', $rquery['instansi']);

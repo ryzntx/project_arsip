@@ -10,7 +10,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h2 class="main-content-title tx-24 mg-b-5">DAFTAR DOKUMEN KELUAR</h2>
+                    <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue">DOKUMEN KELUAR</h2>
                 </div>
             </div>
             <!-- End Page Header -->
@@ -49,7 +49,13 @@
                                             <td>{{ $item->instansi->singkatan_instansi }}</td>
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
-                                            <td></td>
+                                            <td>
+                                                @if ($item->bukti_dikirimkan)
+                                                    <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" alt="Bukti Diterima" style="max-width: 100px; max-height: 100px;">
+                                                @else
+                                                    <span class="text-danger">Tidak ada bukti</span>
+                                                @endif
+                                            </td>
                                             <td class="d-flex justify-content-center gap-1">
                                                 <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
                                                     target="_blank" class="btn btn-primary btn-sm">Cetak</a>
@@ -57,7 +63,7 @@
                                                     Tandatangani Dokumen</a>
                                                 <div class="confirm-dropdown-sm">
                                                     <div class="dropdown">
-                                                        <select  id="confirm-dropdown" class="btn btn-danger btn-sm dropdown-toggle" >
+                                                        <select  id="confirm-dropdown" class="btn btn-info btn-sm dropdown-toggle">
                                                             <option value="" selected>Konfimasi Status </option>
                                                             <option value="terima">Disetujui</option>
                                                             <option value="tolak">Ditolak</option>
@@ -68,7 +74,6 @@
                                         </tr>
 
                                         @endforeach
-
 
                                     </tbody>
                                 </table>
@@ -88,7 +93,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="lihatPDFLabel">Detail Dokumen</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Add your modal content here -->
@@ -129,7 +134,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i class="fa fa-file-download me-2"></i>Unduh PDF</a>
             </div>
         </div>
     </div>
