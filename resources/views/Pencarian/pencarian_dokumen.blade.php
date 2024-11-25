@@ -32,7 +32,7 @@
                                 </form>
                             </div>
                         </div>
-                        @foreach ($pencarian as $item)
+                        @forelse ($pencarian as $item)
                             <div class="card custom-card">
                                 <div class="card-body">
                                     <div class="mb-2">
@@ -46,7 +46,16 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="card custom-card">
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <p class="tx-18 font-weight-semibold text-primary text-center">Data Tidak Ditemukan
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforelse
                     </div>
                     <!-- /row -->
                 </div>
