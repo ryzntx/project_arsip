@@ -16,6 +16,10 @@ return [
     'telegram-bot-api' => [
         'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE'),
     ],
+    'whatsapp' => [
+        'from-phone-number-id' => env('WHATSAPP_FROM_PHONE_NUMBER_ID'),
+        'token' => env('WHATSAPP_TOKEN'),
+    ],
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
