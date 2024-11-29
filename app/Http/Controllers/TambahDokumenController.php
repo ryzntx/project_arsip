@@ -20,7 +20,8 @@ use Spatie\PdfToText\Pdf;
 
 class TambahDokumenController extends Controller {
 
-    protected $pdfToTextPath = 'C:\poppler-24.08.0\Library\bin\pdftotext';
+    // protected $pdfToTextPath = 'C:\poppler-24.08.0\Library\bin\pdftotext';
+    protected $pdfToTextPath = 'C:/laragon/bin/git/mingw64/bin/pdftotext';
     protected $gsPath = '/c/Program Files/gs/gs10.04.0/bin/gswin64c';
     protected $libreOfficePath = 'C:/Program Files/LibreOffice/program/soffice';
 
@@ -326,7 +327,7 @@ class TambahDokumenController extends Controller {
         if ($request->pengajuan_ke_pimpinan == "ya") {
             // Mengirim notifikasi ke telegram
             $user = auth()->user();
-            $user->notify(new SignDocumentKeluars('608092781'));
+            $user->notify(new SignDocumentKeluars('+6285156938759'));
             /*
          * 608092781 === ID Chat Telegram
          */

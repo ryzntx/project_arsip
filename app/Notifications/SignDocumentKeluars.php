@@ -6,18 +6,22 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramMessage;
+use NotificationChannels\WhatsApp\WhatsAppChannel;
+use NotificationChannels\WhatsApp\WhatsAppTextMessage;
 
 class SignDocumentKeluars extends Notification {
     use Queueable;
 
     protected $telegram_user_id;
+    protected string $whatsapp_number;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($telegram_user_id) {
+    public function __construct(string $whatsapp_number) {
         //
-        $this->telegram_user_id = $telegram_user_id;
+        // $this->telegram_user_id = $telegram_user_id;
+        $this->whatsapp_number = $whatsapp_number;
     }
 
     /**
@@ -26,7 +30,8 @@ class SignDocumentKeluars extends Notification {
      * @return array<int, string>
      */
     public function via(object $notifiable): array {
-        return ['telegram'];
+        // return ['telegram'];
+        return [WhatsAppChannel::class];
     }
 
     public function toTelegram($notifiable) {
@@ -59,6 +64,14 @@ class SignDocumentKeluars extends Notification {
 
         // (Optional) Inline Button with callback. You can handle callback in your bot instance
         // ->buttonWithCallback('Confirm', 'confirm_invoice ' . $this->invoice->id)
+    }
+
+    public function toWhatsapp($notifiable) {
+        return WhatsAppTextMessage::create()
+            ->message('Anda memiliki dokumen yang perlu anda tanda tangani.')
+
+            ->to($this->whatsapp_number);
+        // ->to('+6285156938759');
     }
 
     /**
