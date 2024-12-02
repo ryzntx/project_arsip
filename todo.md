@@ -20,12 +20,12 @@
 
     -   Tanda Tangan
 
--   Infografis Dashboard
+-   Infografis Dashboard [1/4] [DONE]
 
-    -   Grafik Dokumen Masuk & Dokumen Keluar
+    -   Grafik Dokumen Masuk & Dokumen Keluar [DONE]
     -   Filter Bulan, Tahun, Kategori Dokumen
-    -   Bentuk Grafik
-    -   Infografis Harian di samping kanan bentuk List (Data Dokumen Masuk & Keluar)
+    -   Bentuk Grafik [DONE]
+    -   Infografis Harian di samping kanan bentuk List (Data Dokumen Masuk & Keluar) [UNIMPLEMENTATION]
     -
 
 -   Notif ke Telegram [2/3] [TINGGAL BENERIN ISI PESAN NYA!]
