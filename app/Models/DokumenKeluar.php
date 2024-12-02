@@ -11,8 +11,8 @@ class DokumenKeluar extends Model {
 
     protected $fillable = [
         'nama_dokumen',
+        // 'pengirim',
         'penerima',
-        'pengirim',
         'lampiran',
         'status',
         'persetujuan',

@@ -77,7 +77,7 @@ class ArsipKeluarController extends Controller {
 
         $data = [
             'bukti_dikirimkan' => $lokasi_file,
-
+            'status' => 'Selesai',
         ];
 
         DokumenKeluar::findOrFail($id)->update($data);

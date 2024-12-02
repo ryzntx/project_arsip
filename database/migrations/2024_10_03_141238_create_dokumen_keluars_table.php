@@ -12,10 +12,10 @@ return new class extends Migration {
         Schema::create('dokumen_keluars', function (Blueprint $table) {
             $table->id();
             $table->string('nama_dokumen');
-            $table->string('pengirim');
+            // $table->string('pengirim');
             $table->string('penerima');
             $table->string('lampiran');
-            $table->enum('status', ['Menunggu Persetujuan', 'Disetujui', 'Ditolak', 'Menunggu Dikirim', 'Dikirimkan'])->default('Menunggu Persetujuan');
+            $table->enum('status', ['Menunggu Persetujuan', 'Disetujui', 'Ditolak', 'Menunggu Dikirim', 'Dikirimkan', 'Selesai'])->default('Menunggu Persetujuan');
             $table->string('keterangan')->nullable();
             $table->string('persetujuan')->default('tidak');
             $table->date('tanggal_keluar');
