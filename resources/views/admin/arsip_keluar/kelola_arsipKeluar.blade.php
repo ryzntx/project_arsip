@@ -81,14 +81,20 @@
                                                             </span>
                                                         @elseif ($item->status == 'Dikirimkan')
                                                             <span
-                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
                                                                 Dikirimkan
+                                                            </span>
+                                                        @elseif ($item->status == 'Selesai')
+                                                            <span
+                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                                Selesai
                                                             </span>
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-warning btn-sm" id="BuktiTerima"
-                                                            data-bs-toggle="modal"
+                                                        <a href="#"
+                                                            class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
+                                                            id="BuktiTerima" data-bs-toggle="modal"
                                                             data-bs-target="#tambahBuktiterima{{ $item->id }}">
                                                             Bukti Terima</a>
                                                     </td>
