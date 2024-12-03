@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DokumenKategori;
 use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
+use App\Models\DokumenTemplate;
 use App\Models\Instansi;
 use App\Models\PdfDocument;
 use App\Notifications\SignDocumentKeluars;
@@ -31,10 +32,16 @@ class TambahDokumenController extends Controller {
     public function tambah_dokumen() {
         $instansi = Instansi::all();
         $kategori = DokumenKategori::all();
+        $template_dok = DokumenTemplate::all();
         return view(
             "admin.tambah_dokumen.tambah_dokumen",
-            compact("instansi", "kategori")
+            compact("instansi", "kategori", "template_dok")
         );
+    }
+
+    public function jsonGetDataDokTemplate($id) {
+        $data = DokumenTemplate::findOrfail($id);
+        return response()->json($data);
     }
 
     /**
@@ -237,7 +244,7 @@ class TambahDokumenController extends Controller {
         $data = [
             "nama_dokumen" => $request->nama_dokumen,
             "penerima" => $request->nama_penerima,
-            "pengirim" => $request->nama_pengirim,
+            // "pengirim" => $request->nama_pengirim,
             "tanggal_keluar" => $request->tanggal_keluar,
             "keterangan" => $request->keterangan,
             "status" =>
@@ -327,7 +334,7 @@ class TambahDokumenController extends Controller {
         if ($request->pengajuan_ke_pimpinan == "ya") {
             // Mengirim notifikasi ke telegram
             $user = auth()->user();
-            $user->notify(new SignDocumentKeluars('+6285156938759'));
+            $user->notify(new SignDocumentKeluars('+6285603391954'));
             /*
          * 608092781 === ID Chat Telegram
          */

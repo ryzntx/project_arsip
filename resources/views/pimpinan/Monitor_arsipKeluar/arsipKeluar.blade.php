@@ -2,7 +2,7 @@
 @section('title', 'Sekretaris')
 @section('content')
 
-<div class="main-content side-content pt-0">
+<div class="pt-0 main-content side-content">
 
     <div class="main-container container-fluid">
         <div class="inner-body">
@@ -20,10 +20,10 @@
                 <!-- Left Panel (Daftar Dokumen) -->
                 <div class="col-md-12" id="left-panel">
                     <div class="card custom-card">
-                        <div class="card-header  border-bottom-0 pb-0">
+                        <div class="pb-0 card-header border-bottom-0">
                             <div>
                                 <div class="d-flex">
-                                    <label class="main-content-label my-auto pt-2">ARSIP DOKUMEN KELUAR</label>
+                                    <label class="pt-2 my-auto main-content-label">ARSIP DOKUMEN KELUAR</label>
                                 </div>
                             </div>
                         </div>
@@ -37,6 +37,7 @@
                                             <th>Dinas</th>
                                             <th>Kategori</th>
                                             <th>Tanggal</th>
+                                            <th>Status</th>
                                             <th>Bukti Diterima</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -49,6 +50,40 @@
                                             <td>{{ $item->instansi->singkatan_instansi }}</td>
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
+                                            <td class="d-flex flex-column">
+                                                        @if ($item->persetujuan == 'ya')
+                                                            <span
+                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center">
+                                                                Perlu Tanda Tangan
+                                                            </span>
+                                                        @endif
+                                                        @if ($item->status == 'Menunggu Persetujuan')
+                                                            <span
+                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center">
+                                                                Menunggu Persetujuan
+                                                            </span>
+                                                        @elseif ($item->status == 'Disetujui')
+                                                            <span
+                                                                class="text-white align-middle badge bg-success align-items-center align-content-center">
+                                                                Disetujui
+                                                            </span>
+                                                        @elseif ($item->status == 'Ditolak')
+                                                            <span
+                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center">
+                                                                Ditolak
+                                                            </span>
+                                                        @elseif ($item->status == 'Menunggu Dikirim')
+                                                            <span
+                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                Menunggu Dikirim
+                                                            </span>
+                                                        @elseif ($item->status == 'Dikirimkan')
+                                                            <span
+                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                                Dikirimkan
+                                                            </span>
+                                                        @endif
+                                                    </td>
                                             <td>
                                                 @if ($item->bukti_dikirimkan)
                                                     <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" alt="Bukti Diterima" style="max-width: 100px; max-height: 100px;">
@@ -56,12 +91,15 @@
                                                     <span class="text-danger">Tidak ada bukti</span>
                                                 @endif
                                             </td>
-                                            <td class="d-flex justify-content-center gap-1">
+                                            <td class="gap-1 d-flex justify-content-center">
                                                 <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
                                                     target="_blank" class="btn btn-primary btn-sm">Cetak</a>
-                                                <a href="#" target="_blank" class="btn btn-warning btn-sm">
-                                                    Tandatangani Dokumen</a>
-                                                <div class="confirm-dropdown-sm">
+                                                @if ($item->persetujuan == 'ya')
+                                                    <a href="#" target="_blank" class="btn btn-warning btn-sm">
+                                                        Tandatangani Dokumen</a>
+                                                @endif
+
+                                                <!-- <div class="confirm-dropdown-sm">
                                                     <div class="dropdown">
                                                         <select  id="confirm-dropdown" class="btn btn-info btn-sm dropdown-toggle">
                                                             <option value="" selected>Konfimasi Status </option>
@@ -69,7 +107,7 @@
                                                             <option value="tolak">Ditolak</option>
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </td>
                                         </tr>
 

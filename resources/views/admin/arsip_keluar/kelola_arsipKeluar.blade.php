@@ -2,7 +2,7 @@
 @section('title', 'Sekretaris')
 @section('content')
 
-    <div class="main-content side-content pt-0">
+    <div class="pt-0 main-content side-content">
 
         <div class="main-container container-fluid">
             <div class="inner-body">
@@ -20,10 +20,10 @@
                     <!-- Left Panel (Daftar Dokumen) -->
                     <div class="col-md-12" id="left-panel">
                         <div class="card custom-card">
-                            <div class="card-header  border-bottom-0 pb-0">
+                            <div class="pb-0 card-header border-bottom-0">
                                 <div>
                                     <div class="d-flex">
-                                        <label class="main-content-label my-auto pt-2">ARSIP DOKUMEN KELUAR</label>
+                                        <label class="pt-2 my-auto main-content-label">ARSIP DOKUMEN KELUAR</label>
                                     </div>
                                 </div>
                             </div>
@@ -37,6 +37,7 @@
                                                 <th>Dinas</th>
                                                 <th>Kategori</th>
                                                 <th>Tanggal</th>
+                                                <th>Status</th>
                                                 <th>Bukti Diterima</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -51,27 +52,59 @@
                                                     <td>{{ $item->instansi->singkatan_instansi }}</td>
                                                     <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                                     <td>{{ $item->tanggal_keluar }}</td>
+                                                    <td class="d-flex flex-column">
+                                                        @if ($item->persetujuan == 'ya')
+                                                            <span
+                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center">
+                                                                Perlu Tanda Tangan
+                                                            </span>
+                                                        @endif
+                                                        @if ($item->status == 'Menunggu Persetujuan')
+                                                            <span
+                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center">
+                                                                Menunggu Persetujuan
+                                                            </span>
+                                                        @elseif ($item->status == 'Disetujui')
+                                                            <span
+                                                                class="text-white align-middle badge bg-success align-items-center align-content-center">
+                                                                Disetujui
+                                                            </span>
+                                                        @elseif ($item->status == 'Ditolak')
+                                                            <span
+                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center">
+                                                                Ditolak
+                                                            </span>
+                                                        @elseif ($item->status == 'Menunggu Dikirim')
+                                                            <span
+                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                Menunggu Dikirim
+                                                            </span>
+                                                        @elseif ($item->status == 'Dikirimkan')
+                                                            <span
+                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                Dikirimkan
+                                                            </span>
+                                                        @elseif ($item->status == 'Selesai')
+                                                            <span
+                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                                Selesai
+                                                            </span>
+                                                        @endif
+                                                    </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-warning btn-sm" id="BuktiTerima"
-                                                            data-bs-toggle="modal"
+                                                        <a href="#"
+                                                            class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
+                                                            id="BuktiTerima" data-bs-toggle="modal"
                                                             data-bs-target="#tambahBuktiterima{{ $item->id }}">
                                                             Bukti Terima</a>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex justify-content-center gap-1">
-                                                            <div class="dropdown shadow-sm">
-                                                                <a class="btn btn-info btn-sm dropdown-toggle"
-                                                                    href="#" role="button" data-bs-toggle="dropdown"
-                                                                    aria-expanded="false">
-                                                                    Status
-                                                                </a>
-                                                                <ul
-                                                                    class="dropdown-menu text-center align-middle shadow-sm rounded-5">
-                                                                    <p>{{ $item->status }}</p>
-                                                                </ul>
-                                                            </div>
+                                                        <div class="gap-1 d-flex justify-content-center">
+
                                                             <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
-                                                                target="_blank" class="btn btn-primary btn-sm">Cetak</a>
+                                                                target="_blank" class="btn btn-primary btn-sm">
+                                                                <i class="fa fa-print"></i>
+                                                            </a>
                                                             <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}"
                                                                 class="btn btn-warning btn-sm"><i
                                                                     class="fe fe-edit"></i></a>
@@ -146,7 +179,8 @@
 
                                         </div>
                                     @else
-                                    <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail" width="100%" height="100%"/>
+                                        <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
+                                            width="100%" height="100%" />
                                         {{-- <img src={{ asset('storage/' . $item->bukti_dikirimkan) }} class="img-thumbnail" /> --}}
                                     @endif
 
