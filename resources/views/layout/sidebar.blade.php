@@ -30,7 +30,7 @@
                         <a class="nav-link" href="/pencarian">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-search sidemenu-icon menu-icon "></i>
+                            <i class=" sidemenu-icon ti-search "></i>
                             <span class="sidemenu-label">Pencarian Dokumen</span>
                         </a>
                     </li>
@@ -40,15 +40,15 @@
                             <span class="shape1"></span>
                             <span class="shape2"></span>
                             <i class="sidemenu-icon fe fe-users "></i>
-                            <span class="sidemenu-label">Kelola User</span>
+                            <span class="sidemenu-label">Kelola Data User</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/kelola_instansi">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="sidemenu-icon fe fe-briefcase "></i>
-                            <span class="sidemenu-label">Kelola Instansi</span>
+                            <i class="sidemenu-icon fas fa-building"></i>
+                            <span class="sidemenu-label">Kelola Data Instansi</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -56,7 +56,7 @@
                             <span class="shape1"></span>
                             <span class="shape2"></span>
                             <i class="sidemenu-icon fe fe-bookmark "></i>
-                            <span class="sidemenu-label">Kelola Kategori</span>
+                            <span class="sidemenu-label">Kelola Kategori Dokumen</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -97,7 +97,7 @@
                         <a class="nav-link with-sub" href="/admin/rekap_dokumen">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="sidemenu-icon fe fe-layers "></i>
+                            <i class="sidemenu-icon fas fa-book "></i>
                             <span class="sidemenu-label">Rekap Dokumen
                             </span>
                         </a>
@@ -141,7 +141,7 @@
                         <a class="nav-link with-sub" href="/pimpinan/rekapDokumen">
                             <span class="shape1"></span>
                             <span class="shape2"></span>
-                            <i class="ti-wallet sidemenu-icon fe fe-layers "></i>
+                            <i class="ti-wallet sidemenu-icon fas fa-book "></i>
                             <span class="sidemenu-label">Rekap Dokumen</span>
                         </a>
                     </li>

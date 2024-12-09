@@ -8,9 +8,12 @@
             <div class="inner-body">
 
                 <!-- Page Header -->
-                <div class="page-header">
+                <div class="page-header text-center" style="margin-bottom: 20px;">
                     <div>
-                        <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue">DOKUMEN KELUAR</h2>
+                        <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                            <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
+                            ARSIP DOKUMEN
+                        </h2>
                     </div>
                 </div>
                 <!-- End Page Header -->
@@ -23,7 +26,7 @@
                             <div class="pb-0 card-header border-bottom-0">
                                 <div>
                                     <div class="d-flex">
-                                        <label class="pt-2 my-auto main-content-label">ARSIP DOKUMEN KELUAR</label>
+                                        <label class="pt-2 my-auto main-content-label">DOKUMEN KELUAR</label>
                                     </div>
                                 </div>
                             </div>
@@ -55,52 +58,51 @@
                                                     <td class="d-flex flex-column">
                                                         @if ($item->persetujuan == 'ya')
                                                             <span
-                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center my-1">
                                                                 Perlu Tanda Tangan
                                                             </span>
                                                         @endif
                                                         @if ($item->status == 'Menunggu Persetujuan')
                                                             <span
-                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center my-1">
                                                                 Menunggu Persetujuan
                                                             </span>
                                                         @elseif ($item->status == 'Disetujui')
                                                             <span
-                                                                class="text-white align-middle badge bg-success align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-success align-items-center align-content-center my-1">
                                                                 Disetujui
                                                             </span>
                                                         @elseif ($item->status == 'Ditolak')
                                                             <span
-                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center my-1">
                                                                 Ditolak
                                                             </span>
                                                         @elseif ($item->status == 'Menunggu Dikirim')
                                                             <span
-                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-info align-items-center align-content-center my-1">
                                                                 Menunggu Dikirim
                                                             </span>
                                                         @elseif ($item->status == 'Dikirimkan')
                                                             <span
-                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-info align-items-center align-content-center my-1">
                                                                 Dikirimkan
                                                             </span>
                                                         @elseif ($item->status == 'Selesai')
                                                             <span
-                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center my-1">
                                                                 Selesai
                                                             </span>
                                                         @endif
                                                     </td>
                                                     <td>
                                                         <a href="#"
-                                                            class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
+                                                            class="btn {{ $item->bukti_dikirimkan == null ? 'btn-danger' : 'btn-primary' }} btn-sm"
                                                             id="BuktiTerima" data-bs-toggle="modal"
                                                             data-bs-target="#tambahBuktiterima{{ $item->id }}">
                                                             Bukti Terima</a>
                                                     </td>
                                                     <td>
                                                         <div class="gap-1 d-flex justify-content-center">
-
                                                             <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
                                                                 target="_blank" class="btn btn-primary btn-sm">
                                                                 <i class="fa fa-print"></i>
@@ -109,8 +111,7 @@
                                                                 class="btn btn-warning btn-sm"><i
                                                                     class="fe fe-edit"></i></a>
                                                             <a href="{{ route('admin.arsip_keluar.delete', $item->id) }}"
-                                                                class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                                data-bs-target="#delete{{ $item->id }}">
+                                                                class="btn btn-danger btn-sm" onclick="showDelete({{ $item->id }})">
                                                                 <i class="fe fe-trash"></i>
                                                             </a>
                                                         </div>
@@ -127,38 +128,36 @@
                 </div>
                 <!-- End Row -->
             </div>
-
-            @foreach ($arsip_keluar as $item)
-                <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-                    <div class="modal-dialog modal-l">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>Apakah anda yakin ingin menghapus data ini?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline btn-primary pull-left"
-                                    data-bs-dismiss="modal">No</button>
-                                <a href="{{ url('/admin/arsip_keluar/delete/' . $item->id) }}"
-                                    class="btn btn-outline btn-danger">Yes</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            @endforeach
         </div>
     </div>
 
+        {{-- @foreach ($arsip_keluar as $item)
+            <div class="modal" id="delete{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog modal-l">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4>Hapus Data</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Hapus {{ $item->nama_dokumen }}</h5>
+                            <p>Apakah anda yakin ingin menghapus data ini?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
+                            <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+                <!-- /.modal-dialog -->
+            @endforeach
+        </div>
+    </div> --}}
+
     @foreach ($arsip_keluar as $item)
         <!-- Modal Tambah Bukti-->
-        <div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1"
-            aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
+        <div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1" aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-l">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -168,30 +167,26 @@
                     <div class="modal-body">
                         <form action="{{ url('/admin/arsip_keluar/tambah_bukti/' . $item->id) }}" method="POST"
                             enctype="multipart/form-data">
-                            @csrf <!-- Pastikan untuk menyertakan token CSRF -->
-                            <div class="row">
-                                <div class="col-12">
-                                    @if ($item->bukti_dikirimkan == null)
-                                        <div class="form-group">
-                                            <label for="foto_bukti" class="form-label">Lampiran Bukti Terima</label>
-                                            <input type="file" class="form-control" id="foto_bukti" name="foto_bukti"
-                                                required>
-
-                                        </div>
-                                    @else
-                                        <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
-                                            width="100%" height="100%" />
-                                        {{-- <img src={{ asset('storage/' . $item->bukti_dikirimkan) }} class="img-thumbnail" /> --}}
-                                    @endif
-
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        @csrf <!-- Pastikan untuk menyertakan token CSRF -->
+                        <div class="row">
+                            <div class="col-12">
                                 @if ($item->bukti_dikirimkan == null)
-                                    <button type="submit" class="btn btn-outline btn-danger">Tambah</button>
+                                    <div class="form-group">
+                                        <label for="foto_bukti" class="form-label">Lampiran Bukti Terima</label>
+                                        <input type="file" class="form-control" id="foto_bukti" name="foto_bukti" required>
+                                    </div>
+                                @else
+                                    <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
+                                        width="100%" height="100%" />
+                                        {{-- <img src={{ asset('storage/' . $item->bukti_dikirimkan) }} class="img-thumbnail" /> --}}
                                 @endif
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            @if ($item->bukti_dikirimkan == null)
+                                <button type="submit" class="btn btn-outline btn-danger">Tambah</button>
+                            @endif
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -199,13 +194,14 @@
         </div>
     @endforeach
 
-
     <!-- Modal -->
     <div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="lihatPDFLabel">Detail Dokumen</h5>
+                    <h5 class="modal-title" id="lihatPDFLabel" style="font-weight: bold; font-size: 24px;">
+                        <i class="fas fa-file-pdf" style="margin-right: 10px;"></i>
+                        Detail Dokumen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -214,13 +210,11 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="kategori_dokumen" class="form-label">Kategori Dokumen</label>
-                                <input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control"
-                                    readonly>
+                                <input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="nama_dokumen" class="form-label">Nama Dokumen</label>
-                                <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control"
-                                    readonly>
+                                <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="pengirim" class="form-label">Pengirim</label>
@@ -236,8 +230,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="tanggal_keluar" class="form-label">Tanggal</label>
-                                <input type="text" name="tanggal_keluar" id="tanggal_keluar" class="form-control"
-                                    readonly>
+                                <input type="text" name="tanggal_keluar" id="tanggal_keluar" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="col-6">
@@ -247,11 +240,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
-                            class="fa fa-file-download me-2"></i>Unduh PDF</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -306,5 +294,32 @@
             "responsive": true,
             "autoWidth": true,
         });
+    </script>
+    <script>
+        function showDelete(id) {
+            Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Menghapus Data" + " " +"{{ $item->nama_dokumen }}",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+            backdrop: true,  // Mengaktifkan backdrop
+            allowOutsideClick: false // Mencegah penutupan jika klik di luar modal
+            }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ url('/admin/arsip_keluar/delete/') }}/" + id;
+                Swal.fire({
+                title: "Hapus Data!",
+                text: "Data berhasil dihapus",
+                icon: "success",
+                timer: 1500, // Menampilkan pesan selama 1.5 detik
+                showConfirmButton: false // Sembunyikan tombol konfirmasi
+                });
+            }
+        });
+        }
+
     </script>
 @endsection

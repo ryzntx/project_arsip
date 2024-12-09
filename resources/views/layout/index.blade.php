@@ -13,6 +13,12 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets') }}/img/brand/favicon.ico" type="image/x-icon" />
 
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     <!-- Title -->
     <title>User | @yield('title')</title>
 

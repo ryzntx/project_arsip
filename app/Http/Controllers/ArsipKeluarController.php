@@ -92,4 +92,12 @@ class ArsipKeluarController extends Controller {
         return view('pimpinan.Monitor_arsipKeluar.arsipKeluar', compact('arsip_keluar'));
 
     }
+    // public function insert_alasan(Request $request, $id) {
+
+    //     $arsip_keluar = DokumenKeluar::findOrFail($id);
+
+
+    //     return redirect()->back()->with('success', 'Bukti terima berhasil ditambahkan');
+
+    // }
 }

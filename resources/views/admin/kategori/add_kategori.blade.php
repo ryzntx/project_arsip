@@ -34,7 +34,6 @@
                         <div class="content">
                             <div class="row">
                                 <div class="col-sm-15">
-
                                     <div class="form-group">
                                         <label>Nama kategori</label>
                                         <input type="text" name="nama_kategori" class="form-control" value="{{ old('nama_kategori') }}">

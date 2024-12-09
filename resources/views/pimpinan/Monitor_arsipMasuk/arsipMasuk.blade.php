@@ -8,9 +8,12 @@
         <div class="inner-body">
 
             <!-- Page Header -->
-            <div class="page-header">
+            <div class="page-header text-center" style="margin-bottom: 20px;">
                 <div>
-                    <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue">DOKUMEN MASUK</h2>
+                    <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                        <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
+                        ARSIP DOKUMEN
+                    </h2>
                 </div>
             </div>
             <!-- End Page Header -->
@@ -23,7 +26,7 @@
                         <div class="card-header  border-bottom-0 pb-0">
                             <div>
                                 <div class="d-flex">
-                                    <label class="main-content-label my-auto pt-2">ARSIP DOKUMEN MASUK</label>
+                                    <label class="main-content-label my-auto pt-2">DOKUMEN MASUK</label>
                                 </div>
                             </div>
                         </div>

@@ -7,9 +7,39 @@
             <div class="inner-body">
 
                 <!-- Page Header -->
-                <div class="page-header">
-                    <div>
-                        <h2 class="main-content-title tx-24 mg-b-5">Pencarian Dokumen</h2>
+                <div class="page-header" style="margin-bottom: 1px; display: flex; flex-direction: column; align-items: center;">
+                    <div class="text-center">
+                        <h2 class="main-content-label" style="font-weight: bold; font-size: 34px; margin-right: 20px; ">
+                            <span style="color: #58508d;">C</span>
+                            <span style="color: #6259ca;">A</span>
+                            <span style="color: #bc5090;">R</span>
+                            <span style="color: #ff6361;">I</span>
+                            <span style="color: #ffa600;"></span>
+                            <span style="color: #58508d;">D</span>
+                            <span style="color: #6259ca;">O</span>
+                            <span style="color: #bc5090;">K</span>
+                            <span style="color: #ff6361;">U</span>
+                            <span style="color: #ffa600;">M</span>
+                            <span style="color: #58508d;">E</span>
+                            <span style="color: #6259ca;">N</span>
+
+                            <i class="ti-search" style="margin-left: 10px; font-size: 30px; color: #4285F4;"></i>
+                        </h2>
+                        <h4 class="align-content-center my-2" style="color: rgba(109, 109, 109, 0.484)">Masukkan kata kunci atau filter pencarian Anda</h4>
+                    </div>
+                </div>
+                    <div class="d-flex">
+                        <div class="justify-content-center">
+                            @if (request()->query() != null)
+                                <a href="{{ route('pencarian') }}" class="btn btn-danger btn-icon-text my-2 me-2">
+                                    <i class="fa fa-close me-2"></i>Reset Filter
+                                </a>
+                            @endif
+                            <button type="button" class="btn btn-white btn-icon-text my-2 me-2" data-bs-toggle="offcanvas"
+                                href="#filterMenu" role="button" aria-controls="filterMenu">
+                                <i class="fe fe-filter me-2"></i> Filter
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <!-- End Page Header -->

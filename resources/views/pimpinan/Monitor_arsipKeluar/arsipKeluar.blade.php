@@ -8,9 +8,12 @@
         <div class="inner-body">
 
             <!-- Page Header -->
-            <div class="page-header">
+            <div class="page-header text-center" style="margin-bottom: 20px;">
                 <div>
-                    <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue">DOKUMEN KELUAR</h2>
+                    <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                        <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
+                        ARSIP DOKUMEN
+                    </h2>
                 </div>
             </div>
             <!-- End Page Header -->
@@ -23,7 +26,7 @@
                         <div class="pb-0 card-header border-bottom-0">
                             <div>
                                 <div class="d-flex">
-                                    <label class="pt-2 my-auto main-content-label">ARSIP DOKUMEN KELUAR</label>
+                                    <label class="pt-2 my-auto main-content-label">DOKUMEN KELUAR</label>
                                 </div>
                             </div>
                         </div>
@@ -53,33 +56,33 @@
                                             <td class="d-flex flex-column">
                                                         @if ($item->persetujuan == 'ya')
                                                             <span
-                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center my-1">
                                                                 Perlu Tanda Tangan
                                                             </span>
                                                         @endif
                                                         @if ($item->status == 'Menunggu Persetujuan')
                                                             <span
-                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center my-1">
                                                                 Menunggu Persetujuan
                                                             </span>
                                                         @elseif ($item->status == 'Disetujui')
                                                             <span
-                                                                class="text-white align-middle badge bg-success align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-success align-items-center align-content-center my-1">
                                                                 Disetujui
                                                             </span>
                                                         @elseif ($item->status == 'Ditolak')
                                                             <span
-                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center my-1 ">
                                                                 Ditolak
                                                             </span>
                                                         @elseif ($item->status == 'Menunggu Dikirim')
                                                             <span
-                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-info align-items-center align-content-center my-1">
                                                                 Menunggu Dikirim
                                                             </span>
                                                         @elseif ($item->status == 'Dikirimkan')
                                                             <span
-                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center my-1">
                                                                 Dikirimkan
                                                             </span>
                                                         @endif
@@ -95,8 +98,26 @@
                                                 <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
                                                     target="_blank" class="btn btn-primary btn-sm">Cetak</a>
                                                 @if ($item->persetujuan == 'ya')
-                                                    <a href="#" target="_blank" class="btn btn-warning btn-sm">
+                                                    <a class="btn ripple btn-warning btn-sm" data-bs-target="#tandatangan" data-bs-toggle="modal" href="#" target="_blank" >
                                                         Tandatangani Dokumen</a>
+                                                    <div class="confirm-dropdown-sm">
+                                                        <button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="dropdownConfirm" type="button">Konfirmasi Status<i class="fas fa-caret-down ms-1"></i></button>
+                                                            <div  class="dropdown-menu">
+                                                                <a class="dropdown-item" data-status="Disetujui" data-bs-toggle="modal"  data-bs-target="#modalConfirmSetuju" href="#">Disetujui</a>
+                                                                <a class="dropdown-item" data-status="Ditolak" data-bs-toggle="modal" data-bs-target="#modalConfirmTolak" href="#">Ditolak</a>
+                                                            </div>
+                                                    </div>
+
+                                                    {{-- <div class="confirm-dropdown-sm">
+                                                        <button data-bs-target="#dropdownConfirm" aria-expanded="false" aria-haspopup="true" class="btn ripple btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="dropdownConfirm" type="button">Konfirmasi Status<i class="fas fa-caret-down ms-1"></i></button>
+                                                        <div  class="dropdown-menu">
+                                                            <a class="dropdown-item" data-status="Disetujui" onclick="openModal(this)" href="#">Disetujui</a>
+                                                            <a class="dropdown-item" data-status="Ditolak" onclick="openModal(this)" href="#">Ditolak</a>
+                                                        </div>
+                                                    </div> --}}
+
+                                                    {{-- <a href="#" target="_blank" class="btn btn-danger btn-sm">
+                                                        Konfirmasi status</a> --}}
                                                 @endif
 
                                                 <!-- <div class="confirm-dropdown-sm">
@@ -171,12 +192,116 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i class="fa fa-file-download me-2"></i>Unduh PDF</a>
+        </div>
+    </div>
+</div>
+<!--end modal-->
+
+<!--modal button tandatangani dokumen-->
+<div class="modal" id="tandatangan">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center">
+                <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-warning lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-warning tx-semibold mg-b-20">Disetujui</h4>
+                <p class="mg-b-20 mg-x-20" id="modalBodyTextSuccess">Apakah Anda yakin ingin mengubah status menjadi Disetujui?</p>
+                <button class="btn ripple btn-primary" type="button" href="#" style="margin-right: 10px;">Ya</button>
+                <button aria-label="Close" class="btn ripple btn-danger pd-x-25" data-bs-dismiss="modal" type="button">Tidak</button>
             </div>
         </div>
     </div>
 </div>
+{{-- <div class="modal" id="tandatangan">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center">
+                <div class="modal-header">
+                    <h6 class="modal-title">Tandatangani dokumen</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+            <div class="modal-body">
+                <p>Apakah anda yakin ingin menandatangani dokumen keluar ini?</p>
+            </div>
+            <div class="modal-footer-centered">
+                <button class="btn ripple btn-primary" type="button" href="#" style="margin-right: 10px;">Ya</button>
+                <button class="btn ripple btn-secondary" type="button" href="#">Tidak</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div> --}}
+<!--end modal-->
+
+<!--modal konfirmasi Disetujui-->
+<div class="modal" id="modalConfirmSetuju">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center">
+                <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-success tx-semibold mg-b-20">Disetujui</h4>
+                <p class="mg-b-20 mg-x-20" id="modalBodyTextSuccess">Apakah Anda yakin ingin mengubah status menjadi Disetujui?</p>
+                <button aria-label="Close" class="btn ripple btn-success pd-x-25" data-bs-dismiss="modal" type="button">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end modal-->
+
+<!--modal konfirmasi Ditolak-->
+<div class="modal" id="modalConfirmTolak">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            {{-- <form id="formRejection" action="{{ url('/pimpinan/arsipKeluar/tambahAlasan/' . $item->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf <!-- Pastikan untuk menyertakan token CSRF --> --}}
+                <div class="modal-body tx-center pd-y-20 pd-x-20">
+                    <button aria-label="Close" class="btn-close float-end" data-bs-dismiss="modal" type="button"></button>
+                    <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                    <h4 class="tx-danger mg-b-20">Ditolak</h4>
+                    <p class="mg-b-20 mg-x-20" id="modalBodyTextError">Silakan isi alasan penolakan di bawah ini:</p>
+                    <div class="mb-3">
+                        <label for="rejectionReason" class="form-label">Alasan Penolakan (Wajib diisi)</label>
+                        <textarea id="rejectionReason" name="rejectionReason" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <div class="modal-footer-centered">
+                        <button class="btn ripple btn-danger pd-x-25" type="submit">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--end modal-->
+
+<!--untuk membuka modal konfirmasi status-->
+{{-- <script>
+    function openModal(element) {
+        const status = element.getAttribute('data-status');
+        if (status === 'Disetujui') {
+            document.getElementById('modalBodyTextSuccess').innerText = "Apakah Anda yakin ingin mengubah status menjadi " + status + "?";
+            const modal = new bootstrap.Modal(document.getElementById('modalConfirmSetuju'));
+            modal.show();
+
+            // Menangani aksi tombol "Simpan" pada modal Disetujui
+            document.getElementById('btnConfirmSuccess').onclick = function() {
+                confirmedStatus = status; // Simpan status konfirmasi
+                modal.hide(); // Sembunyikan modal
+                alert('Status telah disetujui: ' + confirmedStatus); // Menampilkan alert atau mengelola logika selanjutnya
+            };
+        } else if (status === 'Ditolak') {
+            document.getElementById('modalBodyTextError').innerText = "Jika ada ingin mengubah status menjadi " + status + " , Harap isi form dibawah!";
+            const modal = new bootstrap.Modal(document.getElementById('modalConfirmTolak'));
+            modal.show();
+
+            // Menangani aksi tombol "simpan" pada modal Ditolak
+            document.getElementById('btnConfirmError').onclick = function() {
+                confirmedStatus = status; // Simpan status konfirmasi
+                modal.hide(); // Sembunyikan modal
+                alert('Status telah ditolak: ' + confirmedStatus); // Menampilkan alert atau mengelola logika selanjutnya
+            };
+        }
+    }
+</script> --}}
+<!--end-->
+
 
 <script>
 

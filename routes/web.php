@@ -97,7 +97,7 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::get("admin/template_dokumen/update/{id}", [TemplateDokumen::class, 'update_template'])->name('admin.template_dokumen.update');
     Route::get("admin/template_dokumen/delete/{id}", [TemplateDokumen::class, 'delete_template'])->name('admin.template_dokumen.delete');
 
-    
+
     Route::get('/admin/rekap_dokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
 
 });
@@ -112,6 +112,8 @@ Route::middleware(['auth', 'role:pimpinan'])->group(function () {
 
     Route::get('/pimpinan/arsipKeluar', [ArsipKeluarController::class, 'monitoring_arsip_keluar'])->name('pimpinan.arsipKeluar');
     Route::get('/pimpinan/arsipKeluar/print/{id}', [ArsipKeluarController::class, 'print'])->name('pimpinan.arsipKeluar.print');
+    // Route::post('/pimpinan/arsipKeluar/tambahAlasan', [ArsipKeluarController::class, 'insert_alasan'])->name('pimpinan.arsipKeluar.tambahAlasan');
+
 
     Route::get('/pimpinan/rekapDokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('pimpinan.rekapDokumen');
 });

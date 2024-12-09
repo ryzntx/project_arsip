@@ -8,10 +8,13 @@
             <div class="inner-body">
 
                 <!-- Page Header -->
-                <div class="page-header">
-                    <div>
-                        <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue">LAPORAN DOKUMEN</h2>
-                    </div>
+                <div class="page-header text-center" style="margin-bottom: 20px;">
+
+                        <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                            <i class="fas fa-book" style="margin-right: 10px; font-size: 28px;"></i>
+                            LAPORAN
+                        </h2>
+
                     <div class="d-flex">
                         <div class="justify-content-center">
 

@@ -14,9 +14,12 @@
         <div class="inner-body">
 
             <!-- Page Header -->
-            <div class="page-header">
+            <div class="page-header text-center" style="margin-bottom: 20px;">
                 <div>
-                    <h2 class="main-content-label tx-24 mg-b-5" style="color:darkslateblue" >DOKUMEN MASUK</h2>
+                    <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                        <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
+                        ARSIP DOKUMEN
+                    </h2>
                 </div>
             </div>
             <!-- End Page Header -->
@@ -29,7 +32,7 @@
                         <div class="card-header  border-bottom-0 pb-0">
                             <div>
                                 <div class="d-flex">
-                                    <label class="main-content-label my-auto pt-2">ARSIP DOKUMEN MASUK</label>
+                                    <label class="main-content-label my-auto pt-2">DOKUMEN MASUK</label>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +54,7 @@
                                         <tr style="text-align: center;">
                                             <td>{{ $loop->iteration }}</td>
                                             <td class="text-wrap"
-                                                onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_masuk }}', '{{ $item->lampiran }}')">
                                                 {{ $item->nama_dokumen }}</td>
                                             <td>{{ $item->instansi->singkatan_instansi }}</td>
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
@@ -59,16 +62,17 @@
                                             <td>
                                                 <div class="d-flex justify-content-center gap-1">
                                                     <a href="{{ route('admin.arsip_masuk.print', $item->id) }}"
-                                                        target="_blank" class="btn btn-primary btn-sm">Cetak</a>
+                                                        target="_blank" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-print"></i>
+                                                    </a>
                                                     <a href="{{ route('admin.arsip_masuk.edit', $item->id) }}"
                                                         class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete{{ $item->id }}">
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="showDelete({{ $item->id }})">
                                                         <i class="fe fe-trash"></i>
                                                     </button>
                                                 </div>
                                             </td>
                                         </tr>
-
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -82,35 +86,37 @@
     </div>
 </div>
 
-    @foreach ($arsip_masuk as $item)
-        <div class="modal modal-danger fade" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-l">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">{{ $item->nama_dokumen }}</h4>
+    {{-- @foreach ($arsip_masuk as $item)
+    <div class="modal" id="delete{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-l">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Hapus Data</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Hapus {{ $item->nama_dokumen }}</h5>
+                        <p>Apakah anda yakin ingin menghapus data ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ url('/admin/arsip_masuk/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
+                        <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
-                  <a href="{{ url('/admin/arsip_masuk/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-                </div>
-              </div>
-              <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->
-          </div>
-    @endforeach
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+
+    @endforeach --}}
 
     <!-- Modal -->
     <div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="lihatPDFLabel">Detail Dokumen</h5>
+                    <h5 class="modal-title" id="lihatPDFLabel" style="font-weight: bold; font-size: 24px;">
+                        <i class="fas fa-file-pdf" style="margin-right: 10px;"></i>
+                        Detail Dokumen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -152,15 +158,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
-                            class="fa fa-file-download me-2"></i>Unduh PDF</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
-                            class="fa fa-x me-2"></i>Tutup</button>
-                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function showDelete(id) {
+            Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Menghapus Data" + " " +"{{ $item->nama_dokumen }}",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+            backdrop: true,  // Mengaktifkan backdrop
+            allowOutsideClick: false // Mencegah penutupan jika klik di luar modal
+            }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ url('/admin/arsip_masuk/delete/') }}/" + id;
+                Swal.fire({
+                title: "Hapus Data!",
+                text: "Data berhasil dihapus",
+                icon: "success",
+                timer: 1500, // Menampilkan pesan selama 1.5 detik
+                showConfirmButton: false // Sembunyikan tombol konfirmasi
+                });
+            }
+        });
+        }
+
+    </script>
     <script type="module">
     $('#dokumenMasuk-tabel').DataTable({
         "responsive": true,

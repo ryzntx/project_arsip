@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\DokumenKategori;
 use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
+use App\Models\Instansi;
 
 class PimpinanController extends Controller {
     public function dashboard() {
