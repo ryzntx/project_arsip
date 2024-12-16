@@ -38,10 +38,7 @@
                                 </div>
                             </div>
                             <div class="profile-tab tab-menu-heading" style="margin-top: 100px;">
-                                {{-- <nav class="nav main-nav-line p-3 tabs-menu profile-nav-line bg-gray-100">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#about">About</a>
-                                    <a class="nav-link" data-bs-toggle="tab" href="#settings">Account Settings</a>
-                                </nav> --}}
+
                             </div>
                         </div>
                     </div>
@@ -98,6 +95,20 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if (auth()->user()->role === 'pimpinan')
+                                        <div class="form-group ">
+                                            <div class="row row-sm">
+                                                <div class="col-md-3">
+                                                    <label class="form-label">File Tanda Tangan</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="file" class="form-control"
+                                                        placeholder="File Tanda Tangan" name="ttd_path"
+                                                        accept="iamge/*">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
                                         <button type="submit" class="btn btn-primary rounded-5">Simpan</button>
                                     </form>
                                 </div>
