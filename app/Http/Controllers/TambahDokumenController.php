@@ -8,23 +8,20 @@ use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
 use App\Models\DokumenTemplate;
 use App\Models\Instansi;
-use App\Models\PdfDocument;
-use App\Notifications\SignDocumentKeluars;
 use App\OfficeConverter;
 use App\PdfOptimzer;
+use App\TagPrefixFixer;
 use DateTime;
 use DateTimeZone;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Shared\Html;
 use Spatie\PdfToText\Pdf;
 
 class TambahDokumenController extends Controller {
-
-    // protected $pdfToTextPath = 'C:\poppler-24.08.0\Library\bin\pdftotext';
-    protected $pdfToTextPath = 'C:/laragon/bin/git/mingw64/bin/pdftotext';
-    protected $gsPath = '/c/Program Files/gs/gs10.04.0/bin/gswin64c';
-    protected $libreOfficePath = 'C:/Program Files/LibreOffice/program/soffice';
 
     /**
      * Menampilkan halaman tambah_dokumen
@@ -111,7 +108,7 @@ class TambahDokumenController extends Controller {
      * 11. Menyimpan konten PDF ke dalam tabel 'pdf_documents'.
      * 12. Membuat record 'DokumenMasuk' baru di database dengan array data.
      */
-    protected function __simpanDokumenMasuk($request): DokumenMasuk {
+    protected function __simpanDokumenMasuk($request): DokumenMasuk | RedirectResponse {
         // dd($request);
 
         // Mendapatkan tanggal dan waktu saat ini di zona waktu Asia/Jakarta
@@ -142,7 +139,7 @@ class TambahDokumenController extends Controller {
             $nama_dokumen = preg_replace("/\s+/", "_", $request->nama_dokumen);
 
             // Membuat nama file baru dengan format tanggal dan waktu saat ini
-            $file_name = $nama_dokumen . "_" . $dtFormat;
+            $file_name = $nama_dokumen . "_" . $dtFormat . "." . $file->getClientOriginalExtension();
 
             // Memeriksa apakah file yang diunggah adalah file dokumen yang valid (DOC atau DOCX)
             if ($this->__cekFileDokumen($file)) {
@@ -188,17 +185,13 @@ class TambahDokumenController extends Controller {
         }
         // Get content from pdf
         $content = Pdf::getText(
-            Storage::disk("public")->path($data["lampiran"]), $this->pdfToTextPath
+            Storage::disk("public")->path($data["lampiran"]), config('libpath.pdf_to_text_path')
         );
         // Remove special characters
         $content = preg_replace('/[^A-Za-z0-9\s]/', '', $content);
         $content = Str::limit($content, 60000);
-        // Insert to pdf_documents table
-        PdfDocument::insert([
-            "title" => $data["nama_dokumen"],
-            "content" => $content,
-            "file_name" => $data["lampiran"],
-        ]);
+
+        $data['pdf_content'] = $content;
         // Membuat record 'DokumenMasuk' baru di database dengan array data
         return DokumenMasuk::create($data);
     }
@@ -235,7 +228,7 @@ class TambahDokumenController extends Controller {
      * 11. Menyimpan konten PDF ke dalam tabel 'pdf_documents'.
      * 12. Membuat record 'DokumenKeluar' baru di database dengan array data.
      */
-    protected function __simpanDokumenKeluar($request): DokumenKeluar {
+    protected function __simpanDokumenKeluar($request): DokumenKeluar | RedirectResponse {
         // Mendapatkan tanggal dan waktu saat ini di zona waktu Asia/Jakarta
         $dateTime = new DateTime("now", new DateTimeZone("Asia/Jakarta"));
         $dtFormat = $dateTime->format("dmY_His");
@@ -250,97 +243,101 @@ class TambahDokumenController extends Controller {
             "status" =>
             $request->pengajuan_ke_pimpinan == "ya"
             ? "Menunggu Persetujuan"
-            : "Menunggu Dikirim",
+            : "Dikirimkan",
             "persetujuan" => $request->pengajuan_ke_pimpinan,
             "instansi_id" => $request->dinas_id,
             "dokumen_kategori_id" => $request->kategori_id,
             "user_id" => auth()->user()->id,
         ];
 
+        // Nama file menggunakan nama_dokumen yang sudah dirubah (mengganti spasi dengan underscore) dan ditambahkan dengan waktu
+        $nama_dokumen = preg_replace("/\s+/", "_", $request->nama_dokumen);
+
         // Memeriksa apakah file diunggah dan merupakan file dokumen yang valid
-        if (
-            $request->hasFile("file_dokumen") &&
-            $request->file("file_dokumen")->isValid()
-        ) {
+        if ($request->hasFile("file_dokumen") && $request->file("file_dokumen")->isValid()) {
             // Mendapatkan file yang diunggah dari request
             $file = $request->file("file_dokumen");
 
-            // Nama file menggunakan nama_dokumen yang sudah dirubah (mengganti spasi dengan underscore) dan ditambahkan dengan waktu
-            $nama_dokumen = preg_replace(
-                "/\s+/",
-                "_",
-                $request->nama_dokumen
-            );
-
             // Membuat nama file baru dengan format tanggal dan waktu saat ini
-            $file_name = $nama_dokumen . "_" . $dtFormat;
+            $file_name = $nama_dokumen . "_" . $dtFormat . "." . $file->getClientOriginalExtension();
 
             // Memeriksa apakah file yang diunggah adalah file dokumen yang valid (DOC atau DOCX)
             if ($this->__cekFileDokumen($file)) {
                 // Mengunggah file DOCX ke penyimpanan publik
                 $uploadPath = $file->storeAs("dokumen/keluar", $file_name, "public");
 
-                // Mengonversi file DOCX yang diunggah ke PDF
-                $convert = new OfficeConverter(storage_path("app/public/" . $uploadPath));
-                $pdfFileName = pathinfo($convert->convertTo($file_name . '.pdf'), PATHINFO_FILENAME) . '.pdf';
-
-                // Menghapus file DOCX yang diunggah
-                Storage::disk("public")->delete($uploadPath);
-
-                // Mengompres dan mengoptimalkan file PDF yang telah dikonversi
-                $pdfFileCompress = new PdfOptimzer(storage_path("app/public/dokumen/keluar/" . $pdfFileName), storage_path("app/public/dokumen/keluar"));
-                $pdfCompressName = $pdfFileCompress->convertPdf();
-
-                // Menghapus file PDF yang telah dikonversi
-                Storage::disk("public")->delete("dokumen/keluar/" . $pdfFileName);
-
                 // Mengatur field 'lampiran' dalam array data ke nama file PDF yang telah dikompres dan dioptimalkan
-                $data["lampiran"] = "dokumen/keluar/" . pathinfo($pdfCompressName, PATHINFO_FILENAME) . ".pdf";
+                $data["lampiran"] = "dokumen/keluar/" . pathinfo($uploadPath, PATHINFO_FILENAME) . "." . $file->getClientOriginalExtension();
 
-            } elseif ($file->getClientOriginalExtension() == "pdf") {
-                // Mengunggah file PDF ke penyimpanan publik
-                $uploadPath = $file->storeAs("dokumen/keluar", $file_name . '.pdf', "public");
-
-                // Mengompres dan mengoptimalkan file PDF yang diunggah
-                $pdfFileCompress = new PdfOptimzer(storage_path("app/public/" . $uploadPath), storage_path("app/public/dokumen/keluar"));
-                $pdfCompressName = $pdfFileCompress->convertPdf();
-
-                // Menghapus file PDF yang diunggah
-                Storage::disk("public")->delete($uploadPath);
-
-                // Mengatur field 'lampiran' dalam array data ke nama file PDF yang telah dikompres dan dioptimalkan
-                $data["lampiran"] = "dokumen/keluar/" . pathinfo($pdfCompressName, PATHINFO_FILENAME) . ".pdf";
             } else {
                 // Mengembalikan redirect dengan pesan kesalahan
                 return redirect()->back()->with("error", "File yang diunggah harus berupa file dokumen (DOC, DOCX, atau PDF)!")->withInput();
             }
+
+            // cek jika file template di pilih
+        } elseif ($request->pilihTemplate != null || $request->pilihTemplate != '') {
+            $hasil = $this->__prosesTemplateDokumen($request, $nama_dokumen . "_" . $dtFormat);
+            $data["lampiran"] = $hasil;
         } else {
             // Mengembalikan redirect dengan pesan kesalahan
             return redirect()->back()->with("error", "File dokumen harus diunggah!")->withInput();
         }
-        // Get content from pdf
-        $content = Pdf::getText(
-            Storage::disk("public")->path($data["lampiran"]), $this->pdfToTextPath
-        );
-        // Remove special characters
-        $content = preg_replace('/[^A-Za-z0-9\s]/', '', $content);
-        $content = Str::limit($content, 60000);
-        // Insert to pdf_documents table
-        PdfDocument::insert([
-            "title" => $data["nama_dokumen"],
-            "content" => $content,
-            "file_name" => $data["lampiran"],
-        ]);
+
+        // dd($request->all());
+
         if ($request->pengajuan_ke_pimpinan == "ya") {
             // Mengirim notifikasi ke telegram
-            $user = auth()->user();
-            $user->notify(new SignDocumentKeluars('+6285603391954'));
+            // $user = auth()->user();
+            // $user->notify(new SignDocumentKeluars('+6285603391954'));
             /*
          * 608092781 === ID Chat Telegram
          */
         }
         // Membuat record 'DokumenKeluar' baru di database dengan array data
         return DokumenKeluar::create($data);
+    }
+
+    protected function __prosesTemplateDokumen(Request $request, $nama_dokumen): string | RedirectResponse {
+        $fileTemplate = DokumenTemplate::findOrFail($request->pilihTemplate)->file;
+
+        // memulai proses template
+        $template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('app/public/' . $fileTemplate));
+
+        // inisialisasi section
+        $htmlSection = new Section(0);
+
+        // cek jika ada konten yang dikirimkan
+        if ($request->var_KONTEN !== null || $request->var_ISISURAT !== null) {
+            // tambahkan konten ke section
+            Html::addHtml($htmlSection, TagPrefixFixer::addNamespaces($request->var_KONTEN));
+        }
+
+        // lakukan perulangan dengan form yang dikirimkan
+        foreach ($request->all() as $key => $value) {
+            if (Str::startsWith($key, 'var_')) {
+                // hapus var_ karakter
+                $key = substr($key, 4);
+                if ($key === 'KONTEN' || $key === 'ISI_SURAT' || $key === 'ISI-SURAT' || $key === 'ISI SURAT' || $key === 'ISISURAT') {
+                    $template->setComplexBlock($key, $htmlSection);
+                } else {
+                    $template->setValue($key, $value);
+                }
+            }
+        }
+        $lokasiFile = 'dokumen/keluar/' . $nama_dokumen . '.docx';
+        try {
+            // cek folder dokumen keluar
+            if (!Storage::disk('public')->exists('dokumen/keluar')) {
+                Storage::disk('public')->makeDirectory('dokumen/keluar');
+            }
+            // simpan file
+            $template->saveAs(storage_path('app/public/' . $lokasiFile));
+        } catch (\Exception $e) {
+            // Mengembalikan redirect dengan pesan kesalahan
+            return redirect()->back()->with("error", "Gagal memproses dokumen!, Error: " . $e)->withInput();
+        }
+        // return nama file
+        return $lokasiFile;
     }
 
     /**

@@ -70,7 +70,6 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::get("/admin/tambah_dokumen", [TambahDokumenController::class, "tambah_dokumen"])->name("admin.tambah_dokumen");
 
     Route::post("/admin/tambah_dokumen/insert", [TambahDokumenController::class, "simpan"])->name("admin.simpan");
-
     Route::get('/admin/tambah_dokumen/ambiltemplate/{id}', [TambahDokumenController::class, 'jsonGetDataDokTemplate'])->name('admin.ambil_template');
 
     Route::get('/admin/arsip_masuk', [ArsipMasukController::class, 'kelola_arsip_masuk'])->name('admin.arsip_masuk');
@@ -88,7 +87,6 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     // Route::get("/admin/arsip_keluar/add", [ArsipKeluarController::class, "add_bukti"])->name("admin.arsip_keluar.add");
     Route::post("/admin/arsip_keluar/tambah_bukti/{id}", [ArsipKeluarController::class, "insert_bukti"])->name("admin.arsip_keluar.bukti");
 
-
     Route::get("admin/template_dokumen", [TemplateDokumen::class, 'kelola_template'])->name('admin.template_dokumen');
     Route::get("admin/template_dokumen/add", [TemplateDokumen::class, 'add_template'])->name('admin.template_dokumen.add');
     Route::post("admin/template_dokumen/insert", [TemplateDokumen::class, 'simpan'])->name('admin.template_dokumen.insert');
@@ -97,7 +95,6 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::get("admin/template_dokumen/update/{id}", [TemplateDokumen::class, 'update_template'])->name('admin.template_dokumen.update');
     Route::get("admin/template_dokumen/delete/{id}", [TemplateDokumen::class, 'delete_template'])->name('admin.template_dokumen.delete');
 
-    
     Route::get('/admin/rekap_dokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('admin.rekap_dokumen');
 
 });
@@ -111,6 +108,7 @@ Route::middleware(['auth', 'role:pimpinan'])->group(function () {
     Route::get('/pimpinan/arsipMasuk/print/{id}', [ArsipMasukController::class, 'print'])->name('pimpinan.arsipMasuk.print');
 
     Route::get('/pimpinan/arsipKeluar', [ArsipKeluarController::class, 'monitoring_arsip_keluar'])->name('pimpinan.arsipKeluar');
+    Route::get('/pimpinan/arsipKeluar/persetujuan_arsip_keluar/{id}', [ArsipKeluarController::class, 'persetujuan_arsip_keluar'])->name('pimpinan.arsipKeluar.persetujuan_arsip_keluar');
     Route::get('/pimpinan/arsipKeluar/print/{id}', [ArsipKeluarController::class, 'print'])->name('pimpinan.arsipKeluar.print');
 
     Route::get('/pimpinan/rekapDokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('pimpinan.rekapDokumen');

@@ -92,11 +92,13 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="#"
+                                                        @if ($item->status == 'Dikirimkan' || $item->status == 'Selesai')
+                                                            <a href="#"
                                                             class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
                                                             id="BuktiTerima" data-bs-toggle="modal"
                                                             data-bs-target="#tambahBuktiterima{{ $item->id }}">
                                                             Bukti Terima</a>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         <div class="gap-1 d-flex justify-content-center">

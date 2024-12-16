@@ -46,68 +46,66 @@
                                         @foreach ($arsip_keluar as $item)
                                         <tr style="text-align: center;">
                                             <td>{{ $loop->iteration }}</td>
-                                            <td class="text-wrap" onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">{{ $item->nama_dokumen }}</td>
+                                            <td class="text-wrap"
+                                                onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                {{ $item->nama_dokumen }}</td>
                                             <td>{{ $item->instansi->singkatan_instansi }}</td>
                                             <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                             <td>{{ $item->tanggal_keluar }}</td>
                                             <td class="d-flex flex-column">
-                                                        @if ($item->persetujuan == 'ya')
-                                                            <span
-                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center">
-                                                                Perlu Tanda Tangan
-                                                            </span>
-                                                        @endif
-                                                        @if ($item->status == 'Menunggu Persetujuan')
-                                                            <span
-                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center">
-                                                                Menunggu Persetujuan
-                                                            </span>
-                                                        @elseif ($item->status == 'Disetujui')
-                                                            <span
-                                                                class="text-white align-middle badge bg-success align-items-center align-content-center">
-                                                                Disetujui
-                                                            </span>
-                                                        @elseif ($item->status == 'Ditolak')
-                                                            <span
-                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center">
-                                                                Ditolak
-                                                            </span>
-                                                        @elseif ($item->status == 'Menunggu Dikirim')
-                                                            <span
-                                                                class="text-white align-middle badge bg-info align-items-center align-content-center">
-                                                                Menunggu Dikirim
-                                                            </span>
-                                                        @elseif ($item->status == 'Dikirimkan')
-                                                            <span
-                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center">
-                                                                Dikirimkan
-                                                            </span>
-                                                        @endif
-                                                    </td>
+                                                @if ($item->persetujuan == 'ya')
+                                                <span
+                                                    class="text-white align-middle badge bg-warning align-items-center align-content-center">
+                                                    Perlu Tanda Tangan
+                                                </span>
+                                                @endif
+                                                @if ($item->status == 'Menunggu Persetujuan')
+                                                <span
+                                                    class="text-white align-middle badge bg-secondary align-items-center align-content-center">
+                                                    Menunggu Persetujuan
+                                                </span>
+                                                @elseif ($item->status == 'Disetujui')
+                                                <span
+                                                    class="text-white align-middle badge bg-success align-items-center align-content-center">
+                                                    Disetujui
+                                                </span>
+                                                @elseif ($item->status == 'Ditolak')
+                                                <span
+                                                    class="text-white align-middle badge bg-danger align-items-center align-content-center">
+                                                    Ditolak
+                                                </span>
+                                                @elseif ($item->status == 'Menunggu Dikirim')
+                                                <span
+                                                    class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                    Menunggu Dikirim
+                                                </span>
+                                                @elseif ($item->status == 'Dikirimkan')
+                                                <span
+                                                    class="text-white align-middle badge bg-info align-items-center align-content-center">
+                                                    Dikirimkan
+                                                </span>
+                                                @elseif ($item->status == 'Selesai')
+                                                <span
+                                                    class="text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                    Selesai
+                                                </span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($item->bukti_dikirimkan)
-                                                    <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" alt="Bukti Diterima" style="max-width: 100px; max-height: 100px;">
+                                                <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}"
+                                                    alt="Bukti Diterima" style="max-width: 100px; max-height: 100px;">
                                                 @else
-                                                    <span class="text-danger">Tidak ada bukti</span>
+                                                <span class="text-danger">Tidak ada bukti</span>
                                                 @endif
                                             </td>
                                             <td class="gap-1 d-flex justify-content-center">
                                                 <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
                                                     target="_blank" class="btn btn-primary btn-sm">Cetak</a>
                                                 @if ($item->persetujuan == 'ya')
-                                                    <a href="#" target="_blank" class="btn btn-warning btn-sm">
-                                                        Tandatangani Dokumen</a>
+                                                <a href="{{route('pimpinan.arsipKeluar.persetujuan_arsip_keluar', $item->id)}}" class="btn btn-warning btn-sm">
+                                                    Tanda Tangani Dokumen</a>
                                                 @endif
-
-                                                <!-- <div class="confirm-dropdown-sm">
-                                                    <div class="dropdown">
-                                                        <select  id="confirm-dropdown" class="btn btn-info btn-sm dropdown-toggle">
-                                                            <option value="" selected>Konfimasi Status </option>
-                                                            <option value="terima">Disetujui</option>
-                                                            <option value="tolak">Ditolak</option>
-                                                        </select>
-                                                    </div>
-                                                </div> -->
                                             </td>
                                         </tr>
 
@@ -172,61 +170,60 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i class="fa fa-file-download me-2"></i>Unduh PDF</a>
+                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
+                        class="fa fa-file-download me-2"></i>Unduh PDF</a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+$('#dokumenKeluar-tabel').DataTable({
+    "responsive": true,
+    "autoWidth": true,
+});
 
-    $('#dokumenKeluar-tabel').DataTable({
-        "responsive": true,
-        "autoWidth": true,
-    });
-
-    function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
-        // kita siapin dulu nih variabel nya
-        var tabel = document.getElementById(
+function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
+    // kita siapin dulu nih variabel nya
+    var tabel = document.getElementById(
         'dokumenKeluar-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
-        var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
+    var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
 
-        // Fungsi untuk menampilkan/menutup right-panel
-        // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
-        if (tabel.classList.contains('selected')) {
-            // Toggle modal to show
-            modal.hide();
-            // Kalau ada kita hapus dulu
-            tabel.classList.remove('selected');
-        } else {
-            modal.show();
-            // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
-            // tapi dengan cara kita cek di setiap baris tabel nya
-            document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function (row) {
-                // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
-                row.classList.remove('selected');
-            });
-            // trus tambahin lagi class selected nya deh
-            // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
-            tabel.classList.add('selected');
+    // Fungsi untuk menampilkan/menutup right-panel
+    // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
+    if (tabel.classList.contains('selected')) {
+        // Toggle modal to show
+        modal.hide();
+        // Kalau ada kita hapus dulu
+        tabel.classList.remove('selected');
+    } else {
+        modal.show();
+        // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
+        // tapi dengan cara kita cek di setiap baris tabel nya
+        document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function(row) {
+            // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
+            row.classList.remove('selected');
+        });
+        // trus tambahin lagi class selected nya deh
+        // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
+        tabel.classList.add('selected');
 
-        }
-
-        // trus kita tampilin deh data nya ke right-panel
-        document.getElementById('kategori_dokumen').value = kategori_dokumen;
-        document.getElementById('nama_dokumen').value = nama_dokumen;
-        document.getElementById('penerima').value = penerima;
-        document.getElementById('pengirim').value = pengirim;
-        document.getElementById('dinas').value = dinas;
-        document.getElementById('tanggal_keluar').value = tanggal;
-
-
-        // Menampilkan PDF di iframe
-        var viewer = document.getElementById('pdf-viewer');
-        viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
-
-        // udah deh segitu aja
     }
 
+    // trus kita tampilin deh data nya ke right-panel
+    document.getElementById('kategori_dokumen').value = kategori_dokumen;
+    document.getElementById('nama_dokumen').value = nama_dokumen;
+    document.getElementById('penerima').value = penerima;
+    document.getElementById('pengirim').value = pengirim;
+    document.getElementById('dinas').value = dinas;
+    document.getElementById('tanggal_keluar').value = tanggal;
+
+
+    // Menampilkan PDF di iframe
+    var viewer = document.getElementById('pdf-viewer');
+    viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
+
+    // udah deh segitu aja
+}
 </script>
 @endsection
