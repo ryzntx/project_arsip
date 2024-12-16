@@ -232,7 +232,7 @@
                                                                 <div class="d-inline-block">
                                                                     <h6 class="mb-2 fs-15 fw-semibold">
                                                                         {{ $item->type }}<i
-                                                                            class="fas {{ $item->type === 'Dokumen Masuk' ? 'fa-level-down-alt' : 'fa-level-down-alt' }} ms-2 text-success m-l-10"></i>
+                                                                            class="fas {{ $item->type === 'Dokumen Masuk' ? 'fa-level-down-alt' : 'fa-level-up-alt' }} ms-2 text-success m-l-10"></i>
                                                                     </h6>
                                                                     <p class="mb-0 tx-11 text-muted">
                                                                         {{ $item->created_at->format('d M Y') }}</p>
