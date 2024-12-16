@@ -31,7 +31,7 @@ trait OfficeProcessor {
                         // echo "Text :" . $text->getText() . "<br>";
                         if (strpos($text->getText(), '${') !== false) {
                             // echo "Text: " . ($text->getText()) . "<br>";
-                            $dataVar[] = preg_replace('/[^A-Za-z0-9\-]/', '', $text->getText());
+                            $dataVar[] = preg_replace('/[^A-Za-z0-9\-_]/', '', $text->getText());
                         }
                     }
                 }
@@ -41,7 +41,7 @@ trait OfficeProcessor {
                         // echo "Text :" . $text->getText() . "<br>";
                         if (strpos($text->getText(), '${') !== false) {
                             // echo "Text: " . ($text->getText()) . "<br>";
-                            $dataVar[] = preg_replace('/[^A-Za-z0-9\-]/', '', $text->getText());
+                            $dataVar[] = preg_replace('/[^A-Za-z0-9\-_]/', '', $text->getText());
                         }
                     }
                 }
@@ -50,11 +50,11 @@ trait OfficeProcessor {
         return $dataVar;
     }
 
-    public function ambilVariabelTemplateDalamTable($lokasiFile) {
+    public function ambilVariabelTemplateDalamTable($lokasiTemplate) {
         // Open the Docx file
         $dataVar = [];
         $reader = \PhpOffice\PhpWord\IOFactory::createReader('Word2007');
-        $phpWord = $reader->load(storage_path('app/public/' . $lokasiFile));
+        $phpWord = $reader->load(storage_path('app/public/' . $lokasiTemplate));
 
         $section = $phpWord->getSections();
         // dd($section);
