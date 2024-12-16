@@ -1,8 +1,8 @@
--   Pencarian Cerdas [3/4]
+-   Pencarian Cerdas [4/4]
 
     -   Filter Pencarian
 
--   Template Dokumen Keluar [2/5] [CRUD DONE]
+-   Template Dokumen Keluar [4/5] [CRUD DONE]
 
     -   Kelola Template
         -   CRUD
@@ -16,9 +16,9 @@
     -   Filter (Tanggal[hari, bulan, tahun], Kategori Surat, Instansi, Jenis Surat [Keluar, Masuk], )
     -   Cetak Rekap Arsip
 
--   Persetujuan Pimpinan
+-   Persetujuan Pimpinan [4/4]
 
-    -   Tanda Tangan
+    -   Tanda Tangan [DONE]
 
 -   Infografis Dashboard [4/4] [DONE]
 
