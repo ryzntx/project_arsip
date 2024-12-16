@@ -11,6 +11,7 @@ use App\Models\Instansi;
 use App\OfficeConverter;
 use App\PdfOptimzer;
 use App\TagPrefixFixer;
+use App\TemplateProcessor;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\RedirectResponse;
@@ -301,7 +302,7 @@ class TambahDokumenController extends Controller {
         $fileTemplate = DokumenTemplate::findOrFail($request->pilihTemplate)->file;
 
         // memulai proses template
-        $template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('app/public/' . $fileTemplate));
+        $template = new TemplateProcessor(storage_path('app/public/' . $fileTemplate));
 
         // inisialisasi section
         $htmlSection = new Section(0);
