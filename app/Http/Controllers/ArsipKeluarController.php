@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\DokumenKategori;
-use App\Models\DokumenKeluar;
+use App\PdfOptimzer;
 use App\Models\Instansi;
-use Illuminate\Http\Request;
+use App\OfficeConverter;
+use Spatie\PdfToText\Pdf;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\DokumenKeluar;
+use App\Models\DokumenKategori;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ArsipKeluarController extends Controller {
 
@@ -100,4 +104,73 @@ class ArsipKeluarController extends Controller {
     //     return redirect()->back()->with('success', 'Bukti terima berhasil ditambahkan');
 
     // }
+
+    public function persetujuan_arsip_keluar($id) {
+        $arsip_keluar = DokumenKeluar::findOrFail($id);
+        $hasilTtd = $this->__templateProcessorImage($arsip_keluar->lampiran);
+
+        $file_name = pathinfo($arsip_keluar->lampiran, PATHINFO_FILENAME);
+
+        // Mengonversi file DOCX yang dirubah ke PDF
+        $convert = new OfficeConverter(storage_path("app/public/" . $hasilTtd));
+        $pdfFileName = pathinfo($convert->convertTo($file_name . '.pdf'), PATHINFO_FILENAME) . '.pdf';
+
+        // Menghapus file DOCX yang dirubah
+        Storage::disk("public")->delete($hasilTtd);
+
+        // Mengompres dan mengoptimalkan file PDF yang telah dikonversi
+        $pdfFileCompress = new PdfOptimzer(storage_path("app/public/dokumen/keluar/" . $pdfFileName), storage_path("app/public/dokumen/keluar"));
+        $pdfCompressName = $pdfFileCompress->convertPdf();
+
+        // Menghapus file PDF yang telah dikonversi
+        Storage::disk("public")->delete("dokumen/keluar/" . $pdfFileName);
+
+        // Menyimpan file PDF yang telah dikompres
+        $lampiran = "dokumen/keluar/" . pathinfo($pdfCompressName, PATHINFO_FILENAME) . ".pdf";
+
+        // Get content from pdf
+        $content = Pdf::getText(
+            Storage::disk("public")->path($lampiran), config('libpath.pdf_to_text_path')
+        );
+        // Remove special characters
+        $content = preg_replace('/[^A-Za-z0-9\s]/', '', $content);
+
+        $content = Str::limit($content, 60000);
+
+        // Update status dokumen keluar
+        $arsip_keluar->update([
+            'status' => 'Dikirimkan',
+            'persetujuan' => 'tidak',
+            'lampiran' => $lampiran,
+            'pdf_content' => $content,
+        ]);
+
+        return redirect()->back()->with('pesan', 'Data berhasil disetujui!');
+    }
+
+    protected function __templateProcessorImage($file) {
+        // Membuat instance TemplateProcessor baru dengan file template yang ditentukan
+        $template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('app/public/' . $file));
+
+        // Ambil gambar tanda tangan dari user yang sedang login
+        $ttd = auth()->user()->ttd_path;
+
+        if($ttd == null) {
+            return redirect()->back()->with('error', 'Tanda tangan belum diatur!, Silahkan atur tanda tangan terlebih dahulu di menu profil');
+        }
+        // Mengatur nilai gambar untuk placeholder 'TTD' dengan path, lebar, tinggi, dan rasio yang ditentukan
+        $template->setImageValue('TTD', [
+            'path' => storage_path('app/public/' . $ttd),
+            'width' => 100,
+            'height' => 100,
+            'ratio' => false,
+        ]);
+
+        // Menyimpan template yang telah dimodifikasi ke path file yang ditentukan
+        $template->saveAs(storage_path('app/public/' . $file));
+
+        // Mengembalikan path file dari template yang telah disimpan
+        return $file;
+    }
+    // FITUR USER
 }

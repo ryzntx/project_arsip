@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <meta name="description" content="Spruha -  Admin Panel HTML Dashboard assets">
-    <meta name="author" content="Spruko Technologies Private Limited">
-    <meta name="keywords"
-        content="admin,dashboard,panel,bootstrap admin assets,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin assets,themeforest admin dashboard,cool admin,it dashboard,admin design,dash assetss,saas dashboard,dmin ui design">
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+        <meta name="description" content="Spruha -  Admin Panel HTML Dashboard assets">
+        <meta name="author" content="Spruko Technologies Private Limited">
+        <meta name="keywords"
+            content="admin,dashboard,panel,bootstrap admin assets,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin assets,themeforest admin dashboard,cool admin,it dashboard,admin design,dash assetss,saas dashboard,dmin ui design">
 
-    <!-- Favicon -->
-    <link rel="icon" href="{{ asset('assets') }}/img/brand/favicon.ico" type="image/x-icon" />
+        <!-- Favicon -->
+        <link rel="icon" href="{{ asset('assets') }}/img/brand/favicon.ico" type="image/x-icon" />
 
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -21,37 +21,42 @@
 
     <!-- Title -->
     <title>User | @yield('title')</title>
+        <!-- Title -->
+        <title>User | @yield('title')</title>
 
-    <!-- Bootstrap css-->
-    <link id="style" href="{{ asset('assets') }}/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- Bootstrap css-->
+        <link id="style" href="{{ asset('assets') }}/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Icons css-->
-    <link href="{{ asset('assets') }}/plugins/web-fonts/icons.css" rel="stylesheet" />
-    <link href="{{ asset('assets') }}/plugins/web-fonts/font-awesome/font-awesome.min.css" rel="stylesheet">
-    <link href="{{ asset('assets') }}/plugins/web-fonts/plugin.css" rel="stylesheet" />
+        <!-- Icons css-->
+        <link href="{{ asset('assets') }}/plugins/web-fonts/icons.css" rel="stylesheet" />
+        <link href="{{ asset('assets') }}/plugins/web-fonts/font-awesome/font-awesome.min.css" rel="stylesheet">
+        <link href="{{ asset('assets') }}/plugins/web-fonts/plugin.css" rel="stylesheet" />
 
-    <!-- Style css-->
-    <link href="{{ asset('assets') }}/css/style.css" rel="stylesheet">
+        <!-- Style css-->
+        <link href="{{ asset('assets') }}/css/style.css" rel="stylesheet">
 
-    <!-- Select2 css -->
-    <link href="{{ asset('assets') }}/plugins/select2/css/select2.min.css" rel="stylesheet">
+        <!-- Select2 css -->
+        <link href="{{ asset('assets') }}/plugins/select2/css/select2.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/datatables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/responsive.dataTables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/datatables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/buttons.dataTables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/datatable/responsive.dataTables.min.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/plugins/docx-viewer/dist/thumbnail.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/docx-viewer/dist/thumbnail.css') }}">
 
-    <!-- Datepicker -->
-    <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.css') }}" rel="stylesheet" />
+        <!-- Datepicker -->
+        <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.css') }}" rel="stylesheet" />
 
-    <!-- Daterange Picker -->
-    <link href="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
+        <!-- Daterange Picker -->
+        <link href="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
 
-    <style>
+        <!-- Summernote -->
+        <link rel="stylesheet" href="{{asset('assets/plugins/summernote/summernote-bs5.min.css')}}">
+
+        <style>
         body.dt-print-view h1 {
             text-align: center;
             margin-top: 1em;
@@ -62,208 +67,219 @@
             font-size: 1.5em;
             margin-bottom: 1em;
         }
-    </style>
+        </style>
 
-</head>
+    </head>
 
-<body class="ltr main-body leftmenu">
+    <body class="ltr main-body leftmenu">
 
-    <!-- Loader -->
-    <div id="global-loader">
-        <img src="{{ asset('assets') }}/img/loader.svg" class="loader-img" alt="Loader">
-    </div>
-    <!-- End Loader -->
+        <!-- Loader -->
+        <div id="global-loader">
+            <img src="{{ asset('assets') }}/img/loader.svg" class="loader-img" alt="Loader">
+        </div>
+        <!-- End Loader -->
 
-    <!-- Page -->
-    <div class="page">
+        <!-- Page -->
+        <div class="page">
 
-        <!-- Main Header-->
-        <div class="sticky main-header side-header">
-            <div class="main-container container-fluid">
-                <div class="main-header-left">
-                    <a class="main-header-menu-icon" href="javascript:void(0)" id="mainSidebarToggle"><span></span></a>
-                    <div class="hor-logo">
-                        <a class="main-logo" href="index.html">
-                            <img src="{{ asset('assets') }}/img/brand/logo.png" class="header-brand-img desktop-logo"
-                                alt="logo">
-                            <img src="{{ asset('assets') }}/img/brand/logo-light.png"
-                                class="header-brand-img desktop-logo-dark" alt="logo">
-                        </a>
+            <!-- Main Header-->
+            <div class="sticky main-header side-header">
+                <div class="main-container container-fluid">
+                    <div class="main-header-left">
+                        <a class="main-header-menu-icon" href="javascript:void(0)"
+                            id="mainSidebarToggle"><span></span></a>
+                        <div class="hor-logo">
+                            <a class="main-logo" href="index.html">
+                                <img src="{{ asset('assets') }}/img/brand/logo.png"
+                                    class="header-brand-img desktop-logo" alt="logo">
+                                <img src="{{ asset('assets') }}/img/brand/logo-light.png"
+                                    class="header-brand-img desktop-logo-dark" alt="logo">
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="main-header-center">
-                    <div class="responsive-logo">
-                        <a href="index.html"><img src="{{ asset('assets') }}/img/brand/logo.png" class="mobile-logo"
-                                alt="logo"></a>
-                        <a href="index.html"><img src="{{ asset('assets') }}/img/brand/logo-light.png"
-                                class="mobile-logo-dark" alt="logo"></a>
+                    <div class="main-header-center">
+                        <div class="responsive-logo">
+                            <a href="index.html"><img src="{{ asset('assets') }}/img/brand/logo.png" class="mobile-logo"
+                                    alt="logo"></a>
+                            <a href="index.html"><img src="{{ asset('assets') }}/img/brand/logo-light.png"
+                                    class="mobile-logo-dark" alt="logo"></a>
+                        </div>
                     </div>
-                </div>
-                <div class="main-header-right">
-                    <button class="navbar-toggler navresponsive-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
-                    </button><!-- Navresponsive closed -->
+                    <div class="main-header-right">
+                        <button class="navbar-toggler navresponsive-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
+                        </button><!-- Navresponsive closed -->
 
-                    <div class="navbar navbar-expand-lg nav nav-item navbar-nav-right responsive-navbar navbar-dark ">
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
-                            <div class="d-flex order-lg-2 ms-auto">
-                                <!-- Theme-Layout -->
-                                <div class="dropdown d-flex main-header-theme">
-                                    <a class="nav-link icon layout-setting">
-                                        <span class="dark-layout">
-                                            <i class="fe fe-sun header-icons"></i>
-                                        </span>
-                                        <span class="light-layout">
-                                            <i class="fe fe-moon header-icons"></i>
-                                        </span>
-                                    </a>
-                                </div>
-                                <!-- Theme-Layout -->
-                                <!-- country -->
-                                <!-- country -->
-                                <!-- Full screen -->
-                                <!-- Full screen -->
-                                <!-- Notification -->
-                                <!-- Profile -->
-                                <div class="dropdown main-profile-menu">
-                                    <a class="d-flex" href="#">
-                                        <span class="main-img-user"><img alt="avatar"
-                                                src="{{ Storage::url(auth()->user()->photo_path) }}"></span>
-                                    </a>
-                                    <div class="dropdown-menu">
-                                        <div class="header-navheading">
-                                            <h6 class="main-notification-title">{{ auth()->user()->name }}</h6>
-                                            <p class="main-notification-text">{{ auth()->user()->role }}</p>
-                                        </div>
-
-                                        <a class="dropdown-item" href="/profile/edit">
-                                            <i class="fe fe-edit"></i> Edit Profile
+                        <div
+                            class="navbar navbar-expand-lg nav nav-item navbar-nav-right responsive-navbar navbar-dark ">
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+                                <div class="d-flex order-lg-2 ms-auto">
+                                    <!-- Theme-Layout -->
+                                    <div class="dropdown d-flex main-header-theme">
+                                        <a class="nav-link icon layout-setting">
+                                            <span class="dark-layout">
+                                                <i class="fe fe-sun header-icons"></i>
+                                            </span>
+                                            <span class="light-layout">
+                                                <i class="fe fe-moon header-icons"></i>
+                                            </span>
                                         </a>
-                                        <a class="dropdown-item" href="profile.html">
-                                            <i class="fe fe-settings"></i> Account Settings
-                                        </a>
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <a class="dropdown-item" href="/logout">
-                                                <button type="submit" class="btn ripple btn-main-primary"><i
-                                                        class="fe fe-power"></i> Sign Out</button>
-                                            </a>
-                                        </form>
                                     </div>
+                                    <!-- Theme-Layout -->
+                                    <!-- country -->
+                                    <!-- country -->
+                                    <!-- Full screen -->
+                                    <!-- Full screen -->
+                                    <!-- Notification -->
+                                    <!-- Profile -->
+                                    <div class="dropdown main-profile-menu">
+                                        <a class="d-flex" href="#">
+                                            <span class="main-img-user"><img alt="avatar"
+                                                    src="{{ Storage::url(auth()->user()->photo_path) }}"></span>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <div class="header-navheading">
+                                                <h6 class="main-notification-title">{{ auth()->user()->name }}</h6>
+                                                <p class="main-notification-text">{{ auth()->user()->role }}</p>
+                                            </div>
+
+                                            <a class="dropdown-item" href="/profile/edit">
+                                                <i class="fe fe-edit"></i> Edit Profile
+                                            </a>
+                                            <a class="dropdown-item" href="profile.html">
+                                                <i class="fe fe-settings"></i> Account Settings
+                                            </a>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <a class="dropdown-item" href="/logout">
+                                                    <button type="submit" class="btn ripple btn-main-primary"><i
+                                                            class="fe fe-power"></i> Sign Out</button>
+                                                </a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- Profile -->
+                                    <!-- Sidebar -->
+                                    <!-- Sidebar -->
                                 </div>
-                                <!-- Profile -->
-                                <!-- Sidebar -->
-                                <!-- Sidebar -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- End Main Header-->
+
+            <!-- Sidemenu -->
+            @include('layout.sidebar')
+            <!-- End Sidemenu -->
+
+            <!-- Main Content-->
+            @yield('content')
+
+            <!-- End Main Content-->
+
+            <!-- Main Footer-->
+            @include('layout.footer')
+            <!--End Footer-->
+
         </div>
-        <!-- End Main Header-->
+        <!-- End Page -->
 
-        <!-- Sidemenu -->
-        @include('layout.sidebar')
-        <!-- End Sidemenu -->
+        <!-- Back-to-top -->
+        <a href="#top" id="back-to-top"><i class="fe fe-arrow-up"></i></a>
 
-        <!-- Main Content-->
-        @yield('content')
+        <!-- Jquery js-->
+        <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 
-        <!-- End Main Content-->
+        <!-- Bootstrap js-->
+        <script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-        <!-- Main Footer-->
-        @include('layout.footer')
-        <!--End Footer-->
+        <!-- Perfect-scrollbar js -->
+        <script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
-    </div>
-    <!-- End Page -->
+        <!-- Sidemenu js -->
+        <script src="{{ asset('assets/plugins/sidemenu/sidemenu.js') }}" id="leftmenu"></script>
 
-    <!-- Back-to-top -->
-    <a href="#top" id="back-to-top"><i class="fe fe-arrow-up"></i></a>
+        <!-- Sidebar js -->
+        <script src="{{ asset('assets/plugins/sidebar/sidebar.js') }}" id="leftMenu"></script>
 
-    <!-- Jquery js-->
-    <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+        <!-- Select2 js-->
+        <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2.js') }}"></script>
 
-    <!-- Bootstrap js-->
-    <script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- Datatables -->
+        <script src="{{ asset('assets/plugins/datatable/datatables.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap5.min.js') }}"></script>
 
-    <!-- Perfect-scrollbar js -->
-    <script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+        <script crossorigin src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+        <script crossorigin src="https://unpkg.com/tiff.js@1.0.0/tiff.min.js"></script>
 
-    <!-- Sidemenu js -->
-    <script src="{{ asset('assets/plugins/sidemenu/sidemenu.js') }}" id="leftmenu"></script>
+        <!-- Docx Viewer -->
+        <script src="{{ asset('assets/plugins/docx-viewer/dist/docx-preview.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/docx-viewer/dist/thumbnail.js') }}"></script>
+        <script src="{{ asset('assets/plugins/docx-viewer/dist/tiff-preprocessor.js') }}"></script>
 
-    <!-- Sidebar js -->
-    <script src="{{ asset('assets/plugins/sidebar/sidebar.js') }}" id="leftMenu"></script>
+        <!-- DatePicker -->
+        <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 
-    <!-- Select2 js-->
-    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2.js') }}"></script>
+        <!-- Daterange Picker -->
+        <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/moment.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
-    <!-- Datatables -->
-    <script src="{{ asset('assets/plugins/datatable/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap5.min.js') }}"></script>
+        <!-- Chart.js -->
+        <script src="{{ asset('assets/plugins/chart.js/chart.umd.js') }}"></script>
 
-    <script crossorigin src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
-    <script crossorigin src="https://unpkg.com/tiff.js@1.0.0/tiff.min.js"></script>
+        <!-- summernote -->
+        <script src="{{asset('assets/plugins/summernote/summernote-bs5.min.js')}}"></script>
 
-    <!-- Docx Viewer -->
-    <script src="{{ asset('assets/plugins/docx-viewer/dist/docx-preview.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/docx-viewer/dist/thumbnail.js') }}"></script>
-    <script src="{{ asset('assets/plugins/docx-viewer/dist/tiff-preprocessor.js') }}"></script>
+        <!-- Color Theme js -->
+        <script src="{{ asset('assets/js/themeColors.js') }}"></script>
 
-    <!-- DatePicker -->
-    <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+        <!-- Sticky js -->
+        <script src="{{ asset('assets/js/sticky.js') }}"></script>
 
-    <!-- Daterange Picker -->
-    <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+        <!-- Custom js -->
+        <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-    <!-- Chart.js -->
-    <script src="{{ asset('assets/plugins/chart.js/chart.umd.js') }}"></script>
+        <script>
+        $(document).ready(function() {
+            //datepicker
+            $('.datePickers').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
 
+            //summernote
+            $('.summernote').summernote({
+                tabsize: 2,
+                height: 100
+            })
 
+            //daterangepicker
+            $('.daterange').daterangepicker({
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+                autoUpdateInput: false,
+                open: 'right',
+                drop: 'down',
+                autoApply: true,
 
-    <!-- Color Theme js -->
-    <script src="{{ asset('assets/js/themeColors.js') }}"></script>
+            });
+        })
+        </script>
 
-    <!-- Sticky js -->
-    <script src="{{ asset('assets/js/sticky.js') }}"></script>
+        @stack('scripts')
 
-    <!-- Custom js -->
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-
-    <script>
-        //datepicker
-        $('.datePickers').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true,
-            todayHighlight: true
-        });
-
-        //daterangepicker
-        $('.daterange').daterangepicker({
-            locale: {
-                format: 'YYYY-MM-DD'
-            },
-            autoUpdateInput: false,
-            open: 'right',
-            drop: 'down',
-            autoApply: true,
-
-        });
-    </script>
-
-    @stack('scripts')
-
-</body>
+    </body>
 
 </html>

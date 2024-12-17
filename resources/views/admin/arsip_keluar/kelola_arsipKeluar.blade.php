@@ -8,7 +8,7 @@
             <div class="inner-body">
 
                 <!-- Page Header -->
-                <div class="page-header text-center" style="margin-bottom: 20px;">
+                <div class="text-center page-header" style="margin-bottom: 20px;">
                     <div>
                         <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
                             <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
@@ -58,48 +58,50 @@
                                                     <td class="d-flex flex-column">
                                                         @if ($item->persetujuan == 'ya')
                                                             <span
-                                                                class="text-white align-middle badge bg-warning align-items-center align-content-center my-1">
+                                                                class="my-1 text-white align-middle badge bg-warning align-items-center align-content-center">
                                                                 Perlu Tanda Tangan
                                                             </span>
                                                         @endif
                                                         @if ($item->status == 'Menunggu Persetujuan')
                                                             <span
-                                                                class="text-white align-middle badge bg-secondary align-items-center align-content-center my-1">
+                                                                class="my-1 text-white align-middle badge bg-secondary align-items-center align-content-center">
                                                                 Menunggu Persetujuan
                                                             </span>
                                                         @elseif ($item->status == 'Disetujui')
                                                             <span
-                                                                class="text-white align-middle badge bg-success align-items-center align-content-center my-1">
+                                                                class="my-1 text-white align-middle badge bg-success align-items-center align-content-center">
                                                                 Disetujui
                                                             </span>
                                                         @elseif ($item->status == 'Ditolak')
                                                             <span
-                                                                class="text-white align-middle badge bg-danger align-items-center align-content-center my-1">
+                                                                class="my-1 text-white align-middle badge bg-danger align-items-center align-content-center">
                                                                 Ditolak
                                                             </span>
                                                         @elseif ($item->status == 'Menunggu Dikirim')
                                                             <span
-                                                                class="text-white align-middle badge bg-info align-items-center align-content-center my-1">
+                                                                class="my-1 text-white align-middle badge bg-info align-items-center align-content-center">
                                                                 Menunggu Dikirim
                                                             </span>
                                                         @elseif ($item->status == 'Dikirimkan')
                                                             <span
-                                                                class="text-white align-middle badge bg-info align-items-center align-content-center my-1">
+                                                                class="my-1 text-white align-middle badge bg-info align-items-center align-content-center">
                                                                 Dikirimkan
                                                             </span>
                                                         @elseif ($item->status == 'Selesai')
                                                             <span
-                                                                class="text-white align-middle badge bg-primary align-items-center align-content-center my-1">
+                                                                class="my-1 text-white align-middle badge bg-primary align-items-center align-content-center">
                                                                 Selesai
                                                             </span>
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="#"
-                                                            class="btn {{ $item->bukti_dikirimkan == null ? 'btn-danger' : 'btn-primary' }} btn-sm"
+                                                        @if ($item->status == 'Dikirimkan' || $item->status == 'Selesai')
+                                                            <a href="#"
+                                                            class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
                                                             id="BuktiTerima" data-bs-toggle="modal"
                                                             data-bs-target="#tambahBuktiterima{{ $item->id }}">
                                                             Bukti Terima</a>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         <div class="gap-1 d-flex justify-content-center">
@@ -110,7 +112,7 @@
                                                             <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}"
                                                                 class="btn btn-warning btn-sm"><i
                                                                     class="fe fe-edit"></i></a>
-                                                            <a href="{{ route('admin.arsip_keluar.delete', $item->id) }}"
+                                                            <a href="#"
                                                                 class="btn btn-danger btn-sm" onclick="showDelete({{ $item->id }})">
                                                                 <i class="fe fe-trash"></i>
                                                             </a>
