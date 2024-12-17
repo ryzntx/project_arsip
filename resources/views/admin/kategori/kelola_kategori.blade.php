@@ -15,7 +15,8 @@
             <!-- Page Header -->
             <div class="page-header text-center" style="margin-bottom: 20px;">
                 <div>
-                    <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                    <h2 class="main-content-label tx-24 mg-b-5"
+                        style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
                         <i class="fe fe-bookmark" style="margin-right: 10px; font-size: 28px;"></i>
                         TABEL KATEGORI DOKUMEN
                     </h2>
@@ -23,7 +24,7 @@
                 <div class="d-flex">
                     <a href="/admin/kelola_kategori/add">
                         <button type="button" class="btn btn-primary my-2 btn-icon-text">
-                        <i class="fe fe-plus"></i>
+                            <i class="fe fe-plus"></i>
                             Tambah Kategori</button>
                     </a>
                 </div>
@@ -48,16 +49,18 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($kategori as $data)
-                                            <tr style="text-align: center;">
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $data->nama_kategori }}</td>
-                                                <td>
-                                                    <a href="/admin/kelola_kategori/edit/{{ $data->id }}" class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
-                                                    <button  class="btn btn-sm btn-danger" onclick="showDelete({{ $data->id }})">
-                                                        <i class="fe fe-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                        <tr style="text-align: center;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $data->nama_kategori }}</td>
+                                            <td>
+                                                <a href="/admin/kelola_kategori/edit/{{ $data->id }}"
+                                                    class="btn btn-warning btn-sm"><i class="fe fe-edit"></i></a>
+                                                <button class="btn btn-sm btn-danger"
+                                                    onclick="showDelete({{ $data->id }}, '{{ $data->nama_kategori }}')">
+                                                    <i class="fe fe-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -70,53 +73,54 @@
 
         {{-- @foreach ($kategori as $data)
         <div class="modal" id="delete{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-l">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>Hapus Data</h4>
-                    </div>
-                    <div class="modal-body">
-                        <h5>Hapus {{ $data->nama_kategori }}</h5>
-                        <p>Apakah anda yakin ingin menghapus data ini?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{ url('/admin/kelola_kategori/delete/'.$data->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-                        <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
-                    </div>
+        <div class="modal-dialog modal-l">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Hapus Data</h4>
+                </div>
+                <div class="modal-body">
+                    <h5>Hapus {{ $data->nama_kategori }}</h5>
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ url('/admin/kelola_kategori/delete/'.$data->id ) }}"
+                        class="btn btn-outline btn-danger">Yes</a>
+                    <button type="button" class="btn btn-outline btn-primary pull-left"
+                        data-bs-dismiss="modal">No</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
-        @endforeach --}}
+        <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
+    @endforeach --}}
+</div>
 </div>
 <script>
-    function showDelete(id) {
-        Swal.fire({
+function showDelete(id, nama_kategori) {
+    Swal.fire({
         title: "Apakah Anda yakin?",
-        text: "Menghapus Data" + " " +"{{ $data->nama_kategori }}",
+        text: "Menghapus Data" + " " + nama_kategori,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya",
-        backdrop: true,  // Mengaktifkan backdrop
+        backdrop: true, // Mengaktifkan backdrop
         allowOutsideClick: false // Mencegah penutupan jika klik di luar modal
-        }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = "{{ url('/admin/kelola_kategori/delete/') }}/" + id;
             Swal.fire({
-            title: "Hapus Data!",
-            text: "Data berhasil dihapus",
-            icon: "success",
-            timer: 1500, // Menampilkan pesan selama 1.5 detik
-            showConfirmButton: false // Sembunyikan tombol konfirmasi
+                title: "Hapus Data!",
+                text: "Data berhasil dihapus",
+                icon: "success",
+                timer: 1500, // Menampilkan pesan selama 1.5 detik
+                showConfirmButton: false // Sembunyikan tombol konfirmasi
             });
         }
     });
-    }
-
+}
 </script>
 
 
