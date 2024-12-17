@@ -1,10 +1,33 @@
-(function($) {
-  $.extend($.summernote.lang, {
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.9.0
+ * https://summernote.org
+ *
+ * Copyright 2013~ Hackerwins and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2024-09-30T14:42Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+(function ($) {
+  $.extend(true, $.summernote.lang, {
     'de-DE': {
       font: {
         bold: 'Fett',
         italic: 'Kursiv',
-        underline: 'Unterstreichen',
+        underline: 'Unterstrichen',
         clear: 'Zurücksetzen',
         height: 'Zeilenhöhe',
         name: 'Schriftart',
@@ -22,9 +45,9 @@
         floatLeft: 'Linksbündig',
         floatRight: 'Rechtsbündig',
         floatNone: 'Kein Textfluss',
-        shapeRounded: 'Abgerundeter Rahmen',
-        shapeCircle: 'Kreisförmiger Rahmen',
-        shapeThumbnail: 'Rahmenvorschau',
+        shapeRounded: 'Abgerundete Ecken',
+        shapeCircle: 'Kreisförmig',
+        shapeThumbnail: '"Vorschaubild"',
         shapeNone: 'Kein Rahmen',
         dragImageHere: 'Bild hierher ziehen',
         dropImage: 'Bild oder Text nehmen',
@@ -57,7 +80,7 @@
         addRowBelow: '+ Zeile unterhalb',
         addColLeft: '+ Spalte links',
         addColRight: '+ Spalte rechts',
-        delRow: 'Reihe löschen',
+        delRow: 'Zeile löschen',
         delCol: 'Spalte löschen',
         delTable: 'Tabelle löschen'
       },
@@ -78,8 +101,8 @@
         h6: 'Überschrift 6'
       },
       lists: {
-        unordered: 'Unnummerierte Liste',
-        ordered: 'Nummerierte Liste'
+        unordered: 'Aufzählung',
+        ordered: 'Nummerierung'
       },
       options: {
         help: 'Hilfe',
@@ -88,8 +111,8 @@
       },
       paragraph: {
         paragraph: 'Absatz',
-        outdent: 'Einzug vergrößern',
-        indent: 'Einzug verkleinern',
+        outdent: 'Einzug verkleinern',
+        indent: 'Einzug vergrößern',
         left: 'Links ausrichten',
         center: 'Zentriert ausrichten',
         right: 'Rechts ausrichten',
@@ -115,33 +138,33 @@
         extraKeys: 'Weitere Tasten'
       },
       help: {
-        'insertParagraph': 'Absatz einfügen',
-        'undo': 'Letzte Anweisung rückgängig',
-        'redo': 'Letzte Anweisung wiederholen',
-        'tab': 'Einzug hinzufügen',
-        'untab': 'Einzug entfernen',
-        'bold': 'Schrift Fett',
-        'italic': 'Schrift Kursiv',
-        'underline': 'Unterstreichen',
-        'strikethrough': 'Durchstreichen',
-        'removeFormat': 'Entfernt Format',
-        'justifyLeft': 'Linksbündig',
-        'justifyCenter': 'Mittig',
-        'justifyRight': 'Rechtsbündig',
-        'justifyFull': 'Blocksatz',
-        'insertUnorderedList': 'Unnummerierte Liste',
-        'insertOrderedList': 'Nummerierte Liste',
-        'outdent': 'Aktuellen Absatz ausrücken',
-        'indent': 'Aktuellen Absatz einrücken',
-        'formatPara': 'Formatiert aktuellen Block als Absatz (P-Tag)',
-        'formatH1': 'Formatiert aktuellen Block als H1',
-        'formatH2': 'Formatiert aktuellen Block als H2',
-        'formatH3': 'Formatiert aktuellen Block als H3',
-        'formatH4': 'Formatiert aktuellen Block als H4',
-        'formatH5': 'Formatiert aktuellen Block als H5',
-        'formatH6': 'Formatiert aktuellen Block als H6',
-        'insertHorizontalRule': 'Fügt eine horizontale Linie ein',
-        'linkDialog.show': 'Zeigt Linkdialog'
+        insertParagraph: 'Absatz einfügen',
+        undo: 'Letzte Anweisung rückgängig',
+        redo: 'Letzte Anweisung wiederholen',
+        tab: 'Einzug hinzufügen',
+        untab: 'Einzug entfernen',
+        bold: 'Schrift Fett',
+        italic: 'Schrift Kursiv',
+        underline: 'Unterstreichen',
+        strikethrough: 'Durchstreichen',
+        removeFormat: 'Entfernt Format',
+        justifyLeft: 'Linksbündig',
+        justifyCenter: 'Mittig',
+        justifyRight: 'Rechtsbündig',
+        justifyFull: 'Blocksatz',
+        insertUnorderedList: 'Unnummerierte Liste',
+        insertOrderedList: 'Nummerierte Liste',
+        outdent: 'Aktuellen Absatz ausrücken',
+        indent: 'Aktuellen Absatz einrücken',
+        formatPara: 'Formatiert aktuellen Block als Absatz (P-Tag)',
+        formatH1: 'Formatiert aktuellen Block als H1',
+        formatH2: 'Formatiert aktuellen Block als H2',
+        formatH3: 'Formatiert aktuellen Block als H3',
+        formatH4: 'Formatiert aktuellen Block als H4',
+        formatH5: 'Formatiert aktuellen Block als H5',
+        formatH6: 'Formatiert aktuellen Block als H6',
+        insertHorizontalRule: 'Fügt eine horizontale Linie ein',
+        'linkDialog.show': 'Zeigt den Linkdialog'
       },
       history: {
         undo: 'Rückgängig',
@@ -154,3 +177,8 @@
     }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-de-DE.js.map

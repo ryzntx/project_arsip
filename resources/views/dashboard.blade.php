@@ -153,6 +153,7 @@
                         <!-- Grafik Arsip -->
                         <div class="row row-sm">
                             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                {{-- Grafik Per Bulan --}}
                                 <div class="card custom-card">
                                     <div class="card-header">
                                         <div
@@ -190,8 +191,7 @@
                                         <canvas id="chartDokumenPerBulan"></canvas>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                {{-- Grafik Per Tahun --}}
                                 <div class="card custom-card">
                                     <div class="card-header">
                                         <div
@@ -206,35 +206,122 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                {{-- Daftar Arsip Masuk & Keluar Terbaru --}}
                                 <div class="card custom-card">
-                                    <div class="card-header">
-                                        <div
-                                            class="flex-row align-middle card-item-title d-flex justify-content-between align-content-center align-items-center">
-                                            <label class="main-content-label tx-13 font-weight-bold">Rekap Arsip per
-                                                Kategori</label>
+                                    <div class="card-body">
+                                        <label class="main-content-label tx-13 font-weight-bold">Dokumen Arsip
+                                            Terkini</label>
+                                        <span class="mb-2 d-block fs-12 text-muted">
+                                            {{ date('d M Y') }}
+                                        </span>
+                                        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                                            <table class="table mt-2 m-b-0 transcations">
+                                                <tbody>
+                                                    @forelse ($dokumen_today as $item)
+                                                        <tr>
+                                                            <td>
+                                                                <div class="align-middle d-flex ms-3">
+                                                                    <div class="d-inline-block">
+                                                                        <h6 class="mb-1">{{ $item->nama_dokumen }}</h6>
+                                                                        <p class="mb-0 fs-13 text-muted">
+                                                                            {{ $item->nama_kategori }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <div class="d-inline-block">
+                                                                    <h6 class="mb-2 fs-15 fw-semibold">
+                                                                        {{ $item->type }}<i
+                                                                            class="fas {{ $item->type === 'Dokumen Masuk' ? 'fa-level-down-alt' : 'fa-level-up-alt' }} ms-2 text-success m-l-10"></i>
+                                                                    </h6>
+                                                                    <p class="mb-0 tx-11 text-muted">
+                                                                        {{ $item->created_at->format('d M Y') }}</p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        <p class="text-center">Tidak ada data</p>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <canvas id="chartDokumenPerKategori"></canvas>
-                                    </div>
+
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
                                 <div class="card custom-card">
-                                    <div class="card-header">
-                                        <div
-                                            class="flex-row align-middle card-item-title d-flex justify-content-between align-content-center align-items-center">
-                                            <label class="main-content-label tx-13 font-weight-bold">Rekap Arsip per
-                                                Intansi</label>
+                                    <div class="pb-0 card-header border-bottom-0">
+                                        <div>
+                                            <div class="d-flex"> <label class="pt-2 my-auto main-content-label">
+                                                    Dokumen per Instansi
+                                                </label> </div> <span class="mt-2 mb-0 d-block fs-12 text-muted">
+                                                Total keseluruhan dokumen per instansi
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <canvas id="chartDokumenPerIntansi"></canvas>
+                                        <div class="overflow-y-auto" style="max-height: 300px;">
+
+                                            @foreach ($dokumen_instansi as $instansis)
+                                                <div class="mt-4 row justify-content-between">
+                                                    <div class="flex-column col-5 d-flex">
+                                                        <span
+                                                            class="">{{ $instansis['instansi']->nama_instansi }}</span>
+                                                        <small
+                                                            class="">{{ $instansis['instansi']->singkatan_instansi }}</small>
+                                                    </div>
+                                                    {{-- <div class="my-auto col-3">
+                                                        <div class="my-1 progress ht-6 progress-animate">
+                                                            <div class="bg-info ht-6 wd-5p" role="progressbar"
+                                                                aria-valuenow="{{ $instansis['total_keluar'] }}"
+                                                                aria-valuemin="0"
+                                                                aria-valuemax="{{ $instansis['total_keluar'] * 100 }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="my-1 progress ht-6 progress-animate">
+                                                            <div class="bg-success ht-6 wd-70p" role="progressbar"
+                                                                aria-valuenow="{{ $instansis['total_masuk'] }}"
+                                                                aria-valuemin="0"
+                                                                aria-valuemax="{{ $instansis['total_keluar'] * 100 }}">
+                                                            </div>
+                                                        </div>
+                                                    </div> --}}
+                                                    <div class="col-4">
+                                                        <div class="d-flex"> <span class="fs-13"><i
+                                                                    class="text-info fe fe-arrow-up"></i><b>{{ $instansis['total_keluar'] }}</b></span>
+                                                        </div>
+                                                        <div class="d-flex"> <span class="fs-13"><i
+                                                                    class="text-success fe fe-arrow-down"></i><b>{{ $instansis['total_masuk'] }}</b></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            <!-- Repeat the row as needed -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div><!-- col end -->
+
+                    {{-- Grafik Arsip --}}
+                    <div class="row row-sm">
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <div class="card custom-card">
+                                <div class="card-header">
+                                    <div
+                                        class="flex-row align-middle card-item-title d-flex justify-content-between align-content-center align-items-center">
+                                        <label class="main-content-label tx-13 font-weight-bold">Rekap Arsip per
+                                            Kategori</label>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chartDokumenPerKategori"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div><!-- Row end -->
             </div>
         </div>
@@ -247,7 +334,6 @@
         // Initialize Canvas Context
         const ctxDokMonth = document.getElementById('chartDokumenPerBulan');
         const ctxDokYear = document.getElementById('chartDokumenPerTahun');
-        const ctxDokInstansi = document.getElementById('chartDokumenPerIntansi');
         const ctxDokKategori = document.getElementById('chartDokumenPerKategori');
 
         // Initialize Months
@@ -296,7 +382,7 @@
 
         // Chart
         new Chart(ctxDokMonth, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: month,
                 datasets: [{
@@ -352,50 +438,6 @@
                         }
                     }
                 }
-            }
-        });
-
-        new Chart(ctxDokInstansi, {
-            type: 'bar',
-            data: {
-                labels: [
-                    @foreach ($dokumen_masuk_instansi as $item)
-                        '{{ $item->instansi->singkatan_instansi }}',
-                    @endforeach
-                ],
-                datasets: [{
-                    label: '# Total Arsip Masuk',
-                    data: [
-                        @foreach ($dokumen_masuk_instansi as $item)
-                            '{{ $item->total }}',
-                        @endforeach
-                    ],
-                    borderWidth: 1,
-                }, {
-                    label: '# Total Arsip Keluar',
-                    data: [
-                        @foreach ($dokumen_keluar_instansi as $item)
-                            '{{ $item->total }}',
-                        @endforeach
-                    ],
-                    borderWidth: 1,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                aspectRatio: 1,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return Number.isInteger(value) ? value : null;
-                            }
-                        }
-                    }
-                }
-
             }
         });
 

@@ -154,9 +154,7 @@
                                     @endforeach
                                 </div>
                                 <div class="form-group">
-                                    <label class="tx-medium">Lampiran Dokumen</label>
-                                    <input type="file" name="file_dokumen" id="file_dokumen" class="form-control"
-                                        required>
+                                    <label class="tx-medium d-block">Lampiran Dokumen</label>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#modalLampiran">
                                         Tambahkan Lampiran </button>
@@ -171,8 +169,7 @@
 
                                 <div class="form-group">
                                     <label class="tx-medium">Keterangan</label>
-                                    <textarea name="keterangan" rows="3"
-                                        class="form-control">{{ old('keterangan') }}</textarea>
+                                    <textarea name="keterangan" class="form-control">{{ old('keterangan') }}</textarea>
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -205,11 +202,14 @@
                                             <div class="mt-3 tab-content" id="myTabContent">
                                                 <div class="tab-pane fade show active" id="uploadFile-tab-pane"
                                                     role="tabpanel" aria-labelledby="uploadFile-tab" tabindex="0">
+                                                    <input type="file" name="file_dokumen" id="file_dokumen_keluar"
+                                                        class="form-control" required>
                                                     <!-- <input type="file" name="file_dokumen" id="file_dokumen"
                                                         class="form-control" required> -->
                                                 </div>
                                                 <div class="tab-pane fade" id="templateFile-tab-pane" role="tabpanel"
                                                     aria-labelledby="templateFile-tab" tabindex="0">
+
                                                     <div class="form-group">
                                                         <label for="pilihTemplate" class="tx-medium">Pilih
                                                             Template</label>
@@ -222,14 +222,18 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div id="fieldSet">
-
+                                                    <div class="d-none text-center align-content-center justify-content-center"
+                                                        id="form-loading">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
                                                     </div>
+                                                    <div id="fieldSet"></div>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-
                                             <button type="button" class="btn btn-outline btn-primary pull-left"
                                                 data-bs-dismiss="modal">Tutup!</button>
                                         </div>
@@ -247,18 +251,26 @@
     </div>
 </div>
 
-
 <!-- Script to toggle between forms based on document type -->
 <script>
 let pilihTemplate = document.getElementById('pilihTemplate');
 let fieldSet = document.getElementById('fieldSet');
+let uploadFileInput = document.getElementById('file_dokumen_keluar');
+let form_loading = document.getElementById('form-loading')
 
 pilihTemplate.addEventListener('change', function() {
     fieldSet.innerHTML = '';
     //fetch data from server
     if (this.value === '') {
+        uploadFileInput.disabled = false;
+        form_loading.classList.replace('d-flex', 'd-none')
         return;
     }
+
+    uploadFileInput.disabled = true;
+    form_loading.classList.replace('d-none', 'd-flex')
+
+
     fetch('/admin/tambah_dokumen/ambiltemplate/' + this.value)
         .then(response => response.json())
         .then(data => {
@@ -273,23 +285,32 @@ pilihTemplate.addEventListener('change', function() {
                 // create label element
                 let label = document.createElement('label');
                 label.classList.add('tx-medium');
-                label.textContent = item;
+                label.textContent = RegExp('(/[^A-Za-z0-9\-]/)', 'g').test(item) ? item : item
+                    .replace(/_/g,
+                        ' ');
 
 
                 // create input element
                 let input;
-                if(item == 'KONTEN'){
+                if (item == 'KONTEN' || item == 'ISISURAT') {
                     input = document.createElement('textarea');
-                    input . classList . add('form-control');
-                    input . setAttribute('name', "var_"+item);
-                    input . setAttribute('required', false);
-                 } else {
+                    input.classList.add('form-control');
+                    input.classList.add('summernote')
+                    input.setAttribute('name', "var_" + item);
+                    input.setAttribute('required', false);
+                } else if (item == 'TANGGAL') {
+                    input = document.createElement('input');
+                    input.classList.add('form-control');
+                    input.setAttribute('name', "var_" + item);
+                    input.setAttribute('type', 'date');
+                    input.setAttribute('required', false);
+                } else {
                     input = document.createElement('input');
                     input.classList.add('form-control');
                     input.setAttribute('name', "var_" + item);
                     input.setAttribute('type', 'text');
                     input.setAttribute('required', false);
-                 }
+                }
 
                 // append label and input to form group
                 formGroup.appendChild(label);
@@ -298,8 +319,15 @@ pilihTemplate.addEventListener('change', function() {
                 // append form group to fieldset
                 fieldSet.appendChild(formGroup);
 
+                //init textarea with summernote
+                $('.summernote').summernote({
+                    height: 150
+                });
+
             });
 
+        }).finally(() => {
+            form_loading.classList.replace('d-flex', 'd-none')
         });
 });
 
@@ -320,5 +348,7 @@ document.getElementById('jenis_dokumen').addEventListener('change', function() {
     }
 });
 </script>
+
+
 
 @endsection
