@@ -113,7 +113,6 @@ class Pencarian extends Controller {
         $dokumen = DokumenMasuk::where("nama_dokumen", $title)
             ->with("instansi")
             ->with("dokumen_kategori")
-            ->join('pdf_documents', 'dokumen_masuks.nama_dokumen', '=', 'pdf_documents.title')
             ->first();
         // Jika dokumen masuk tidak ditemukan, maka cari dokumen keluar
         if ($dokumen == null) {
@@ -121,7 +120,6 @@ class Pencarian extends Controller {
             $dokumen = DokumenKeluar::where("nama_dokumen", $title)
                 ->with("instansi")
                 ->with("dokumen_kategori")
-                ->join('pdf_documents', 'dokumen_keluars.nama_dokumen', '=', 'pdf_documents.title')
                 ->first();
         }
         // Mengembalikan tampilan detail pencarian
