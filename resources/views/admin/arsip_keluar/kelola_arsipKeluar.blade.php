@@ -10,7 +10,8 @@
                 <!-- Page Header -->
                 <div class="text-center page-header" style="margin-bottom: 20px;">
                     <div>
-                        <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                        <h2 class="main-content-label tx-24 mg-b-5"
+                            style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
                             <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
                             ARSIP DOKUMEN
                         </h2>
@@ -97,10 +98,10 @@
                                                     <td>
                                                         @if ($item->status == 'Dikirimkan' || $item->status == 'Selesai')
                                                             <a href="#"
-                                                            class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
-                                                            id="BuktiTerima" data-bs-toggle="modal"
-                                                            data-bs-target="#tambahBuktiterima{{ $item->id }}">
-                                                            Bukti Terima</a>
+                                                                class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
+                                                                id="BuktiTerima" data-bs-toggle="modal"
+                                                                data-bs-target="#tambahBuktiterima{{ $item->id }}">
+                                                                Bukti Terima</a>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -112,8 +113,8 @@
                                                             <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}"
                                                                 class="btn btn-warning btn-sm"><i
                                                                     class="fe fe-edit"></i></a>
-                                                            <a href="#"
-                                                                class="btn btn-danger btn-sm" onclick="showDelete({{ $item->id }})">
+                                                            <a href="#" class="btn btn-danger btn-sm"
+                                                                onclick="showDelete({{ $item->id }}, '{{ $item->nama_dokumen }}')">
                                                                 <i class="fe fe-trash"></i>
                                                             </a>
                                                         </div>
@@ -133,33 +134,34 @@
         </div>
     </div>
 
-        {{-- @foreach ($arsip_keluar as $item)
+    {{-- @foreach ($arsip_keluar as $item)
             <div class="modal" id="delete{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog modal-l">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4>Hapus Data</h4>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Hapus {{ $item->nama_dokumen }}</h5>
-                            <p>Apakah anda yakin ingin menghapus data ini?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-                            <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-                <!-- /.modal-dialog -->
-            @endforeach
+<div class="modal-dialog modal-l">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4>Hapus Data</h4>
         </div>
-    </div> --}}
+        <div class="modal-body">
+            <h5>Hapus {{ $item->nama_dokumen }}</h5>
+            <p>Apakah anda yakin ingin menghapus data ini?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
+            <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
+        </div>
+    </div>
+</div>
+<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+@endforeach
+</div>
+</div> --}}
 
     @foreach ($arsip_keluar as $item)
         <!-- Modal Tambah Bukti-->
-        <div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1" aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
+        <div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1"
+            aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-l">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -169,26 +171,29 @@
                     <div class="modal-body">
                         <form action="{{ url('/admin/arsip_keluar/tambah_bukti/' . $item->id) }}" method="POST"
                             enctype="multipart/form-data">
-                        @csrf <!-- Pastikan untuk menyertakan token CSRF -->
-                        <div class="row">
-                            <div class="col-12">
+                            @csrf
+                            <!-- Pastikan untuk menyertakan token CSRF -->
+                            <div class="row">
+                                <div class="col-12">
+                                    @if ($item->bukti_dikirimkan == null)
+                                        <div class="form-group">
+                                            <label for="foto_bukti" class="form-label">Lampiran Bukti Terima</label>
+                                            <input type="file" class="form-control" id="foto_bukti" name="foto_bukti"
+                                                required>
+                                        </div>
+                                    @else
+                                        <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
+                                            width="100%" height="100%" />
+                                        {{-- <img src={{ asset('storage/' . $item->bukti_dikirimkan) }} class="img-thumbnail" />
+                            --}}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="modal-footer">
                                 @if ($item->bukti_dikirimkan == null)
-                                    <div class="form-group">
-                                        <label for="foto_bukti" class="form-label">Lampiran Bukti Terima</label>
-                                        <input type="file" class="form-control" id="foto_bukti" name="foto_bukti" required>
-                                    </div>
-                                @else
-                                    <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
-                                        width="100%" height="100%" />
-                                        {{-- <img src={{ asset('storage/' . $item->bukti_dikirimkan) }} class="img-thumbnail" /> --}}
+                                    <button type="submit" class="btn btn-outline btn-danger">Tambah</button>
                                 @endif
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            @if ($item->bukti_dikirimkan == null)
-                                <button type="submit" class="btn btn-outline btn-danger">Tambah</button>
-                            @endif
-                        </div>
                         </form>
                     </div>
                 </div>
@@ -203,7 +208,8 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="lihatPDFLabel" style="font-weight: bold; font-size: 24px;">
                         <i class="fas fa-file-pdf" style="margin-right: 10px;"></i>
-                        Detail Dokumen</h5>
+                        Detail Dokumen
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -212,11 +218,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="kategori_dokumen" class="form-label">Kategori Dokumen</label>
-                                <input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control" readonly>
+                                <input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control"
+                                    readonly>
                             </div>
                             <div class="form-group">
                                 <label for="nama_dokumen" class="form-label">Nama Dokumen</label>
-                                <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control" readonly>
+                                <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control"
+                                    readonly>
                             </div>
                             <div class="form-group">
                                 <label for="pengirim" class="form-label">Pengirim</label>
@@ -232,7 +240,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="tanggal_keluar" class="form-label">Tanggal</label>
-                                <input type="text" name="tanggal_keluar" id="tanggal_keluar" class="form-control" readonly>
+                                <input type="text" name="tanggal_keluar" id="tanggal_keluar" class="form-control"
+                                    readonly>
                             </div>
                         </div>
                         <div class="col-6">
@@ -298,30 +307,29 @@
         });
     </script>
     <script>
-        function showDelete(id) {
+        function showDelete(id, nama_dokumen) {
             Swal.fire({
-            title: "Apakah Anda yakin?",
-            text: "Menghapus Data" + " " +"{{ $item->nama_dokumen }}",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya",
-            backdrop: true,  // Mengaktifkan backdrop
-            allowOutsideClick: false // Mencegah penutupan jika klik di luar modal
+                title: "Apakah Anda yakin?",
+                text: "Menghapus Data" + " " + nama_dokumen,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya",
+                backdrop: true, // Mengaktifkan backdrop
+                allowOutsideClick: false // Mencegah penutupan jika klik di luar modal
             }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "{{ url('/admin/arsip_keluar/delete/') }}/" + id;
-                Swal.fire({
-                title: "Hapus Data!",
-                text: "Data berhasil dihapus",
-                icon: "success",
-                timer: 1500, // Menampilkan pesan selama 1.5 detik
-                showConfirmButton: false // Sembunyikan tombol konfirmasi
-                });
-            }
-        });
+                if (result.isConfirmed) {
+                    window.location.href = "{{ url('/admin/arsip_keluar/delete/') }}/" + id;
+                    Swal.fire({
+                        title: "Hapus Data!",
+                        text: "Data berhasil dihapus",
+                        icon: "success",
+                        timer: 1500, // Menampilkan pesan selama 1.5 detik
+                        showConfirmButton: false // Sembunyikan tombol konfirmasi
+                    });
+                }
+            });
         }
-
     </script>
 @endsection
