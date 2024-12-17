@@ -130,9 +130,9 @@
 
                                                             {{-- <a href="#" target="_blank" class="btn btn-danger btn-sm">
                                                         Konfirmasi status</a> --}}
-                                                            <a href="{{ route('pimpinan.arsipKeluar.persetujuan_arsip_keluar', $item->id) }}"
+                                                            {{-- <a href="{{ route('pimpinan.arsipKeluar.persetujuan_arsip_keluar', $item->id) }}"
                                                                 class="btn btn-warning btn-sm">
-                                                                Tanda Tangani Dokumen</a>
+                                                                Tanda Tangani Dokumen</a> --}}
                                                         @endif
                                                     </td>
                                                 </tr>
