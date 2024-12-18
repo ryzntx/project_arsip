@@ -8,6 +8,8 @@ use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
 use App\Models\DokumenTemplate;
 use App\Models\Instansi;
+use App\Models\User;
+use App\Notifications\SignDocumentKeluars;
 use App\OfficeConverter;
 use App\PdfOptimzer;
 use App\TagPrefixFixer;
@@ -245,12 +247,18 @@ class TambahDokumenController extends Controller {
         // dd($request->all());
 
         if ($request->pengajuan_ke_pimpinan == "ya") {
+            // ambil data kategori dan instansi untuk notifikasi
+            $kategori = DokumenKategori::find($request->kategori_id);
+            $instansi = Instansi::find($request->dinas_id);
             // Mengirim notifikasi ke telegram
-            // $user = auth()->user();
-            // $user->notify(new SignDocumentKeluars('+6285603391954'));
-            /*
-         * 608092781 === ID Chat Telegram
-         */
+            $user = User::where('role', 'pimpinan')->first();
+            try {
+                $user->notify(new SignDocumentKeluars($request->nama_dokumen, $kategori->nama_kategori, $instansi->nama_instansi));
+            } catch (\Exception $e) {
+                logger("Whatsapp Notification: ".$e);
+                // Mengembalikan redirect dengan pesan kesalahan
+                // return redirect()->back()->with("error", "Gagal mengirim notifikasi ke pimpinan!")->withInput();
+            }
         }
         // Membuat record 'DokumenKeluar' baru di database dengan array data
         return DokumenKeluar::create($data);
