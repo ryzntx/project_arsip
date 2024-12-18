@@ -111,7 +111,7 @@ Route::middleware(['auth', 'role:pimpinan'])->group(function () {
     Route::get('/pimpinan/arsipKeluar', [ArsipKeluarController::class, 'monitoring_arsip_keluar'])->name('pimpinan.arsipKeluar');
     Route::get('/pimpinan/arsipKeluar/persetujuan_arsip_keluar/{id}', [ArsipKeluarController::class, 'persetujuan_arsip_keluar'])->name('pimpinan.arsipKeluar.persetujuan_arsip_keluar');
     Route::get('/pimpinan/arsipKeluar/print/{id}', [ArsipKeluarController::class, 'print'])->name('pimpinan.arsipKeluar.print');
-    // Route::post('/pimpinan/arsipKeluar/tambahAlasan', [ArsipKeluarController::class, 'insert_alasan'])->name('pimpinan.arsipKeluar.tambahAlasan');
+    Route::post('/pimpinan/arsipKeluar/tambahAlasan/{id}', [ArsipKeluarController::class, 'insert_alasan'])->name('pimpinan.arsipKeluar.tambahAlasan');
 
 
     Route::get('/pimpinan/rekapDokumen', [RekapanArsipController::class, 'kelola_rekap'])->name('pimpinan.rekapDokumen');

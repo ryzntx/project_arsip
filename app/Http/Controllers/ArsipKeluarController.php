@@ -11,9 +11,11 @@ use Illuminate\Http\Request;
 use App\Models\DokumenKeluar;
 use App\Models\DokumenKategori;
 use App\Http\Controllers\Controller;
+use App\OfficeProcessor;
 use Illuminate\Support\Facades\Storage;
 
 class ArsipKeluarController extends Controller {
+    use OfficeProcessor;
 
     protected $arsip_keluar;
 
@@ -86,7 +88,7 @@ class ArsipKeluarController extends Controller {
 
         DokumenKeluar::findOrFail($id)->update($data);
 
-        return redirect()->back()->with('success', 'Bukti terima berhasil ditambahkan');
+        return redirect()->back()->with('pesan', 'Bukti terima berhasil ditambahkan');
 
     }
 
@@ -96,56 +98,74 @@ class ArsipKeluarController extends Controller {
         return view('pimpinan.Monitor_arsipKeluar.arsipKeluar', compact('arsip_keluar'));
 
     }
-    // public function insert_alasan(Request $request, $id) {
+    public function insert_alasan(Request $request, $id) {
 
-    //     $arsip_keluar = DokumenKeluar::findOrFail($id);
+        $arsip_keluar = DokumenKeluar::findOrFail($id);
 
+        $arsip_keluar->update([
+            'alasan' => $request->rejectionReason,
+            'status' => 'Ditolak',
+            'persetujuan' => 'tidak',
+        ]);
 
-    //     return redirect()->back()->with('success', 'Bukti terima berhasil ditambahkan');
+        return redirect()->back()->with('pesan', 'Dokumen di tolak!, alasan penolakan berhasil ditambahkan');
 
-    // }
+    }
 
     public function persetujuan_arsip_keluar($id) {
         $arsip_keluar = DokumenKeluar::findOrFail($id);
-        $hasilTtd = $this->__templateProcessorImage($arsip_keluar->lampiran);
 
-        $file_name = pathinfo($arsip_keluar->lampiran, PATHINFO_FILENAME);
+        // cek file
+        if (!Storage::disk('public')->exists($arsip_keluar->lampiran)) {
+            return redirect()->back()->with('error', 'Oops!, Sepertinya file terhapus / tidak ditemukan pada server!');
+        }
 
-        // Mengonversi file DOCX yang dirubah ke PDF
-        $convert = new OfficeConverter(storage_path("app/public/" . $hasilTtd));
-        $pdfFileName = pathinfo($convert->convertTo($file_name . '.pdf'), PATHINFO_FILENAME) . '.pdf';
+        // Cek apakah dokumen keluar memiliki tanda tangan
+        if($this->checkVariableInTable('ttd', $arsip_keluar->lampiran) || $this->checkVariableInElements('ttd', $arsip_keluar->lampiran) || $this->checkVariableInTable('TTD', $arsip_keluar->lampiran) || $this->checkVariableInElements('TTD', $arsip_keluar->lampiran)) {
+            $hasilTtd = $this->__templateProcessorImage($arsip_keluar->lampiran);
 
-        // Menghapus file DOCX yang dirubah
-        Storage::disk("public")->delete($hasilTtd);
+            // Get file name
+            $file_name = pathinfo($arsip_keluar->lampiran, PATHINFO_FILENAME);
 
-        // Mengompres dan mengoptimalkan file PDF yang telah dikonversi
-        $pdfFileCompress = new PdfOptimzer(storage_path("app/public/dokumen/keluar/" . $pdfFileName), storage_path("app/public/dokumen/keluar"));
-        $pdfCompressName = $pdfFileCompress->convertPdf();
+            // Mengonversi file DOCX yang dirubah ke PDF
+            $convert = new OfficeConverter(storage_path("app/public/" . $hasilTtd));
+            $pdfFileName = pathinfo($convert->convertTo($file_name . '.pdf'), PATHINFO_FILENAME) . '.pdf';
 
-        // Menghapus file PDF yang telah dikonversi
-        Storage::disk("public")->delete("dokumen/keluar/" . $pdfFileName);
+            // Menghapus file DOCX yang dirubah
+            Storage::disk("public")->delete($hasilTtd);
 
-        // Menyimpan file PDF yang telah dikompres
-        $lampiran = "dokumen/keluar/" . pathinfo($pdfCompressName, PATHINFO_FILENAME) . ".pdf";
+            // Mengompres dan mengoptimalkan file PDF yang telah dikonversi
+            $pdfFileCompress = new PdfOptimzer(storage_path("app/public/dokumen/keluar/" . $pdfFileName), storage_path("app/public/dokumen/keluar"));
+            $pdfCompressName = $pdfFileCompress->convertPdf();
 
-        // Get content from pdf
-        $content = Pdf::getText(
-            Storage::disk("public")->path($lampiran), config('libpath.pdf_to_text_path')
-        );
-        // Remove special characters
-        $content = preg_replace('/[^A-Za-z0-9\s]/', '', $content);
+            // Menghapus file PDF yang telah dikonversi
+            Storage::disk("public")->delete("dokumen/keluar/" . $pdfFileName);
 
-        $content = Str::limit($content, 60000);
+            // Menyimpan file PDF yang telah dikompres
+            $lampiran = "dokumen/keluar/" . pathinfo($pdfCompressName, PATHINFO_FILENAME) . ".pdf";
 
-        // Update status dokumen keluar
-        $arsip_keluar->update([
-            'status' => 'Dikirimkan',
-            'persetujuan' => 'tidak',
-            'lampiran' => $lampiran,
-            'pdf_content' => $content,
-        ]);
+            // Get content from pdf
+            $content = Pdf::getText(
+                Storage::disk("public")->path($lampiran), config('libpath.pdf_to_text_path')
+            );
+            // Remove special characters
+            $content = preg_replace('/[^A-Za-z0-9\s]/', '', $content);
 
-        return redirect()->back()->with('pesan', 'Data berhasil disetujui!');
+            $content = Str::limit($content, 60000);
+
+            // Update status dokumen keluar
+            $arsip_keluar->update([
+                'status' => 'Dikirimkan',
+                'persetujuan' => 'tidak',
+                'lampiran' => $lampiran,
+                'pdf_content' => $content,
+            ]);
+
+            return redirect()->back()->with('pesan', 'Data berhasil disetujui!');
+        }
+
+    return redirect()->back()->with('error', 'Placeholder Tanda tangan tidak ditemukan pada dokumen!');
+
     }
 
     protected function __templateProcessorImage($file) {

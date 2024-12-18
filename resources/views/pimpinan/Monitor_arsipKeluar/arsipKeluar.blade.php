@@ -3,7 +3,16 @@
 @section('content')
 
     <div class="pt-0 main-content side-content">
-
+        @if (session('pesan'))
+            <div class="alert alert-primary">
+                {{ session('pesan') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="main-container container-fluid">
             <div class="inner-body">
 
@@ -215,9 +224,36 @@
                         <a href="{{ route('pimpinan.arsipKeluar.persetujuan_arsip_keluar', $item->id) }}"
                             class="btn ripple btn-primary" type="button" href="#"
                             style="margin-right: 10px;">Ya</a>
-                        <button aria-label="Close" class="btn ripple btn-danger pd-x-25" data-bs-dismiss="modal"
-                            type="button">Tidak</button>
+                        <button aria-label="Close" class="btn ripple btn-danger pd-x-25" data-bs-toggle="modal"
+                            data-bs-target="#alasan{{ $item->id }}" type="button">Tidak</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    @foreach ($arsip_keluar as $item)
+        <div class="modal" id="alasan{{ $item->id }}">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content tx-size-sm">
+                    <form id="formRejection" action="{{ route('pimpinan.arsipKeluar.tambahAlasan', $item->id) }}"
+                        method="POST" enctype="multipart/form-data">
+                        @csrf <!-- Pastikan untuk menyertakan token CSRF -->
+                        <div class="modal-body tx-center">
+                            <i class="icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                            <h4 class="tx-danger mg-b-20">Ditolak</h4>
+                            <p class="mg-b-20 mg-x-20" id="modalBodyTextError">Silakan isi alasan penolakan di bawah ini:
+                            </p>
+                            <div class="mb-3">
+                                <label for="rejectionReason" class="form-label">Alasan Penolakan (Wajib diisi)</label>
+                                <textarea id="rejectionReason" name="rejectionReason" class="form-control" rows="4" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-danger pd-x-25" type="submit">Simpan</button>
+                            <button aria-label="Close" class="btn ripple btn-secondary pd-x-25" data-bs-dismiss="modal"
+                                type="button">Batal</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
