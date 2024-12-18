@@ -230,7 +230,7 @@ class TambahDokumenController extends Controller {
 
             } else {
                 // Mengembalikan redirect dengan pesan kesalahan
-                return redirect()->back()->with("error", "File yang diunggah harus berupa file dokumen (DOC, DOCX, atau PDF)!")->withInput();
+                return redirect()->back()->with("error", "File yang diunggah harus berupa file dokumen (DOC, DOCX)!")->withInput();
             }
 
             // cek jika file template di pilih
@@ -258,6 +258,11 @@ class TambahDokumenController extends Controller {
 
     protected function __prosesTemplateDokumen(Request $request, $nama_dokumen): string | RedirectResponse {
         $fileTemplate = DokumenTemplate::findOrFail($request->pilihTemplate)->file;
+
+        // cek jika file template tidak ditemukan
+        if (!Storage::disk('public')->exists($fileTemplate)) {
+            return redirect()->back()->with("error", "File template tidak ditemukan!")->withInput();
+        }
 
         // memulai proses template
         $template = new TemplateProcessor(storage_path('app/public/' . $fileTemplate));
