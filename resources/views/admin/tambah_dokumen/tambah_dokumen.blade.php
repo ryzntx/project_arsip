@@ -165,19 +165,21 @@
                                     @endforeach
                                 </div>
                                 <div class="form-group">
-                                    <label class="tx-medium d-block">Lampiran Dokumen</label>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modalLampiran">
-                                        Tambahkan Lampiran </button>
-                                </div>
-                                <div class="form-group">
                                     <label class="tx-medium">Perlu Pengajuan ke Pimpinan?</label>
-                                    <select name="pengajuan_ke_pimpinan" class="form-control">
+                                    <select name="pengajuan_ke_pimpinan" class="form-control"
+                                        id="pengajuan_ke_pimpinan">
                                         <option value="tidak" selected>Tidak</option>
                                         <option value="ya">Ya</option>
                                     </select>
                                 </div>
-
+                                <div class="form-group">
+                                    <label class="tx-medium d-block">Lampiran Dokumen</label>
+                                    <input type="file" name="file_dokumen" id="file_dokumen_keluar" class="form-control"
+                                        required>
+                                    <button type="button" class="d-none btn btn-primary" data-bs-toggle="modal"
+                                        id="btnLampiran" data-bs-target="#modalLampiran">
+                                        Tambahkan Lampiran dari Template </button>
+                                </div>
                                 <div class="form-group">
                                     <label class="tx-medium">Keterangan</label>
                                     <textarea name="keterangan" class="form-control">{{ old('keterangan') }}</textarea>
@@ -196,53 +198,24 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <ul class="nav nav-pills" id="myTab" role="tablist">
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="uploadFile-tab"
-                                                        data-bs-toggle="tab" data-bs-target="#uploadFile-tab-pane"
-                                                        type="button" role="tab" aria-controls="uploadFile-tab-pane"
-                                                        aria-selected="true">Upload Dokumen</button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="templateFile-tab" data-bs-toggle="tab"
-                                                        data-bs-target="#templateFile-tab-pane" type="button" role="tab"
-                                                        aria-controls="templateFile-tab-pane"
-                                                        aria-selected="false">Template Dokumen</button>
-                                                </li>
-                                            </ul>
-                                            <div class="mt-3 tab-content" id="myTabContent">
-                                                <div class="tab-pane fade show active" id="uploadFile-tab-pane"
-                                                    role="tabpanel" aria-labelledby="uploadFile-tab" tabindex="0">
-                                                    <input type="file" name="file_dokumen" id="file_dokumen_keluar"
-                                                        class="form-control" required>
-                                                    <!-- <input type="file" name="file_dokumen" id="file_dokumen"
-                                                        class="form-control" required> -->
-                                                </div>
-                                                <div class="tab-pane fade" id="templateFile-tab-pane" role="tabpanel"
-                                                    aria-labelledby="templateFile-tab" tabindex="0">
-
-                                                    <div class="form-group">
-                                                        <label for="pilihTemplate" class="tx-medium">Pilih
-                                                            Template</label>
-                                                        <select id="pilihTemplate" name="pilihTemplate"
-                                                            class="form-control">
-                                                            <option value="">Pilih Template Dokumen</option>
-                                                            @foreach ($template_dok as $data)
-                                                            <option value="{{ $data->id }}">
-                                                                {{ $data->nama }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="text-center d-none align-content-center justify-content-center"
-                                                        id="form-loading">
-                                                        <div class="spinner-border" role="status">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                    </div>
-                                                    <div id="fieldSet"></div>
-
+                                            <div class="form-group">
+                                                <label for="pilihTemplate" class="tx-medium">Pilih
+                                                    Template</label>
+                                                <select id="pilihTemplate" name="pilihTemplate" class="form-control">
+                                                    <option value="">Pilih Template Dokumen</option>
+                                                    @foreach ($template_dok as $data)
+                                                    <option value="{{ $data->id }}">
+                                                        {{ $data->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="text-center d-none align-content-center justify-content-center"
+                                                id="form-loading">
+                                                <div class="spinner-border" role="status">
+                                                    <span class="sr-only">Loading...</span>
                                                 </div>
                                             </div>
+                                            <div id="fieldSet"></div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline btn-primary pull-left"
@@ -268,17 +241,27 @@ let pilihTemplate = document.getElementById('pilihTemplate');
 let fieldSet = document.getElementById('fieldSet');
 let uploadFileInput = document.getElementById('file_dokumen_keluar');
 let form_loading = document.getElementById('form-loading')
+let pengajuan_ke_pimpinan = document.getElementById('pengajuan_ke_pimpinan');
+let btnLampiran = document.getElementById('btnLampiran');
+
+pengajuan_ke_pimpinan.addEventListener('change', function() {
+    if (this.value === 'ya') {
+        uploadFileInput.classList.add('d-none');
+        btnLampiran.classList.remove('d-none');
+    } else {
+        uploadFileInput.classList.remove('d-none');
+        btnLampiran.classList.add('d-none');
+    }
+});
 
 pilihTemplate.addEventListener('change', function() {
     fieldSet.innerHTML = '';
     //fetch data from server
     if (this.value === '') {
-        uploadFileInput.disabled = false;
         form_loading.classList.replace('d-flex', 'd-none')
         return;
     }
 
-    uploadFileInput.disabled = true;
     form_loading.classList.replace('d-none', 'd-flex')
 
 
