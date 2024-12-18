@@ -1,19 +1,19 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ArsipKeluarController;
-use App\Http\Controllers\ArsipMasukController;
-use App\Http\Controllers\InstansiController;
-use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\Pencarian;
-use App\Http\Controllers\PimpinanController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RekapanArsipController;
-use App\Http\Controllers\TambahDokumenController;
-use App\Http\Controllers\TemplateDokumen;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TemplateDokumen;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\InstansiController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PimpinanController;
+use App\Http\Controllers\ArsipMasukController;
+use App\Http\Controllers\ArsipKeluarController;
+use App\Http\Controllers\RekapanArsipController;
+use App\Http\Controllers\TambahDokumenController;
 
 Route::get("/", function () {
     if (Auth::check()) {
@@ -41,7 +41,6 @@ Route::middleware("auth")->group(function () {
         Pencarian::class,
         "detail_pencarian",
     ])->name("pencarian.detail");
-
 });
 
 Route::middleware(["auth", "role:admin"])->group(function () {
