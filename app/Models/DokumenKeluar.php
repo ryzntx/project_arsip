@@ -28,6 +28,7 @@ class DokumenKeluar extends Model {
         'dokumen_kategori_id',
         'user_id',
         'pdf_content',
+        'alasan',
     ];
 
     #[SearchUsingFullText(["nama_dokumen", "pdf_content"])]

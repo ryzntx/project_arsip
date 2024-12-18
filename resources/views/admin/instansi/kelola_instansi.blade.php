@@ -3,7 +3,16 @@
 @section('content')
 
 <div class="main-content side-content pt-0">
-
+    @if (session('pesan'))
+    <div class="alert alert-primary">
+        {{ session('pesan') }}
+    </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     <div class="main-container container-fluid">
         <div class="inner-body">
             <!-- Page Header -->

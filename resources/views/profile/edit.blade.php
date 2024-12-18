@@ -2,7 +2,7 @@
 @section('title', 'Edit profil')
 
 @section('content')
-<div class="main-content side-content pt-0">
+<div class="pt-0 main-content side-content">
 
     <div class="main-container container-fluid">
         <div class="inner-body">
@@ -50,12 +50,12 @@
             <div class="row row-sm">
                 <div class="col-lg-12 col-md-12">
                     <div class="card custom-card main-content-body-profile">
-                        <div class="main-content-body tab-pane p-4 border-top-0" id="settings">
+                        <div class="p-4 main-content-body tab-pane border-top-0" id="settings">
                             <div class="card-header">
                                 <div class="mb-4 main-content-label">Pengaturan Akun</div>
                             </div>
                             <div class="card-body" data-select2-id="12">
-                                <div class="mb-4 border p-3">
+                                <div class="p-3 mb-4 border">
                                     <div class="mb-4 main-content-label">Informasi Akun</div>
 
                                     <form action="{{ route('profile.update') }}" method="post" class="form-horizontal"
@@ -87,6 +87,17 @@
                                         <div class="form-group ">
                                             <div class="row row-sm">
                                                 <div class="col-md-3">
+                                                    <label class="form-label">Nomor HP</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" placeholder="Nomor HP"
+                                                        name="phone" value="{{auth()->user()->phone}}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="row row-sm">
+                                                <div class="col-md-3">
                                                     <label class="form-label">Foto Profil</label>
                                                 </div>
                                                 <div class="col-md-9">
@@ -112,7 +123,7 @@
                                         <button type="submit" class="btn btn-primary rounded-5">Simpan</button>
                                     </form>
                                 </div>
-                                <div class="mb-4 border p-3">
+                                <div class="p-3 mb-4 border">
                                     <div class="mb-4 main-content-label">Perbaharui Sandi</div>
                                     <form action="{{ route('password.update') }}" class="form-horizontal" method="post">
                                         @csrf

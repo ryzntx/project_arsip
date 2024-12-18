@@ -61,7 +61,7 @@ class TemplateDokumen extends Controller {
 
         DokumenTemplate::create($data);
 
-        return redirect()->route('admin.template_dokumen')->with('success', 'Template berhasil ditambahkan');
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Template berhasil ditambahkan');
 
     }
 
@@ -133,7 +133,7 @@ class TemplateDokumen extends Controller {
 
         $dokumen->update($data);
 
-        return redirect()->route('admin.template_dokumen')->with('success', 'Template berhasil diubah');
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Template berhasil diubah');
     }
 
     /**
@@ -150,7 +150,7 @@ class TemplateDokumen extends Controller {
         // delete data
         $data->delete();
 
-        return redirect()->route('admin.template_dokumen')->with('success', 'Template berhasil dihapus');
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Template berhasil dihapus');
     }
 
 

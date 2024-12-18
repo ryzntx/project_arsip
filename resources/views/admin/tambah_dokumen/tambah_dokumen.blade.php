@@ -3,6 +3,17 @@
 @section('content')
 
 <div class="pt-0 main-content side-content">
+    @if(session('pesan'))
+    <div class="alert alert-primary">
+        {{ session('pesan') }}
+    </div>
+    @endif
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+
     <div class="main-container container-fluid">
         <div class="inner-body">
 
@@ -222,7 +233,7 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="d-none text-center align-content-center justify-content-center"
+                                                    <div class="text-center d-none align-content-center justify-content-center"
                                                         id="form-loading">
                                                         <div class="spinner-border" role="status">
                                                             <span class="sr-only">Loading...</span>
