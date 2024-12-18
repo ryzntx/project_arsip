@@ -247,11 +247,11 @@ let btnLampiran = document.getElementById('btnLampiran');
 pengajuan_ke_pimpinan.addEventListener('change', function() {
     if (this.value === 'ya') {
         uploadFileInput.classList.add('d-none');
-        uploadFileInput.attributes.required = false;
+        uploadFileInput.removeAttribute('required');
         btnLampiran.classList.remove('d-none');
     } else {
         uploadFileInput.classList.remove('d-none');
-        uploadFileInput.attributes.required = true;
+        uploadFileInput.setAttribute('required', true);
         btnLampiran.classList.add('d-none');
     }
 });
