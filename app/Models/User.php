@@ -27,6 +27,7 @@ class User extends Authenticatable {
         'role',
         'photo_path',
         'ttd_path',
+        'phone',
     ];
 
     /**
