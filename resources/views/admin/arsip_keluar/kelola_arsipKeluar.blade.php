@@ -3,7 +3,16 @@
 @section('content')
 
     <div class="pt-0 main-content side-content">
-
+        @if (session('pesan'))
+            <div class="alert alert-primary">
+                {{ session('pesan') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="main-container container-fluid">
             <div class="inner-body">
 
@@ -106,6 +115,13 @@
                                                     </td>
                                                     <td>
                                                         <div class="gap-1 d-flex justify-content-center">
+                                                            @if ($item->status === 'Ditolak')
+                                                                <a href="#" class="btn btn-primary btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#alasanModal{{ $item->id }}">
+                                                                    <i class="fa fa-info"></i>
+                                                                </a>
+                                                            @endif
                                                             <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
                                                                 target="_blank" class="btn btn-primary btn-sm">
                                                                 <i class="fa fa-print"></i>
@@ -133,6 +149,36 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Menampilkan Alasan --}}
+    @foreach ($arsip_keluar as $item)
+        <div class="modal fade" id="alasanModal{{ $item->id }}" tabindex="-1" aria-labelledby="alasanModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-l">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="alasanModalLabel">Alasan Penolakan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="alasanBody">
+                        <!-- Add your modal content here -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="alasan" class="form-label">Alasan Penolakan</label>
+                                    <textarea name="alasan" id="alasan" class="form-control" readonly>{{ $item->alasan }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline btn-primary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
 
     {{-- @foreach ($arsip_keluar as $item)
             <div class="modal" id="delete{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -182,8 +228,8 @@
                                                 required>
                                         </div>
                                     @else
-                                        <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
-                                            width="100%" height="100%" />
+                                        <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}"
+                                            class="img-thumbnail" width="100%" height="100%" />
                                         {{-- <img src={{ asset('storage/' . $item->bukti_dikirimkan) }} class="img-thumbnail" />
                             --}}
                                     @endif

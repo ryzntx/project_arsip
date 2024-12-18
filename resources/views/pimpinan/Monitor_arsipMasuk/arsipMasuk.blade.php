@@ -3,14 +3,24 @@
 @section('content')
 
 <div class="main-content side-content pt-0">
-
+    @if (session('pesan'))
+    <div class="alert alert-primary">
+        {{ session('pesan') }}
+    </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     <div class="main-container container-fluid">
         <div class="inner-body">
 
             <!-- Page Header -->
             <div class="page-header text-center" style="margin-bottom: 20px;">
                 <div>
-                    <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                    <h2 class="main-content-label tx-24 mg-b-5"
+                        style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
                         <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
                         ARSIP DOKUMEN
                     </h2>
@@ -34,39 +44,42 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table mb-0" id="dokumenMasuk-tabel" style="width: 100%">
-                                <thead>
-                                    <tr class="border-bottom" style="text-align: center;">
-                                        <th>No</th>
-                                        <th>Nama Dokumen</th>
-                                        <th>Dinas</th>
-                                        <th>Kategori</th>
-                                        <th>Tanggal</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($arsip_masuk as $item)
-                                    <tr style="text-align: center;">
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td class="text-wrap" onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">{{ $item->nama_dokumen }}</td>
-                                        <td>{{ $item->instansi->singkatan_instansi }}</td>
-                                        <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
-                                        <td>{{ $item->tanggal_masuk }}</td>
-                                        <td class="d-flex justify-content-center gap-1">
-                                            <a href="{{ route('pimpinan.arsipMasuk.print', $item->id) }}" target="_blank" class="btn btn-primary btn-sm">Cetak</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    <thead>
+                                        <tr class="border-bottom" style="text-align: center;">
+                                            <th>No</th>
+                                            <th>Nama Dokumen</th>
+                                            <th>Dinas</th>
+                                            <th>Kategori</th>
+                                            <th>Tanggal</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($arsip_masuk as $item)
+                                        <tr style="text-align: center;">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td class="text-wrap"
+                                                onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                {{ $item->nama_dokumen }}</td>
+                                            <td>{{ $item->instansi->singkatan_instansi }}</td>
+                                            <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
+                                            <td>{{ $item->tanggal_masuk }}</td>
+                                            <td class="d-flex justify-content-center gap-1">
+                                                <a href="{{ route('pimpinan.arsipMasuk.print', $item->id) }}"
+                                                    target="_blank" class="btn btn-primary btn-sm">Cetak</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- End Row -->
         </div>
-    <!-- End Row -->
-</div>
-</div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -116,64 +129,64 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i class="fa fa-file-download me-2"></i>Unduh PDF</a>
+                <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
+                        class="fa fa-file-download me-2"></i>Unduh PDF</a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    $('#dokumenMasuk-tabel').DataTable({
-        "responsive" : true,
-        "autowidth"  : true,
-    });
+$('#dokumenMasuk-tabel').DataTable({
+    "responsive": true,
+    "autowidth": true,
+});
 
-    function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
-        // kita siapin dulu nih variabel nya
-        var tabel = document.getElementById(
-            'dokumenMasuk-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
-        var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
+function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
+    // kita siapin dulu nih variabel nya
+    var tabel = document.getElementById(
+        'dokumenMasuk-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
+    var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
 
-        // Fungsi untuk menampilkan/menutup right-panel
-        // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
-        if (tabel.classList.contains('selected')) {
-            // Toggle modal to show
-            modal.hide();
-            // Kalau ada kita hapus dulu
-            tabel.classList.remove('selected');
-        } else {
-            modal.show();
-            // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
-            // tapi dengan cara kita cek di setiap baris tabel nya
-            document.querySelectorAll('#dokumenMasuk-tabel tbody tr.selected').forEach(function (row) {
-                // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
-                row.classList.remove('selected');
-            });
-            // trus tambahin lagi class selected nya deh
-            // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
-            tabel.classList.add('selected');
+    // Fungsi untuk menampilkan/menutup right-panel
+    // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
+    if (tabel.classList.contains('selected')) {
+        // Toggle modal to show
+        modal.hide();
+        // Kalau ada kita hapus dulu
+        tabel.classList.remove('selected');
+    } else {
+        modal.show();
+        // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
+        // tapi dengan cara kita cek di setiap baris tabel nya
+        document.querySelectorAll('#dokumenMasuk-tabel tbody tr.selected').forEach(function(row) {
+            // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
+            row.classList.remove('selected');
+        });
+        // trus tambahin lagi class selected nya deh
+        // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
+        tabel.classList.add('selected');
 
-        }
-
-        // trus kita tampilin deh data nya ke right-panel
-        document.getElementById('kategori_dokumen').value = kategori_dokumen;
-        document.getElementById('nama_dokumen').value = nama_dokumen;
-        document.getElementById('penerima').value = penerima;
-        document.getElementById('pengirim').value = pengirim;
-        document.getElementById('dinas').value = dinas;
-        document.getElementById('tanggal_masuk').value = tanggal;
-
-        // Menampilkan PDF di iframe
-        var viewer = document.getElementById('pdf-viewer');
-        viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
-
-        // Set href for download button
-        var downloadBtn = document.getElementById('btnDownloadPDF');
-        downloadBtn.href = "/storage/" + pdfUrl;
-
-        // udah deh segitu aja
     }
 
+    // trus kita tampilin deh data nya ke right-panel
+    document.getElementById('kategori_dokumen').value = kategori_dokumen;
+    document.getElementById('nama_dokumen').value = nama_dokumen;
+    document.getElementById('penerima').value = penerima;
+    document.getElementById('pengirim').value = pengirim;
+    document.getElementById('dinas').value = dinas;
+    document.getElementById('tanggal_masuk').value = tanggal;
+
+    // Menampilkan PDF di iframe
+    var viewer = document.getElementById('pdf-viewer');
+    viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
+
+    // Set href for download button
+    var downloadBtn = document.getElementById('btnDownloadPDF');
+    downloadBtn.href = "/storage/" + pdfUrl;
+
+    // udah deh segitu aja
+}
 </script>
 
 @endsection
