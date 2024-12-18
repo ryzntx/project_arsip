@@ -252,7 +252,13 @@ class TambahDokumenController extends Controller {
             $instansi = Instansi::find($request->dinas_id);
             // Mengirim notifikasi ke telegram
             $user = User::where('role', 'pimpinan')->first();
-            $user->notify(new SignDocumentKeluars($request->nama_dokumen, $kategori->nama_kategori, $instansi->nama_instansi));
+            try {
+                $user->notify(new SignDocumentKeluars($request->nama_dokumen, $kategori->nama_kategori, $instansi->nama_instansi));
+            } catch (\Exception $e) {
+                logger("Whatsapp Notification: ".$e);
+                // Mengembalikan redirect dengan pesan kesalahan
+                // return redirect()->back()->with("error", "Gagal mengirim notifikasi ke pimpinan!")->withInput();
+            }
         }
         // Membuat record 'DokumenKeluar' baru di database dengan array data
         return DokumenKeluar::create($data);
