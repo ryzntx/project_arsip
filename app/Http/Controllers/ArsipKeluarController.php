@@ -181,8 +181,8 @@ class ArsipKeluarController extends Controller {
         // Mengatur nilai gambar untuk placeholder 'TTD' dengan path, lebar, tinggi, dan rasio yang ditentukan
         $template->setImageValue('TTD', [
             'path' => storage_path('app/public/' . $ttd),
-            'width' => 100,
-            'height' => 100,
+            'width' => 150,
+            'height' => 150,
             'ratio' => false,
         ]);
 
