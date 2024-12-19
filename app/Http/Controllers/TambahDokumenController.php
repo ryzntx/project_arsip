@@ -224,17 +224,42 @@ class TambahDokumenController extends Controller {
 
             // Memeriksa apakah file yang diunggah adalah file dokumen yang valid (DOC atau DOCX)
             if ($this->__cekFileDokumen($file)) {
-                // Mengunggah file DOCX ke penyimpanan publik
-                $uploadPath = $file->storeAs("dokumen/keluar", $file_name, "public");
 
-                // Mengatur field 'lampiran' dalam array data ke nama file PDF yang telah dikompres dan dioptimalkan
-                $data["lampiran"] = "dokumen/keluar/" . pathinfo($uploadPath, PATHINFO_FILENAME) . "." . $file->getClientOriginalExtension();
+                $uploadPath = $file->storeAs("dokumen/keluar", $file_name . '.docx', "public");
 
+
+                $convert = new OfficeConverter(storage_path("app/public/" . $uploadPath));
+                $pdfFileName = pathinfo($convert->convertTo($file_name . '.pdf'), PATHINFO_FILENAME) . '.pdf';
+
+
+                Storage::disk("public")->delete($uploadPath);
+
+
+                $pdfFileCompress = new PdfOptimzer(storage_path("app/public/dokumen/keluar/" . $pdfFileName), storage_path("app/public/dokumen/keluar"));
+                $pdfCompressName = $pdfFileCompress->convertPdf();
+
+
+                Storage::disk("public")->delete("dokumen/keluar/" . $pdfFileName);
+
+
+                $data["lampiran"] = "dokumen/keluar/" . pathinfo($pdfCompressName, PATHINFO_FILENAME) . ".pdf";
+            } elseif ($file->getClientOriginalExtension() == "pdf") {
+
+                $uploadPath = $file->storeAs("dokumen/keluar", $file_name . '.pdf', "public");
+
+
+                $pdfFileCompress = new PdfOptimzer(storage_path("app/public/" . $uploadPath), storage_path("app/public/dokumen/keluar"));
+                $pdfCompressName = $pdfFileCompress->convertPdf();
+
+
+                Storage::disk("public")->delete($uploadPath);
+
+
+                $data["lampiran"] = "dokumen/keluar/" . pathinfo($pdfCompressName, PATHINFO_FILENAME) . ".pdf";
             } else {
-                // Mengembalikan redirect dengan pesan kesalahan
-                return redirect()->back()->with("error", "File yang diunggah harus berupa file dokumen (DOC, DOCX)!")->withInput();
-            }
 
+                return redirect()->back()->with("error", "File yang diunggah harus berupa file dokumen (DOC, DOCX, atau PDF)!")->withInput();
+            }
             // cek jika file template di pilih
         } elseif ($request->pilihTemplate != null || $request->pilihTemplate != '') {
             $hasil = $this->__prosesTemplateDokumen($request, $nama_dokumen . "_" . $dtFormat);
@@ -281,7 +306,8 @@ class TambahDokumenController extends Controller {
         // cek jika ada konten yang dikirimkan
         if ($request->var_KONTEN !== null || $request->var_ISISURAT !== null) {
             // tambahkan konten ke section
-            Html::addHtml($htmlSection, TagPrefixFixer::addNamespaces($request->var_KONTEN));
+            // dd(TagPrefixFixer::cleanHTML($request->var_KONTEN));
+            Html::addHtml($htmlSection, TagPrefixFixer::addNamespaces(TagPrefixFixer::cleanHTML($request->var_KONTEN)));
         }
 
         // lakukan perulangan dengan form yang dikirimkan

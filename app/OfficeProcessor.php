@@ -27,11 +27,20 @@ trait OfficeProcessor {
                 // echo "TextRun: " . (get_class($element) == 'PhpOffice\PhpWord\Element\TextRun' ? 'true' : 'false') . "<br>";
                 if (get_class($element) == 'PhpOffice\PhpWord\Element\TextRun') {
                     $textRun = $element->getElements();
+                    // dd($textRun);
                     foreach ($textRun as $text) {
                         // echo "Text :" . $text->getText() . "<br>";
                         if (strpos($text->getText(), '${') !== false) {
                             // echo "Text: " . ($text->getText()) . "<br>";
-                            $dataVar[] = preg_replace('/[^A-Za-z0-9\-_]/', '', $text->getText());
+                            // dd($text->getText());
+                            // $dataVar[] = preg_replace('/\$\{([A-Za-z0-9-_]+)\}/', '',$text->getText());
+                            // $dataVar[] = preg_replace('/[^A-Za-z0-9\-\_]/', '',$text->getText());
+                            preg_match_all('/\$\{([A-Za-z0-9-_]+)\}/', $text->getText(), $matches);
+                            if (isset($matches[1])) {
+                                // dd($matches);
+                                $variableName = $matches[1]; // Ambil nilai KEPALA_DINAS
+                                $dataVar[] = $variableName;
+                            }
                         }
                     }
                 }
@@ -41,12 +50,63 @@ trait OfficeProcessor {
                         // echo "Text :" . $text->getText() . "<br>";
                         if (strpos($text->getText(), '${') !== false) {
                             // echo "Text: " . ($text->getText()) . "<br>";
-                            $dataVar[] = preg_replace('/[^A-Za-z0-9\-_]/', '', $text->getText());
+                            // $dataVar[] = preg_replace('/\$\{([A-Za-z0-9-_]+)\}/', '',$text->getText());
+                            // $dataVar[] = preg_replace('/[^A-Za-z0-9\-\_]/', '',$text->getText());
+                            preg_match_all('/\$\{([A-Za-z0-9-_]+)\}/', $text->getText(), $matches);
+                            if (isset($matches[1])) {
+                                // dd($matches);
+                                $variableName = $matches[1]; // Ambil nilai KEPALA_DINAS
+                                $dataVar[] = $variableName;
+                            }
+                        }
+                    }
+                }
+                if (get_class($element) == 'PhpOffice\PhpWord\Element\Table') {
+                    $table = $element->getRows();
+                    foreach ($table as $row) {
+                        // dd($row);
+                        $cell = $row->getCells();
+                        foreach ($cell as $item) {
+                            // dd($item);
+                            $element = $item->getElements();
+                            foreach ($element as $el) {
+                                // dd($el);
+                                if (get_class($el) == 'PhpOffice\PhpWord\Element\TextRun') {
+                                    // dd($element);
+                                    // echo "Text :" . $el->getText() . "<br>";
+                                    if (strpos($el->getText(), '${') !== false) {
+                                        // echo "Text: " . preg_replace('/[^A-Za-z0-9\-]/', '', '',$el->getText()) . "<br>";
+                                        // $dataVar[] = preg_replace('/\$\{([A-Za-z0-9-_]+)\}/', '',$el->getText());
+                                        // $dataVar[] = preg_replace('/[^A-Za-z0-9\-\_]/', '',$el->getText());
+                                        preg_match_all('/\$\{([A-Za-z0-9-_]+)\}/', $el->getText(), $matches);
+                                            if (isset($matches[1])) {
+                                                // dd($matches);
+                                                $variableName = $matches[1]; // Ambil nilai KEPALA_DINAS
+                                                $dataVar[] = $variableName;
+                                            }
+                                    }
+
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+        // explode array inside array to single array
+        $dataVar = array_merge(...$dataVar);
+        $dataVar = array_unique($dataVar);
+        $dataVar = array_filter($dataVar);
+        // remove index number
+        $dataVar = array_values($dataVar);
+
+        // Remove 'ttd' values from the array
+        $dataVar = array_filter($dataVar, function($value) {
+            return strtolower($value) !== 'ttd';
+        });
+
+
+        // dd($dataVar);
         return $dataVar;
     }
 
@@ -76,10 +136,17 @@ trait OfficeProcessor {
                                 // dd($el);
                                 if (get_class($el) == 'PhpOffice\PhpWord\Element\TextRun') {
                                     // dd($element);
-                                    // echo "Text :" . $text->getText() . "<br>";
+                                    // echo "Text :" . $el->getText() . "<br>";
                                     if (strpos($el->getText(), '${') !== false) {
-                                        // echo "Text: " . preg_replace('/[^A-Za-z0-9\-]/', '', $el->getText()) . "<br>";
-                                        $dataVar[] = preg_replace('/[^A-Za-z0-9\-]/', '', $el->getText());
+                                        // echo "Text: " . preg_replace('/[^A-Za-z0-9\-]/', '', '',$el->getText()) . "<br>";
+                                        // $dataVar[] = preg_replace('/\$\{([A-Za-z0-9-_]+)\}/', '',$el->getText());
+                                        // $dataVar[] = preg_replace('/[^A-Za-z0-9\-\_]/', '',$el->getText());
+                                        preg_match_all('/\$\{([A-Za-z0-9-_]+)\}/', $el->getText(), $matches);
+                                            if (isset($matches[1])) {
+                                                // dd($matches);
+                                                $variableName = $matches[1]; // Ambil nilai KEPALA_DINAS
+                                                $dataVar[] = $variableName;
+                                            }
                                     }
 
                                 }
@@ -89,6 +156,18 @@ trait OfficeProcessor {
                 }
             }
         }
+        // explode array inside array to single array
+        $dataVar = array_merge(...$dataVar);
+        $dataVar = array_unique($dataVar);
+        $dataVar = array_filter($dataVar);
+        // remove index number
+        $dataVar = array_values($dataVar);
+
+        // Remove 'ttd' values from the array
+        $dataVar = array_filter($dataVar, function($value) {
+            return strtolower($value) !== 'ttd';
+        });
+
         return $dataVar;
     }
 

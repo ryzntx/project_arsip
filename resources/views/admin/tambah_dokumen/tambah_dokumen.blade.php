@@ -288,13 +288,15 @@ pilihTemplate.addEventListener('change', function() {
 
                 // create input element
                 let input;
-                if (item == 'KONTEN' || item == 'ISISURAT') {
+                if (item == 'KONTEN' || item == 'ISISURAT' || item == 'isi_surat' || item ==
+                    'konten') {
                     input = document.createElement('textarea');
                     input.classList.add('form-control');
                     input.classList.add('summernote')
                     input.setAttribute('name', "var_" + item);
                     input.setAttribute('required', false);
-                } else if (item == 'TANGGAL') {
+                } else if (item == 'TANGGAL' || item == 'TANGGAL_SURAT' || item == 'tanggal' ||
+                    item == 'tanggal_surat') {
                     input = document.createElement('input');
                     input.classList.add('form-control');
                     input.setAttribute('name', "var_" + item);
@@ -344,6 +346,7 @@ document.getElementById('jenis_dokumen').addEventListener('change', function() {
     }
 });
 </script>
+
 
 
 
