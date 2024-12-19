@@ -91,7 +91,7 @@ Route::middleware(["auth", "role:admin"])->group(function () {
     Route::post("admin/template_dokumen/insert", [TemplateDokumen::class, 'simpan'])->name('admin.template_dokumen.insert');
     Route::get("admin/template_dokumen/lihat/{id}", [TemplateDokumen::class, 'lihat_template'])->name('admin.template_dokumen.lihat');
     Route::get("admin/template_dokumen/edit/{id}", [TemplateDokumen::class, 'edit_template'])->name('admin.template_dokumen.edit');
-    Route::get("admin/template_dokumen/update/{id}", [TemplateDokumen::class, 'update_template'])->name('admin.template_dokumen.update');
+    Route::put("admin/template_dokumen/update/{id}", [TemplateDokumen::class, 'update_template'])->name('admin.template_dokumen.update');
     Route::get("admin/template_dokumen/delete/{id}", [TemplateDokumen::class, 'delete_template'])->name('admin.template_dokumen.delete');
 
 
