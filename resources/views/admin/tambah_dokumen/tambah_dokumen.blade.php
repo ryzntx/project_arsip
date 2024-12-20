@@ -142,9 +142,9 @@
                                         </select>
                                     </div>
                                     <!-- <div class="form-group">
-                                                                                                            <label class="tx-medium">Pengirim</label>
-                                                                                                            <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim">
-                                                                                                        </div> -->
+                                                                                                                    <label class="tx-medium">Pengirim</label>
+                                                                                                                    <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim">
+                                                                                                                </div> -->
                                     <div class="form-group">
                                         <label class="tx-medium">Penerima</label>
                                         <input type="text" class="form-control" name="nama_penerima"
@@ -160,7 +160,8 @@
                                         @foreach ($kategori as $data)
                                             <div>
                                                 <input type="radio" id="pilihan{{ $data->id }}" name="kategori_id"
-                                                    value="{{ $data->id }}">
+                                                    value="{{ $data->id }}" required
+                                                    {{ old('kategori_id') == $data->id ? 'checked' : '' }}>
                                                 <label
                                                     for="pilihan{{ $data->id }}">{{ $data->nama_kategori }}</label>
                                             </div>
@@ -306,7 +307,7 @@
                             input.setAttribute('id', 'isi_surat');
                             input.setAttribute('name', "var_" + item);
                             input.setAttribute('type', 'hidden');
-                            input.setAttribute('required', false);
+                            input.setAttribute('required', true);
 
                             isi_surat = true;
                         } else if (item == 'TANGGAL' || item == 'TANGGAL_SURAT' || item == 'tanggal' ||
@@ -315,13 +316,13 @@
                             input.classList.add('form-control');
                             input.setAttribute('name', "var_" + item);
                             input.setAttribute('type', 'date');
-                            input.setAttribute('required', false);
+                            input.setAttribute('required', true);
                         } else {
                             input = document.createElement('input');
                             input.classList.add('form-control');
                             input.setAttribute('name', "var_" + item);
                             input.setAttribute('type', 'text');
-                            input.setAttribute('required', false);
+                            input.setAttribute('required', true);
                         }
 
                         // append label and input to form group

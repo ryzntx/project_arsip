@@ -60,7 +60,7 @@
                                                 <tr style="text-align: center;">
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-wrap"
-                                                        onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                        onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
                                                         {{ $item->nama_dokumen }}</td>
                                                     <td>{{ $item->instansi->singkatan_instansi }}</td>
                                                     <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
@@ -273,10 +273,6 @@
                                     readonly>
                             </div>
                             <div class="form-group">
-                                <label for="pengirim" class="form-label">Pengirim</label>
-                                <input type="text" name="pengirim" id="pengirim" class="form-control" readonly>
-                            </div>
-                            <div class="form-group">
                                 <label for="penerima" class="form-label">Penerima</label>
                                 <input type="text" name="penerima" id="penerima" class="form-control" readonly>
                             </div>
@@ -303,7 +299,7 @@
     </div>
 
     <script>
-        function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
+        function showDetails(kategori_dokumen, nama_dokumen, penerima, dinas, tanggal, pdfUrl) {
             // kita siapin dulu nih variabel nya
             var tabel = document.getElementById(
                 'dokumenKeluar-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
@@ -334,7 +330,6 @@
             document.getElementById('kategori_dokumen').value = kategori_dokumen;
             document.getElementById('nama_dokumen').value = nama_dokumen;
             document.getElementById('penerima').value = penerima;
-            document.getElementById('pengirim').value = pengirim;
             document.getElementById('dinas').value = dinas;
             document.getElementById('tanggal_keluar').value = tanggal;
 
