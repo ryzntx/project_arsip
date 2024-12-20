@@ -7,7 +7,8 @@
             <div class="inner-body">
 
                 <!-- Page Header -->
-                <div class="page-header" style="margin-bottom: 1px; display: flex; flex-direction: column; align-items: center;">
+                <div class="page-header"
+                    style="margin-bottom: 1px; display: flex; flex-direction: column; align-items: center;">
                     <div class="text-center">
                         <h2 class="main-content-label" style="font-weight: bold; font-size: 34px; margin-right: 20px; ">
                             <span style="color: #58508d;">C</span>
@@ -25,7 +26,8 @@
 
                             <i class="ti-search" style="margin-left: 10px; font-size: 30px; color: #4285F4;"></i>
                         </h2>
-                        <h4 class="my-2 align-content-center" style="color: rgba(109, 109, 109, 0.484)">Masukkan kata kunci atau filter pencarian Anda</h4>
+                        <h4 class="my-2 align-content-center" style="color: rgba(109, 109, 109, 0.484)">Masukkan kata kunci
+                            atau filter pencarian Anda</h4>
                     </div>
                 </div>
 
@@ -48,20 +50,21 @@
                                         @endif
                                         <button class="btn btn-primary" type="submit"><i class="fa fa-search me-2"></i>Cari
                                             Data</button>
-                                            <button class="btn btn-outline-secondary ripple" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#filterCanvas" aria-controls="filterCanvas"><i
-                                    class="fa fa-filter me-2"></i>Filter</button>
+                                        <button class="btn btn-outline-secondary ripple" type="button"
+                                            data-bs-toggle="offcanvas" data-bs-target="#filterCanvas"
+                                            aria-controls="filterCanvas"><i class="fa fa-filter me-2"></i>Filter</button>
                                     </div>
                                     <div class="offcanvas offcanvas-end" tabindex="-1" id="filterCanvas"
                                         aria-labelledby="filterCanvasLabel">
                                         <div class="offcanvas-header">
-                                            <h5 class="offcanvas-title" id="filterMenuLabel">Filter Laporan</h5>
+                                            <h5 class="offcanvas-title" id="filterMenuLabel">Filter Pencarian</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="offcanvas-body">
                                             <div class="overflow-y-auto">
-                                                {{-- <form action="{{ request()->fullUrlWithQuery([request()->query()]) }}" method="get"> --}}
+                                                {{-- <form action="{{ request()->fullUrlWithQuery([request()->query()]) }}"
+                                            method="get"> --}}
                                                 <h5 class="m-0">Filter Data</h5>
                                                 <hr class="mt-0 border-bottom border-3">
                                                 <div class="form-group">
