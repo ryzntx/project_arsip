@@ -28,9 +28,9 @@
                 <div class="form-group">
                     <label for="jenis_dokumen" class="tx-medium">Jenis Dokumen</label>
                     <select id="jenis_dokumen" class="form-control" name="jenis_dokumen">
-                        <option value="pus_" selected>Pilih</option>
-                        <option value="masuk">Dokumen Masuk</option>
-                        <option value="keluar">Dokumen Keluar</option>
+                        <option value="pus_">Pilih</option>
+                        <option value="masuk" @selected(old('jenis_dokumen') === 'dokumen_masuk')>Dokumen Masuk</option>
+                        <option value="keluar" @selected(old('jenis_dokumen') === 'dokumen_keluar')>Dokumen Keluar</option>
                     </select>
                 </div>
 
@@ -292,6 +292,15 @@
         let isi_surat = false;
         var quill;
 
+        var formMasuk = document.getElementById('formMasuk');
+        var formKeluar = document.getElementById('formKeluar');
+
+        @if (old('jenis_dokumen') == 'dokumen_masuk')
+            formMasuk.style.display = 'block';
+        @elseif (old('jenis_dokumen') == 'dokumen_keluar')
+            formKeluar.style.display = 'block';
+        @endif
+
         pengajuan_ke_pimpinan.addEventListener('change', function() {
             if (this.value === 'ya') {
                 uploadFileInput.classList.add('d-none');
@@ -400,8 +409,6 @@
 
         document.getElementById('jenis_dokumen').addEventListener('change', function() {
             var type = this.value;
-            var formMasuk = document.getElementById('formMasuk');
-            var formKeluar = document.getElementById('formKeluar');
 
             // Reset visibility
             formMasuk.style.display = 'none';
