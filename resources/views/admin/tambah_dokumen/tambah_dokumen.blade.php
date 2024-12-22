@@ -13,7 +13,6 @@
                 {{ session('error') }}
             </div>
         @endif
-
         <div class="main-container container-fluid">
             <div class="inner-body">
 
@@ -44,41 +43,54 @@
                             </div>
                             <form action="/admin/tambah_dokumen/insert" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="jenis_dokumen" value="dokumen_masuk" required>
+                                <input type="hidden" name="jenis_dokumen" value="dokumen_masuk">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label class="tx-medium">Tanggal</label>
                                         <input type="date" class="form-control" name="tanggal_masuk" id="tanggal_masuk"
-                                            required value="{{ old('tanggal_masuk') }}">
+                                            value="{{ old('tanggal_masuk') }}">
+                                        @error('tanggal_masuk')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Nama Dokumen</label>
                                         <input type="text" class="form-control" name="nama_dokumen" id="nama_dokumen"
-                                            value="{{ old('nama_dokumen') }}" required>
+                                            value="{{ old('nama_dokumen') }}">
+                                        @error('nama_dokumen')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="namaDinas" class="tx-medium">Dinas / Instansi</label>
-                                        <select id="namaDinas" name="dinas_id" class="form-control" required>
-
+                                        <select id="namaDinas" name="dinas_id" class="form-control">
                                             <!-- Option list remains unchanged -->
                                             <option selected>Pilih Dinas / Instansi</option>
                                             @foreach ($instansi as $data)
-                                                <option value="{{ $data->id }}"
-                                                    {{ old('dinas_id') == $data->id ? 'selected' : '' }}>
+                                                <option value="{{ $data->id }}" @selected(old('dinas_id') == $data->id)>
                                                     {{ $data->nama_instansi }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('dinas_id')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Pengirim</label>
                                         <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim"
-                                            value="{{ old('nama_pengirim') }}" required>
+                                            value="{{ old('nama_pengirim') }}">
+                                        @error('nama_pengirim')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Penerima</label>
                                         <input type="text" class="form-control" name="nama_penerima" id="nama_penerima"
-                                            value="{{ old('nama_penerima') }}" required>
+                                            value="{{ old('nama_penerima') }}">
+                                        @error('nama_penerima')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Kategori Dokumen:</label>
@@ -86,17 +98,21 @@
                                         @foreach ($kategori as $data)
                                             <div>
                                                 <input type="radio" id="pilihan{{ $data->id }}" name="kategori_id"
-                                                    value="{{ $data->id }}" required
-                                                    {{ old('kategori_id') == $data->id ? 'checked' : '' }}>
+                                                    value="{{ $data->id }}" @checked(old('kategori_id') == $data->id)>
                                                 <label for="pilihan{{ $data->id }}">{{ $data->nama_kategori }}</label>
                                             </div>
                                         @endforeach
+                                        @error('kategori_id')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
 
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Lampiran Dokumen</label>
-                                        <input type="file" name="file_dokumen" id="file_dokumen" class="form-control"
-                                            required>
+                                        <input type="file" name="file_dokumen" id="file_dokumen" class="form-control">
+                                        @error('file_dokumen')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Keterangan</label>
@@ -122,12 +138,15 @@
                             </div>
                             <form action="/admin/tambah_dokumen/insert" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="jenis_dokumen" value="dokumen_keluar" required>
+                                <input type="hidden" name="jenis_dokumen" value="dokumen_keluar">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label class="tx-medium">Tanggal</label>
                                         <input type="date" class="form-control" name="tanggal_keluar"
-                                            id="tanggal_keluar" required>
+                                            id="tanggal_keluar" value="{{ old('tanggal_keluar') }}">
+                                        @error('tanggal_keluar')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="namaDinas" class="tx-medium">Dinas</label>
@@ -136,52 +155,71 @@
                                             <!-- Option list remains unchanged -->
                                             <option value="" selected>Pilih</option>
                                             @foreach ($instansi as $data)
-                                                <option value="{{ $data->id }}">{{ $data->nama_instansi }}
+                                                <option value="{{ $data->id }}" @selected(old('dinas_id') == $data->id)>
+                                                    {{ $data->nama_instansi }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('dinas_id')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
-                                    <!-- <div class="form-group">
-                                                                                                                    <label class="tx-medium">Pengirim</label>
-                                                                                                                    <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim">
-                                                                                                                </div> -->
                                     <div class="form-group">
                                         <label class="tx-medium">Penerima</label>
                                         <input type="text" class="form-control" name="nama_penerima"
-                                            id="nama_penerima">
+                                            id="nama_penerima" value="{{ old('nama_penerima') }}">
+                                        @error('nama_penerima')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Nama Dokumen</label>
                                         <input type="text" class="form-control" name="nama_dokumen" id="nama_dokumen"
-                                            required>
+                                            value="{{ old('nama_dokumen') }}">
+                                        @error('nama_dokumen')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class=" form-group">
                                         <label>Kategori Dokumen:</label>
                                         @foreach ($kategori as $data)
                                             <div>
                                                 <input type="radio" id="pilihan{{ $data->id }}" name="kategori_id"
-                                                    value="{{ $data->id }}" required
-                                                    {{ old('kategori_id') == $data->id ? 'checked' : '' }}>
+                                                    value="{{ $data->id }}" @checked(old('kategori_id') == $data->id)>
                                                 <label
                                                     for="pilihan{{ $data->id }}">{{ $data->nama_kategori }}</label>
                                             </div>
                                         @endforeach
+                                        @error('kategori_id')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Perlu Pengajuan ke Pimpinan?</label>
                                         <select name="pengajuan_ke_pimpinan" class="form-control"
                                             id="pengajuan_ke_pimpinan">
-                                            <option value="tidak" selected>Tidak</option>
-                                            <option value="ya">Ya</option>
+                                            <option value="tidak" @selected(old('pengajuan_ke_pimpinan') == 'tidak')>Tidak</option>
+                                            <option value="ya" @selected(old('pengajuan_ke_pimpinan') == 'ya')>Ya</option>
                                         </select>
+                                        @error('pengajuan_ke_pimpinan')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium d-block">Lampiran Dokumen</label>
                                         <input type="file" name="file_dokumen" id="file_dokumen_keluar"
-                                            class="form-control" required>
-                                        <button type="button" class="d-none btn btn-primary" data-bs-toggle="modal"
-                                            id="btnLampiran" data-bs-target="#modalLampiran">
+                                            class="form-control {{ old('pengajuan_ke_pimpinan') == 'tidak' ? 'd-block' : 'd-none' }}">
+                                        <button type="button"
+                                            class="{{ old('pengajuan_ke_pimpinan') == 'ya' ? 'd-block' : 'd-none' }} btn btn-primary"
+                                            data-bs-toggle="modal" id="btnLampiran" data-bs-target="#modalLampiran">
                                             Tambahkan Lampiran dari Template </button>
+                                        @error('file_dokumen')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
+                                        @error('pilihTemplate')
+                                            <small class="text-danger text-bold">{{ $message }}</small>
+                                        @enderror
+
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Keterangan</label>

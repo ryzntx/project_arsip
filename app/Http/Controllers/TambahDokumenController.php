@@ -20,6 +20,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\File;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Shared\Html;
 use Spatie\PdfToText\Pdf;
@@ -49,20 +50,40 @@ class TambahDokumenController extends Controller {
      */
     public function simpan(Request $request) {
         // Mendapatkan nilai dari field 'jenis_dokumen' dari request
+
+
         $jenis = $request->jenis_dokumen;
 
 
         if ($jenis == "dokumen_masuk") {
-
+            $validated = $request->validate([
+                'nama_dokumen' => 'required',
+                'nama_penerima' => 'required',
+                'nama_pengirim' => 'required',
+                'tanggal_masuk' => 'required',
+                'keterangan' => 'required',
+                'dinas_id' => 'required',
+                'kategori_id' => 'required',
+                'file_dokumen' => ['required', File::types(['doc', 'docx', 'pdf'])],
+            ]);
             $hasil = $this->__simpanDokumenMasuk($request);
         } elseif ($jenis == "dokumen_keluar") {
-
+            $validated = $request->validate([
+                'nama_dokumen' => 'required',
+                'nama_penerima' => 'required',
+                'tanggal_keluar' => 'required',
+                'keterangan' => 'required',
+                'dinas_id' => 'required',
+                'kategori_id' => 'required',
+                'pengajuan_ke_pimpinan' => 'required',
+                'file_dokumen' => $request->pengajuan_ke_pimpinan == "tidak" ? ['required', File::types(['doc', 'docx', 'pdf'])] : '',
+                'pilihTemplate' => $request->pengajuan_ke_pimpinan == "ya" ? 'required' : '',
+            ]);
             $hasil = $this->__simpanDokumenKeluar($request);
         }
 
         // Memeriksa apakah data berhasil disimpan
         if ($hasil instanceof DokumenMasuk) {
-
             return redirect()
                 ->route("admin.tambah_dokumen")
                 ->with("pesan", "Data berhasil di simpan!");
