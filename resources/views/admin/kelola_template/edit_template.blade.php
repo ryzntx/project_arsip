@@ -25,23 +25,13 @@
                         @method('PUT')
                         @csrf
 
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Ups!</strong> Ada beberapa masalah dengan input Anda.<br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
                         <div class="content">
                             <div class="row">
                                 <div class="col-sm-15 col-md-6">
 
                                     <div class="form-group">
                                         <label>Nama Dokumen</label>
-                                        <input type="text" name="nama_dokumen" class="form-control" required
+                                        <input type="text" name="nama_dokumen" class="form-control"
                                             value="{{ $data->nama ?? old('nama_dokumen') }}">
                                         <div class="text-danger">
                                             @error('nama_dokumen')
@@ -53,8 +43,7 @@
 
                                     <div class="form-group">
                                         <label>Kategori Dokumen</label>
-                                        <select name="kategori_dokumen" id="kategori_dokumen" class="form-control"
-                                            required>
+                                        <select name="kategori_dokumen" id="kategori_dokumen" class="form-control">
                                             <option value="">Pilih Kategori</option>
                                             @foreach ($kategori as $item)
                                             <option value="{{ $item->id }}"
@@ -70,7 +59,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>File Template</label>
-                                        <input type="file" name="file_template" class="form-control" required
+                                        <input type="file" name="file_template" class="form-control"
                                             value="{{ old('file_template') }}">
                                         <div class="text-danger">
                                             @error('file_template')
