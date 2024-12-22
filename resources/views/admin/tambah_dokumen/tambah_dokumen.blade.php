@@ -208,9 +208,9 @@
                                     <div class="form-group">
                                         <label class="tx-medium d-block">Lampiran Dokumen</label>
                                         <input type="file" name="file_dokumen" id="file_dokumen_keluar"
-                                            class="form-control {{ old('pengajuan_ke_pimpinan') == 'tidak' ? 'd-block' : 'd-none' }}">
+                                            class="form-control {{ old('pengajuan_ke_pimpinan') == 'ya' ? 'd-none' : '' }}">
                                         <button type="button"
-                                            class="{{ old('pengajuan_ke_pimpinan') == 'ya' ? 'd-block' : 'd-none' }} btn btn-primary"
+                                            class="{{ old('pengajuan_ke_pimpinan') == 'ya' ? '' : 'd-none' }} btn btn-primary"
                                             data-bs-toggle="modal" id="btnLampiran" data-bs-target="#modalLampiran">
                                             Tambahkan Lampiran dari Template </button>
                                         @error('file_dokumen')
