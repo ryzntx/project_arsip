@@ -43,7 +43,7 @@ class TemplateDokumen extends Controller {
             'nama_dokumen.required' => 'Nama dokumen wajib diisi!',
             'kategori_dokumen.required' => 'Kategori dokumen wajib diisi!',
             'file_template.required' => 'File template wajib diisi!',
-            'file_template.mimes' => 'File template harus berupa file dokumen!',
+            'file_template.mimes' => 'File tidak valid. Hanya mendukung format doc | docx',
         ]);
 
         if ($request->hasFile('file_template')) {
@@ -66,7 +66,7 @@ class TemplateDokumen extends Controller {
 
         DokumenTemplate::create($data);
 
-        return redirect()->route('admin.template_dokumen')->with('pesan', 'Template berhasil ditambahkan');
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Data Template berhasil ditambahkan!');
 
     }
 
@@ -115,7 +115,7 @@ class TemplateDokumen extends Controller {
                 'file_template' => 'required|mimes:doc,docx',
             ], [
                 'file_template.required' => 'File template wajib diisi!',
-                'file_template.mimes' => 'File template harus berupa file dokumen!',
+                'file_template.mimes' => 'File tidak valid. Hanya mendukung format doc | docx',
             ]);
 
             // hapus file lama
@@ -144,7 +144,7 @@ class TemplateDokumen extends Controller {
 
         $dokumen->update($data);
 
-        return redirect()->route('admin.template_dokumen')->with('pesan', 'Template berhasil diubah');
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Data Template berhasil diubah!');
     }
 
     /**
@@ -161,7 +161,7 @@ class TemplateDokumen extends Controller {
         // delete data
         $data->delete();
 
-        return redirect()->route('admin.template_dokumen')->with('pesan', 'Template berhasil dihapus');
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Data Template berhasil dihapus!');
     }
 
 

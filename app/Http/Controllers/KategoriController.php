@@ -29,7 +29,7 @@ class KategoriController extends Controller
         ]);
 
         DokumenKategori::create($request->all());
-        return redirect()->route('admin.kelola_kategori')->with('pesan', 'Data berhasil ditambahkan!');
+        return redirect()->route('admin.kelola_kategori')->with('pesan', 'Data kategori berhasil ditambahkan!');
 
     }
 
@@ -51,7 +51,7 @@ class KategoriController extends Controller
 
         $kategori->update($request->all());
 
-        return redirect()->route('admin.kelola_kategori')->with('pesan','Data berhasil di ubah!');
+        return redirect()->route('admin.kelola_kategori')->with('pesan','Data kategori berhasil di ubah!');
 
         // To-Do Fungsi update
 
@@ -61,6 +61,6 @@ class KategoriController extends Controller
         $kategori = DokumenKategori::findOrFail($id);
         $kategori->delete();
 
-        return redirect()->back()->with('pesan', 'Data berhasil dihapus!');
+        return redirect()->back()->with('pesan', 'Data kategori berhasil dihapus!');
     }
 }
