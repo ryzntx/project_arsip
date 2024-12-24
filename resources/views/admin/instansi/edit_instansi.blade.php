@@ -21,20 +21,12 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="/admin/kelola_instansi/update/{{ $instansi->id }}" method="POST" enctype="multipart/form-data">
+                    <form action="/admin/kelola_instansi/update/{{ $instansi->id }}" method="POST"
+                        enctype="multipart/form-data">
                         {{-- enctype wajib seperti itu untuk mengupload file  --}}
                         @csrf
 
                         @method('PUT')
-
-                        @if ($errors->any())
-                        <div class="alert alert-danger text-center">
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </div>
-                        @endif
-
 
                         <div class="content">
                             <div class="row">
@@ -42,7 +34,8 @@
 
                                     <div class="form-group">
                                         <label>Nama Instansi</label>
-                                        <input type="text" name="nama_instansi" class="form-control" value="{{ old('nama_instansi')??$instansi->nama_instansi }}" >
+                                        <input type="text" name="nama_instansi" class="form-control"
+                                            value="{{ old('nama_instansi')??$instansi->nama_instansi }}">
                                         <div class="text-danger">
                                             @error('nama_instansi')
                                             {{ $message }}
@@ -54,7 +47,8 @@
 
                                     <div class="form-group">
                                         <label>Inisial Instansi</label>
-                                        <input type="text" name="singkatan_instansi" class="form-control" value="{{ old('singkatan_instansi')??$instansi->singkatan_instansi }}">
+                                        <input type="text" name="singkatan_instansi" class="form-control"
+                                            value="{{ old('singkatan_instansi')??$instansi->singkatan_instansi }}">
                                         <div class="text-danger">
                                             @error('singkatan_instansi')
                                             {{ $message }}
@@ -63,7 +57,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Alamat Instansi</label>
-                                        <input type="text" name="alamat" class="form-control" value="{{ old('alamat')??$instansi->alamat }}">
+                                        <input type="text" name="alamat" class="form-control"
+                                            value="{{ old('alamat')??$instansi->alamat }}">
                                         <div class="text-danger">
                                             @error('alamat')
                                             {{ $message }}
