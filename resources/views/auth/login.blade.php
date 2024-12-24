@@ -125,25 +125,21 @@
                                                 <h5 class="text-start mb-2">Signin to Your Account</h5>
                                                 <p class="mb-4 text-muted tx-13 ms-0 text-start">Signin to create,
                                                     discover and connect with the global community</p>
-                                                @if ($errors->any())
-                                                <div class="alert alert-danger text-start" role="alert">
-                                                    <strong>Whoops!</strong> There were some problems with your input.
-                                                    <ul>
-                                                        @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                @endif
                                                 <div class="form-group text-start">
                                                     <label>Email</label>
                                                     <input class="form-control" placeholder="Enter your email"
                                                         name="email" type="text">
+                                                    @error('email')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group text-start">
                                                     <label>Password</label>
                                                     <input class="form-control" placeholder="Enter your password"
                                                         name="password" type="password">
+                                                    @error('password')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <button class="btn ripple btn-main-primary btn-block">Sign In</button>
                                             </form>
