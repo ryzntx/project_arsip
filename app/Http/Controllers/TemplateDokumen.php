@@ -39,6 +39,11 @@ class TemplateDokumen extends Controller {
             'nama_dokumen' => 'required',
             'kategori_dokumen' => 'required',
             'file_template' => 'required|mimes:doc,docx',
+        ], [
+            'nama_dokumen.required' => 'Nama dokumen wajib diisi!',
+            'kategori_dokumen.required' => 'Kategori dokumen wajib diisi!',
+            'file_template.required' => 'File template wajib diisi!',
+            'file_template.mimes' => 'File template harus berupa file dokumen!',
         ]);
 
         if ($request->hasFile('file_template')) {
@@ -99,12 +104,18 @@ class TemplateDokumen extends Controller {
         $request->validate([
             'nama_dokumen' => 'required',
             'kategori_dokumen' => 'required',
+        ], [
+            'nama_dokumen.required' => 'Nama dokumen wajib diisi!',
+            'kategori_dokumen.required' => 'Kategori dokumen wajib diisi!',
         ]);
 
         if ($request->hasFile('file_template')) {
             // validasi file
             $request->validate([
                 'file_template' => 'required|mimes:doc,docx',
+            ], [
+                'file_template.required' => 'File template wajib diisi!',
+                'file_template.mimes' => 'File template harus berupa file dokumen!',
             ]);
 
             // hapus file lama
