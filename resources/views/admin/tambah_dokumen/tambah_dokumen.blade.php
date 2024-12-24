@@ -109,7 +109,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="tx-medium">Lampiran Dokumen</label>
-                                        <input type="file" name="file_dokumen" id="file_dokumen" class="form-control">
+                                        <input type="file" name="file_dokumen" id="file_dokumen" class="form-control"
+                                            accept=".pdf, .doc, .docx">
                                         @error('file_dokumen')
                                             <small class="text-danger text-bold">{{ $message }}</small>
                                         @enderror
@@ -208,7 +209,8 @@
                                     <div class="form-group">
                                         <label class="tx-medium d-block">Lampiran Dokumen</label>
                                         <input type="file" name="file_dokumen" id="file_dokumen_keluar"
-                                            class="form-control {{ old('pengajuan_ke_pimpinan') == 'ya' ? 'd-none' : '' }}">
+                                            class="form-control {{ old('pengajuan_ke_pimpinan') == 'ya' ? 'd-none' : '' }}"
+                                            accept=".pdf, .doc, .docx">
                                         <button type="button"
                                             class="{{ old('pengajuan_ke_pimpinan') == 'ya' ? '' : 'd-none' }} btn btn-primary"
                                             data-bs-toggle="modal" id="btnLampiran" data-bs-target="#modalLampiran">
@@ -219,207 +221,280 @@
                                         @error('pilihTemplate')
                                             <small class="text-danger text-bold">{{ $message }}</small>
                                         @enderror
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="tx-medium">Keterangan</label>
-                                        <textarea name="keterangan" class="form-control">{{ old('keterangan') }}</textarea>
-                                    </div>
+                                        @if ($errors->any())
+                                            <div class="text-danger text-bold">
+                                                @foreach ($errors->toArray() as $key => $error)
+                                                    @if (strpos($key, 'var_') !== false)
+                                                        Lampiran template wajib diisi semua!
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Simpan Dokumen</button>
-                                    <button type="reset" class="btn btn-danger">Reset</button>
+                                <div class="form-group">
+                                    <label class="tx-medium">Keterangan</label>
+                                    <textarea name="keterangan" class="form-control">{{ old('keterangan') }}</textarea>
                                 </div>
-                                <div class="modal modal-danger fade" id="modalLampiran">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Lampiran File</h4>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="pilihTemplate" class="tx-medium">Pilih
-                                                        Template</label>
-                                                    <select id="pilihTemplate" name="pilihTemplate" class="form-control">
-                                                        <option value="">Pilih Template Dokumen</option>
-                                                        @foreach ($template_dok as $data)
-                                                            <option value="{{ $data->id }}">
-                                                                {{ $data->nama }}</option>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Simpan Dokumen</button>
+                                <button type="reset" class="btn btn-danger">Reset</button>
+                            </div>
+                            <div class="modal modal-danger fade" id="modalLampiran">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Lampiran File</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if ($template_dok->isEmpty())
+                                                <div class="alert alert-warning">
+                                                    Tidak ada template dokumen yang tersedia.
+                                                </div>
+                                            @endif
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <strong>Oops!</strong> Sepertinya ada yang salah dengan inputan
+                                                    anda.
+                                                    <ul>
+                                                        @foreach ($errors->toArray() as $key => $error)
+                                                            @if (strpos($key, 'var_') !== false)
+                                                                @if (is_array($error))
+                                                                    @foreach ($error as $err)
+                                                                        <li>{{ $err }}</li>
+                                                                    @endforeach
+                                                                @endif
+                                                            @endif
                                                         @endforeach
-                                                    </select>
+                                                    </ul>
                                                 </div>
-                                                <div class="text-center d-none align-content-center justify-content-center"
-                                                    id="form-loading">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
+
+                                            @endif
+                                            <div class="form-group">
+                                                <label for="pilihTemplate" class="tx-medium">Pilih
+                                                    Template</label>
+                                                <select id="pilihTemplate" name="pilihTemplate" class="form-control">
+                                                    <option value="">Pilih Template Dokumen</option>
+                                                    @foreach ($template_dok as $data)
+                                                        <option value="{{ $data->id }}"
+                                                            @selected(old('pilihTemplate') == $data->id)>
+                                                            {{ $data->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('pilihTemplate')
+                                                    <small class="text-danger text-bold">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="text-center d-none align-content-center justify-content-center"
+                                                id="form-loading">
+                                                <div class="spinner-border" role="status">
+                                                    <span class="sr-only">Loading...</span>
                                                 </div>
-                                                <div id="fieldSet"></div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline btn-primary pull-left"
-                                                    data-bs-dismiss="modal">Tutup!</button>
-                                            </div>
+                                            <div id="fieldSet"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline btn-primary pull-left"
+                                                data-bs-dismiss="modal">Tutup!</button>
                                         </div>
                                     </div>
-                                    <!-- /.modal-content -->
                                 </div>
-                            </form>
-                            <!-- Submit Buttons -->
-                        </div>
+                                <!-- /.modal-content -->
+                            </div>
+                        </form>
+                        <!-- Submit Buttons -->
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
+</div>
 
 
 @endsection
 
 @push('scripts')
-    <!-- Script to toggle between forms based on document type -->
-    <script>
-        let pilihTemplate = document.getElementById('pilihTemplate');
-        let fieldSet = document.getElementById('fieldSet');
-        let uploadFileInput = document.getElementById('file_dokumen_keluar');
-        let form_loading = document.getElementById('form-loading')
-        let pengajuan_ke_pimpinan = document.getElementById('pengajuan_ke_pimpinan');
-        let btnLampiran = document.getElementById('btnLampiran');
+<!-- Script to toggle between forms based on document type -->
+<script>
+    let pilihTemplate = document.getElementById('pilihTemplate');
+    let fieldSet = document.getElementById('fieldSet');
+    let uploadFileInput = document.getElementById('file_dokumen_keluar');
+    let form_loading = document.getElementById('form-loading')
+    let pengajuan_ke_pimpinan = document.getElementById('pengajuan_ke_pimpinan');
+    let btnLampiran = document.getElementById('btnLampiran');
+    let modalLampiran = new bootstrap.Modal(document.getElementById('modalLampiran'));
 
-        let isi_surat = false;
-        var quill;
+    let isi_surat = false;
+    var quill;
 
-        var formMasuk = document.getElementById('formMasuk');
-        var formKeluar = document.getElementById('formKeluar');
+    var formMasuk = document.getElementById('formMasuk');
+    var formKeluar = document.getElementById('formKeluar');
 
-        @if (old('jenis_dokumen') == 'dokumen_masuk')
-            formMasuk.style.display = 'block';
-        @elseif (old('jenis_dokumen') == 'dokumen_keluar')
-            formKeluar.style.display = 'block';
-        @endif
+    @if (old('jenis_dokumen') == 'dokumen_masuk')
+        formMasuk.style.display = 'block';
+    @elseif (old('jenis_dokumen') == 'dokumen_keluar')
+        formKeluar.style.display = 'block';
+    @endif
 
-        pengajuan_ke_pimpinan.addEventListener('change', function() {
-            if (this.value === 'ya') {
-                uploadFileInput.classList.add('d-none');
-                uploadFileInput.removeAttribute('required');
-                btnLampiran.classList.remove('d-none');
-            } else {
-                uploadFileInput.classList.remove('d-none');
-                uploadFileInput.setAttribute('required', true);
-                btnLampiran.classList.add('d-none');
-            }
-        });
+    @if (old('pilihTemplate'))
+        if (pilihTemplate.value === '{{ old('pilihTemplate') }}') {
+            document.addEventListener('DOMContentLoaded', function() {
+                // Your code to run since DOM is loaded and ready
+                fetching({{ old('pilihTemplate') }});
+            });
+        }
+    @endif
 
-        pilihTemplate.addEventListener('change', function() {
-            fieldSet.innerHTML = '';
-            //fetch data from server
-            if (this.value === '') {
+    pengajuan_ke_pimpinan.addEventListener('change', function() {
+        if (this.value === 'ya') {
+            uploadFileInput.classList.add('d-none');
+            uploadFileInput.removeAttribute('required');
+            btnLampiran.classList.remove('d-none');
+        } else {
+            uploadFileInput.classList.remove('d-none');
+            uploadFileInput.setAttribute('required', true);
+            btnLampiran.classList.add('d-none');
+        }
+    });
+
+    const fetching = async (id) => {
+        fetch('/admin/tambah_dokumen/ambiltemplate/' + id)
+            .then(response => response.json())
+            .then(data => {
+                var dataTemplates = data.data;
+                let dataTemplate = JSON.parse(dataTemplates);
+
+                dataTemplate.forEach(item => {
+                    // create form group element inside fieldset
+                    let formGroup = document.createElement('div');
+                    formGroup.classList.add('form-group');
+
+                    // create label element
+                    let label = document.createElement('label');
+                    label.classList.add('tx-medium');
+                    label.textContent = RegExp('(/[^A-Za-z0-9\-]/)', 'g').test(item) ? item : item
+                        .replace(/_/g,
+                            ' ');
+
+                    // create input element
+                    let input;
+                    let element;
+                    if (item == 'KONTEN' || item == 'ISISURAT' || item == 'isi_surat' || item ==
+                        'konten') {
+                        input = document.createElement('input');
+                        element = document.createElement('div');
+                        element.setAttribute('id', 'quill');
+                        // input.classList.add('form-control');
+                        // element.classList.add('quill')
+                        input.setAttribute('id', 'isi_surat');
+                        input.setAttribute('name', "var_" + item);
+                        input.setAttribute('type', 'hidden');
+                        // input.setAttribute('required', false);
+
+                        isi_surat = true;
+                    } else if (item == 'TANGGAL' || item == 'TANGGAL_SURAT' || item == 'tanggal' ||
+                        item == 'tanggal_surat') {
+                        input = document.createElement('input');
+                        input.classList.add('form-control');
+                        input.setAttribute('name', "var_" + item);
+                        input.setAttribute('type', 'date');
+                        @foreach (old() as $old => $value)
+                            @if (strpos($old, 'var_') !== false)
+                                if ('{{ $old }}' === 'var_' + item) input.setAttribute(
+                                    'value', '{{ $value }}');
+                            @endif
+                        @endforeach
+                        // input.setAttribute('required', false);
+                    } else {
+                        input = document.createElement('input');
+                        input.classList.add('form-control');
+                        input.setAttribute('name', "var_" + item);
+                        input.setAttribute('type', 'text');
+                        @foreach (old() as $old => $value)
+                            @if (strpos($old, 'var_') !== false)
+                                if ('{{ $old }}' === 'var_' + item) input.setAttribute(
+                                    'value', '{{ $value }}');
+                            @endif
+                        @endforeach
+                        // input.setAttribute('required', false);
+                    }
+
+                    // append label and input to form group
+                    formGroup.appendChild(label);
+                    formGroup.appendChild(input);
+                    if (element) formGroup.appendChild(element);
+
+                    // append form group to fieldset
+                    fieldSet.appendChild(formGroup);
+                });
+
+            }).finally(() => {
                 form_loading.classList.replace('d-flex', 'd-none')
-                return;
-            }
+            });
+    }
 
-            form_loading.classList.replace('d-none', 'd-flex')
+    pilihTemplate.addEventListener('change', function() {
+        fieldSet.innerHTML = '';
+        //fetch data from server
+        if (this.value === '') {
+            form_loading.classList.replace('d-flex', 'd-none')
+            return;
+        }
 
-            fetch('/admin/tambah_dokumen/ambiltemplate/' + this.value)
-                .then(response => response.json())
-                .then(data => {
-                    var dataTemplates = data.data;
-                    let dataTemplate = JSON.parse(dataTemplates);
+        form_loading.classList.replace('d-none', 'd-flex')
 
-                    dataTemplate.forEach(item => {
-                        // create form group element inside fieldset
-                        let formGroup = document.createElement('div');
-                        formGroup.classList.add('form-group');
+        fetching(this.value);
 
-                        // create label element
-                        let label = document.createElement('label');
-                        label.classList.add('tx-medium');
-                        label.textContent = RegExp('(/[^A-Za-z0-9\-]/)', 'g').test(item) ? item : item
-                            .replace(/_/g,
-                                ' ');
-
-                        // create input element
-                        let input;
-                        let element;
-                        if (item == 'KONTEN' || item == 'ISISURAT' || item == 'isi_surat' || item ==
-                            'konten') {
-                            input = document.createElement('input');
-                            element = document.createElement('div');
-                            element.setAttribute('id', 'quill');
-                            // input.classList.add('form-control');
-                            // element.classList.add('quill')
-                            input.setAttribute('id', 'isi_surat');
-                            input.setAttribute('name', "var_" + item);
-                            input.setAttribute('type', 'hidden');
-                            input.setAttribute('required', true);
-
-                            isi_surat = true;
-                        } else if (item == 'TANGGAL' || item == 'TANGGAL_SURAT' || item == 'tanggal' ||
-                            item == 'tanggal_surat') {
-                            input = document.createElement('input');
-                            input.classList.add('form-control');
-                            input.setAttribute('name', "var_" + item);
-                            input.setAttribute('type', 'date');
-                            input.setAttribute('required', true);
-                        } else {
-                            input = document.createElement('input');
-                            input.classList.add('form-control');
-                            input.setAttribute('name', "var_" + item);
-                            input.setAttribute('type', 'text');
-                            input.setAttribute('required', true);
-                        }
-
-                        // append label and input to form group
-                        formGroup.appendChild(label);
-                        formGroup.appendChild(input);
-                        if (element) formGroup.appendChild(element);
-
-                        // append form group to fieldset
-                        fieldSet.appendChild(formGroup);
-                    });
-
-                }).finally(() => {
-                    form_loading.classList.replace('d-flex', 'd-none')
-                });
-        });
-
-        let previousIsiSurat = isi_surat;
-
-        const observer = new MutationObserver(() => {
-            if (isi_surat && !previousIsiSurat) {
-                quill = new Quill('#quill', {
-                    theme: 'snow'
-                });
-
-                quill.on('text-change', function() {
-                    document.getElementById('isi_surat').value = quill.root.innerHTML;
-                });
-                previousIsiSurat = isi_surat;
-            }
-        });
-
-        observer.observe(fieldSet, {
-            childList: true,
-            subtree: true
-        });
+    });
 
 
-        document.getElementById('jenis_dokumen').addEventListener('change', function() {
-            var type = this.value;
+    let previousIsiSurat = isi_surat;
 
-            // Reset visibility
-            formMasuk.style.display = 'none';
-            formKeluar.style.display = 'none';
+    const observer = new MutationObserver(() => {
+        if (isi_surat && !previousIsiSurat) {
+            quill = new Quill('#quill', {
+                theme: 'snow'
+            });
 
-            // Show form based on selected document type
-            if (type === 'masuk') {
-                formMasuk.style.display = 'block';
-            } else if (type === 'keluar') {
-                formKeluar.style.display = 'block';
-            }
-        });
-    </script>
+            quill.on('text-change', function() {
+                document.getElementById('isi_surat').value = quill.root.innerHTML;
+            });
+            previousIsiSurat = isi_surat;
+            @foreach (old() as $old => $value)
+                @if (strpos($old, 'var_') !== false)
+                    if ('{{ $old }}' === 'var_' + 'isi_surat' || '{{ $old }}' === 'var_' +
+                        'konten' || '{{ $old }}' === 'var_' + 'KONTEN' || '{{ $old }}' ===
+                        'var_' + 'ISISURAT') {
+                        quill.setText('{{ html_entity_decode($value) }}');
+                    }
+                @endif
+            @endforeach
+        }
+    });
+
+    observer.observe(fieldSet, {
+        childList: true,
+        subtree: true
+    });
+
+
+    document.getElementById('jenis_dokumen').addEventListener('change', function() {
+        var type = this.value;
+
+        // Reset visibility
+        formMasuk.style.display = 'none';
+        formKeluar.style.display = 'none';
+
+        // Show form based on selected document type
+        if (type === 'masuk') {
+            formMasuk.style.display = 'block';
+        } else if (type === 'keluar') {
+            formKeluar.style.display = 'block';
+        }
+    });
+</script>
 @endpush

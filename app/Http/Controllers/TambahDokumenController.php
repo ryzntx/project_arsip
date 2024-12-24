@@ -61,10 +61,18 @@ class TambahDokumenController extends Controller {
                 'nama_penerima' => 'required',
                 'nama_pengirim' => 'required',
                 'tanggal_masuk' => 'required',
-                'keterangan' => 'required',
                 'dinas_id' => 'required',
                 'kategori_id' => 'required',
                 'file_dokumen' => ['required', File::types(['doc', 'docx', 'pdf'])],
+            ], [
+                'file_dokumen.required' => 'Lampiran wajib diisi!',
+                'file_dokumen.mimes' => 'File tidak valid. Hanya mendukung format doc | docx | pdf',
+                'nama_dokumen.required' => 'Nama dokumen wajib diisi!',
+                'nama_penerima.required' => 'Penerima wajib diisi!',
+                'nama_pengirim.required' => 'Pengirim wajib diisi!',
+                'tanggal_masuk.required' => 'Tanggal wajib diisi!',
+                'dinas_id.required' => 'Dinas/Instansi wajib diisi!',
+                'kategori_id.required' => 'Kategori dokumen wajib diisi!',
             ]);
             $hasil = $this->__simpanDokumenMasuk($request);
         } elseif ($jenis == "dokumen_keluar") {
@@ -72,13 +80,34 @@ class TambahDokumenController extends Controller {
                 'nama_dokumen' => 'required',
                 'nama_penerima' => 'required',
                 'tanggal_keluar' => 'required',
-                'keterangan' => 'required',
                 'dinas_id' => 'required',
                 'kategori_id' => 'required',
                 'pengajuan_ke_pimpinan' => 'required',
                 'file_dokumen' => $request->pengajuan_ke_pimpinan == "tidak" ? ['required', File::types(['doc', 'docx', 'pdf'])] : '',
                 'pilihTemplate' => $request->pengajuan_ke_pimpinan == "ya" ? 'required' : '',
+            ], [
+                'file_dokumen.required' => 'Lampiran wajib diisi!',
+                'file_dokumen.mimes' => 'File tidak valid. Hanya mendukung format doc | docx | pdf',
+                'nama_dokumen.required' => 'Nama dokumen wajib diisi!',
+                'nama_penerima.required' => 'Penerima wajib diisi!',
+                'tanggal_keluar.required' => 'Tanggal wajib diisi!',
+                'dinas_id.required' => 'Dinas/Instansi wajib diisi!',
+                'kategori_id.required' => 'Kategori dokumen wajib diisi!',
+                'pengajuan_ke_pimpinan.required' => 'Pengajuan ke pimpinan wajib diisi!',
+                'pilihTemplate.required' => 'Pilih template wajib diisi!',
             ]);
+
+            if($request->pilihTemplate != null || $request->pilihTemplate != ''){
+                $rules = [];
+                $message = [];
+                foreach ($request->all() as $key => $value) {
+                    if (Str::startsWith($key, 'var_')) {
+                        $rules[$key] = 'required';
+                        $message[$key.'.required'] = 'Lampiran data '. str_replace('_', ' ', substr($key, 4)).' wajib diisi!';
+                    }
+                }
+                $validated = $request->validate($rules, $message);
+            }
             $hasil = $this->__simpanDokumenKeluar($request);
         }
 
@@ -86,17 +115,17 @@ class TambahDokumenController extends Controller {
         if ($hasil instanceof DokumenMasuk) {
             return redirect()
                 ->route("admin.tambah_dokumen")
-                ->with("pesan", "Data berhasil di simpan!");
+                ->with("pesan", "Data berhasil ditambahkan!");
         } elseif ($hasil instanceof DokumenKeluar) {
 
             return redirect()
                 ->route("admin.tambah_dokumen")
-                ->with("pesan", "Data berhasil di simpan!");
+                ->with("pesan", "Data berhasil ditambahkan!");
         } else {
 
             return redirect()
                 ->route("admin.tambah_dokumen")
-                ->with("error", "Data gagal disimpan!");
+                ->with("error", "Data gagal ditambahkan!");
         }
     }
 
