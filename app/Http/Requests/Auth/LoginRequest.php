@@ -32,6 +32,16 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'email.exists' => 'Login gagal, email salah!',
+            'email.required' => 'Email wajib diisi!',
+            'email.email' => 'Email harus berupa alamat email yang valid!',
+            'password.required' => 'Password wajib diisi!',
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
