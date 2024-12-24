@@ -46,7 +46,7 @@ class UserController extends Controller {
         $add_user->role = $request->input('role');
         $add_user->save();
 
-        return redirect()->route('admin.user.kelola_user')->with('pesan', 'Data berhasil ditambahkan!');
+        return redirect()->route('admin.user.kelola_user')->with('pesan', 'Data user berhasil ditambahkan!');
     }
 
     public function delete_user($id) {
