@@ -21,19 +21,12 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="/admin/kelola_kategori/update/{{ $kategori->id }}" method="POST" enctype="multipart/form-data">
+                    <form action="/admin/kelola_kategori/update/{{ $kategori->id }}" method="POST"
+                        enctype="multipart/form-data">
                         {{-- enctype wajib seperti itu untuk mengupload file  --}}
                         @csrf
 
                         @method('PUT')
-
-                        @if ($errors->any())
-                        <div class="alert alert-danger text-center">
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </div>
-                        @endif
 
 
                         <div class="content">
@@ -42,7 +35,8 @@
 
                                     <div class="form-group">
                                         <label>Nama Kategori</label>
-                                        <input type="text" name="nama_kategori" class="form-control" value="{{ old('nama_kategori')??$kategori->nama_kategori }}" >
+                                        <input type="text" name="nama_kategori" class="form-control"
+                                            value="{{ old('nama_kategori')??$kategori->nama_kategori }}">
                                         <div class="text-danger">
                                             @error('nama_kategori')
                                             {{ $message }}
