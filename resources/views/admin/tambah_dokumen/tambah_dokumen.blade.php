@@ -262,56 +262,53 @@
                                                     <ul>
                                                         @foreach ($errors->toArray() as $key => $error)
                                                             @if (strpos($key, 'var_') !== false)
-                                                                @if (is_array($error))
-                                                                    @foreach ($error as $err)
-                                                                        <li>{{ $err }}</li>
-                                                                    @endforeach
-                                                                @endif
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-
-                                            @endif
-                                            <div class="form-group">
-                                                <label for="pilihTemplate" class="tx-medium">Pilih
-                                                    Template</label>
-                                                <select id="pilihTemplate" name="pilihTemplate" class="form-control">
-                                                    <option value="">Pilih Template Dokumen</option>
-                                                    @foreach ($template_dok as $data)
-                                                        <option value="{{ $data->id }}"
-                                                            @selected(old('pilihTemplate') == $data->id)>
-                                                            {{ $data->nama }}</option>
+                                                                <li>Lampiran template wajib diisi semua!</li>
+                                                            @break
+                                                        @endif
                                                     @endforeach
-                                                </select>
-                                                @error('pilihTemplate')
-                                                    <small class="text-danger text-bold">{{ $message }}</small>
-                                                @enderror
+                                                </ul>
                                             </div>
-                                            <div class="text-center d-none align-content-center justify-content-center"
-                                                id="form-loading">
-                                                <div class="spinner-border" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
+
+                                        @endif
+                                        <div class="form-group">
+                                            <label for="pilihTemplate" class="tx-medium">Pilih
+                                                Template</label>
+                                            <select id="pilihTemplate" name="pilihTemplate" class="form-control">
+                                                <option value="">Pilih Template Dokumen</option>
+                                                @foreach ($template_dok as $data)
+                                                    <option value="{{ $data->id }}"
+                                                        @selected(old('pilihTemplate') == $data->id)>
+                                                        {{ $data->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('pilihTemplate')
+                                                <small class="text-danger text-bold">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="text-center d-none align-content-center justify-content-center"
+                                            id="form-loading">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
                                             </div>
-                                            <div id="fieldSet"></div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline btn-primary pull-left"
-                                                data-bs-dismiss="modal">Tutup!</button>
-                                        </div>
+                                        <div id="fieldSet"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline btn-primary pull-left"
+                                            data-bs-dismiss="modal">Tutup!</button>
                                     </div>
                                 </div>
-                                <!-- /.modal-content -->
                             </div>
-                        </form>
-                        <!-- Submit Buttons -->
-                    </div>
+                            <!-- /.modal-content -->
+                        </div>
+                    </form>
+                    <!-- Submit Buttons -->
                 </div>
             </div>
-
         </div>
+
     </div>
+</div>
 </div>
 
 

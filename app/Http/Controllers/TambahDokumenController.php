@@ -94,7 +94,7 @@ class TambahDokumenController extends Controller {
                 'dinas_id.required' => 'Dinas/Instansi wajib diisi!',
                 'kategori_id.required' => 'Kategori dokumen wajib diisi!',
                 'pengajuan_ke_pimpinan.required' => 'Pengajuan ke pimpinan wajib diisi!',
-                'pilihTemplate.required' => 'Pilih template wajib diisi!',
+                'pilihTemplate.required' => 'Lampiran data template wajib diisi!',
             ]);
 
             if($request->pilihTemplate != null || $request->pilihTemplate != ''){
