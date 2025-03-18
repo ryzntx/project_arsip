@@ -17,13 +17,16 @@
             <div class="inner-body">
 
                 <!-- Page Header -->
-                <div class="text-center page-header" style="margin-bottom: 20px;">
-                    <div>
+                <div class="page-header" style="margin-bottom: 20px;">
+                    <div class="flex-row d-flex justify-content-between align-items-center w-100">
                         <h2 class="main-content-label tx-24 mg-b-5"
                             style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
                             <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
                             ARSIP DOKUMEN
                         </h2>
+                        <a href="{{ route('admin.arsip_keluar.sampah') }}" class="btn btn-secondary">
+                            <i class="fa fa-trash"></i> Keranjang Sampah
+                        </a>
                     </div>
                 </div>
                 <!-- End Page Header -->
@@ -42,7 +45,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table mb-0" id="dokumenKeluar-tabel" style="width: 100%">
+                                    <table class="table mb-0 table-bordered" id="dokumenKeluar-tabel" style="width: 100%">
                                         <thead>
                                             <tr class="border-bottom" style="text-align: center;">
                                                 <th>No</th>
@@ -60,10 +63,11 @@
                                                 <tr style="text-align: center;">
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-wrap"
-                                                        onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                        onclick="showDetails('{{ $item->dokumen_kategori ? $item->dokumen_kategori->nama_kategori : 'Tidak ada kategori' }}','{{ $item->nama_dokumen }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ str_replace('.docx', '.pdf', $item->lampiran) }}')">
                                                         {{ $item->nama_dokumen }}</td>
-                                                    <td>{{ $item->instansi->singkatan_instansi }}</td>
-                                                    <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
+                                                    <td>{{ $item->instansi ? $item->instansi->singkatan_instansi : 'Tidak ada Instansi / Dinas' }}
+                                                    </td>
+                                                    <td>{{ $item->dokumen_kategori ? $item->dokumen_kategori->nama_kategori : 'Tidak ada kategori' }}
                                                     <td>{{ $item->tanggal_keluar }}</td>
                                                     <td class="d-flex flex-column">
                                                         @if ($item->persetujuan == 'ya')
@@ -122,6 +126,10 @@
                                                                     <i class="fa fa-info"></i>
                                                                 </a>
                                                             @endif
+                                                            {{-- <a href="{{ route('admin.arsip_keluar.download', $item->id) }}"
+                                                                class="btn btn-danger btn-sm" target="_blank">
+                                                                <i class="fa fa-download"></i>
+                                                            </a> --}}
                                                             <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
                                                                 target="_blank" class="btn btn-primary btn-sm">
                                                                 <i class="fa fa-print"></i>
@@ -137,7 +145,6 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -179,33 +186,8 @@
         </div>
     @endforeach
 
-
-    {{-- @foreach ($arsip_keluar as $item)
-            <div class="modal" id="delete{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
-<div class="modal-dialog modal-l">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4>Hapus Data</h4>
-        </div>
-        <div class="modal-body">
-            <h5>Hapus {{ $item->nama_dokumen }}</h5>
-            <p>Apakah anda yakin ingin menghapus data ini?</p>
-        </div>
-        <div class="modal-footer">
-            <a href="{{ url('/admin/arsip_keluar/delete/'.$item->id ) }}" class="btn btn-outline btn-danger">Yes</a>
-            <button type="button" class="btn btn-outline btn-primary pull-left" data-bs-dismiss="modal">No</button>
-        </div>
-    </div>
-</div>
-<!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
-@endforeach
-</div>
-</div> --}}
-
+    <!-- Modal Tambah Bukti-->
     @foreach ($arsip_keluar as $item)
-        <!-- Modal Tambah Bukti-->
         <div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1"
             aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-l">
@@ -226,12 +208,13 @@
                                             <label for="foto_bukti" class="form-label">Lampiran Bukti Terima</label>
                                             <input type="file" class="form-control" id="foto_bukti" name="foto_bukti"
                                                 required>
+                                            @error('foto_bukti')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     @else
                                         <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}"
                                             class="img-thumbnail" width="100%" height="100%" />
-                                        {{-- <img src={{ asset('storage/' . $item->bukti_dikirimkan) }} class="img-thumbnail" />
-                            --}}
                                     @endif
                                 </div>
                             </div>
@@ -298,6 +281,9 @@
         </div>
     </div>
 
+@endsection
+
+@push('scripts')
     <script>
         function showDetails(kategori_dokumen, nama_dokumen, penerima, dinas, tanggal, pdfUrl) {
             // kita siapin dulu nih variabel nya
@@ -373,4 +359,4 @@
             });
         }
     </script>
-@endsection
+@endpush

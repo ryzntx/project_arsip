@@ -11,10 +11,6 @@
             <div class="page-header">
                 <div>
                     <h2 class="main-content-title tx-24 mg-b-5">Profile</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Profile</li>
-                    </ol>
                 </div>
             </div>
             <!-- End Page Header -->
@@ -25,14 +21,19 @@
                         <div class="card-body">
                             <div class="panel profile-cover" style="position: relative;">
                                 <div class="profile-cover__img" style="position: absolute; bottom: -50px; left: 20px; ">
-                                    <img src="{{asset(Storage::url(auth()->user()->photo_path))}}"
-                                        alt="Profile picture of Sonia Taylor"
+                                    @if (auth()->user()->photo_path == null || auth()->user()->photo_path == '')
+                                    <img src="{{asset('assets/img/users/1.jpg')}}"
+                                        alt="Profile picture"
                                         style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 3px solid white;" />
+                                    @else
+                                    <img src="{{asset(Storage::url(auth()->user()->photo_path))}}"
+                                        alt="Profile picture"
+                                        style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 3px solid white;" />
+                                    @endif
                                     <h3 class="h3" style="margin-top: 10px; font-weight: bold;">
                                         {{ auth()->user()->name }}</h3>
                                 </div>
-                                <div class="profile-cover__action bg-img"
-                                    style="height: 200px; background-color: #d1e0ff; background: url('{{asset(Storage::url(auth()->user()->photo_path))}}') no-repeat fixed center">
+                                <div class="profile-cover__action bg-img">
 
                                     <!-- Background atau konten tambahan bisa diisi di sini -->
                                 </div>

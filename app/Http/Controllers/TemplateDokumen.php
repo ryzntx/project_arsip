@@ -2,34 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\OfficeProcessor;
-use Illuminate\Http\Request;
 use App\Models\DokumenKategori;
 use App\Models\DokumenTemplate;
+use App\OfficeProcessor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class TemplateDokumen extends Controller {
+class TemplateDokumen extends Controller
+{
     use OfficeProcessor;
+
     /**
      * Display a listing of the resource.
      */
-    public function kelola_template() {
+    public function kelola_template()
+    {
         $data = DokumenTemplate::with('kategori')->get();
+
         return view('admin.kelola_template.template_dokumen', compact('data'));
+    }
+
+    public function kelolaSampahTemplate()
+    {
+        $data = DokumenTemplate::onlyTrashed()->with('kategori')->get();
+
+        return view('admin.kelola_template.sampah', compact('data'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function add_template() {
+    public function add_template()
+    {
         $kategori = DokumenKategori::all();
+
         return view('admin.kelola_template.add_template', compact('kategori'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function simpan(Request $request) {
+    public function simpan(Request $request)
+    {
         $data = [
             'nama' => $request->nama_dokumen,
             'dokumen_kategori_id' => $request->kategori_dokumen,
@@ -67,15 +81,16 @@ class TemplateDokumen extends Controller {
         DokumenTemplate::create($data);
 
         return redirect()->route('admin.template_dokumen')->with('pesan', 'Data Template berhasil ditambahkan!');
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function lihat_template(string $id) {
+    public function lihat_template(string $id)
+    {
         $data = DokumenTemplate::with('kategori')->findOrFail($id);
         $kategori = DokumenKategori::all();
+
         // dd($data);
         return view('admin.kelola_template.lihat_template', compact('data', 'kategori'));
     }
@@ -83,16 +98,19 @@ class TemplateDokumen extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit_template(string $id) {
+    public function edit_template(string $id)
+    {
         $data = DokumenTemplate::findOrFail($id);
         $kategori = DokumenKategori::all();
+
         return view('admin.kelola_template.edit_template', compact('data', 'kategori'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update_template(Request $request, string $id) {
+    public function update_template(Request $request, string $id)
+    {
         //
         $dokumen = DokumenTemplate::findOrFail($id);
 
@@ -150,7 +168,8 @@ class TemplateDokumen extends Controller {
     /**
      * Remove the specified resource from storage.
      */
-    public function delete_template(string $id) {
+    public function delete_template(string $id)
+    {
         //
         $data = DokumenTemplate::findOrFail($id);
         // delete file
@@ -164,5 +183,23 @@ class TemplateDokumen extends Controller {
         return redirect()->route('admin.template_dokumen')->with('pesan', 'Data Template berhasil dihapus!');
     }
 
+    public function restore_template(string $id)
+    {
+        $data = DokumenTemplate::onlyTrashed()->findOrFail($id);
+        $data->restore();
 
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Data Template berhasil direstore!');
+    }
+
+    public function hapus_permanen_template(string $id)
+    {
+        $data = DokumenTemplate::onlyTrashed()->findOrFail($id);
+        $path = storage_path('app/public/' . $data->file);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        $data->forceDelete();
+
+        return redirect()->route('admin.template_dokumen')->with('pesan', 'Data Template berhasil dihapus permanen!');
+    }
 }

@@ -3,18 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Yungts97\LaravelUserActivityLog\Traits\Loggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
-class User extends Authenticatable {
-    use HasFactory, Notifiable;
+class User extends Authenticatable
+{
+    use HasFactory, Notifiable, Loggable, SoftDeletes;
 
     protected $table = 'users';
 
     protected $primaryKey = 'id';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,7 +48,8 @@ class User extends Authenticatable {
      *
      * @return array<string, string>
      */
-    protected function casts(): array {
+    protected function casts(): array
+    {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
@@ -53,13 +57,18 @@ class User extends Authenticatable {
     }
 
     // Ini yang dibawah manda yang buat??
-    public function allData() {
+    public function allData()
+    {
         return DB::table('users')->get();
     }
-    public function addData($data) {
+
+    public function addData($data)
+    {
         DB::table('users')->insert($data);
     }
-    public function deleteData($data) {
+
+    public function deleteData($data)
+    {
         DB::table('users')->where('id', $data)->delete();
     }
 }

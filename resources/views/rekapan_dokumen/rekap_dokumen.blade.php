@@ -2,28 +2,29 @@
 @section('title', 'Rekapan Dokumen')
 @section('content')
 
-    <div class="main-content side-content pt-0">
+    <div class="pt-0 main-content side-content">
 
         <div class="main-container container-fluid">
             <div class="inner-body">
 
                 <!-- Page Header -->
-                <div class="page-header text-center" style="margin-bottom: 20px;">
+                <div class="text-center page-header" style="margin-bottom: 20px;">
 
-                        <h2 class="main-content-label tx-24 mg-b-5" style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
-                            <i class="fas fa-book" style="margin-right: 10px; font-size: 28px;"></i>
-                            LAPORAN
-                        </h2>
+                    <h2 class="main-content-label tx-24 mg-b-5"
+                        style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                        <i class="fas fa-book" style="margin-right: 10px; font-size: 28px;"></i>
+                        LAPORAN
+                    </h2>
 
                     <div class="d-flex">
                         <div class="justify-content-center">
 
                             @if (request()->query() != null)
-                                <a href="{{ route('admin.rekap_dokumen') }}" class="btn btn-danger btn-icon-text my-2 me-2">
+                                <a href="{{ route('admin.rekap_dokumen') }}" class="my-2 btn btn-danger btn-icon-text me-2">
                                     <i class="fa fa-close me-2"></i>Reset Filter
                                 </a>
                             @endif
-                            <button type="button" class="btn btn-white btn-icon-text my-2 me-2" data-bs-toggle="offcanvas"
+                            <button type="button" class="my-2 btn btn-white btn-icon-text me-2" data-bs-toggle="offcanvas"
                                 href="#filterMenu" role="button" aria-controls="filterMenu">
                                 <i class="fe fe-filter me-2"></i> Filter
                             </button>
@@ -37,16 +38,16 @@
                     <!-- Left Panel (Daftar Dokumen) -->
                     <div class="col-md-12" id="left-panel">
                         <div class="card custom-card">
-                            <div class="card-header  border-bottom-0 pb-0">
+                            <div class="pb-0 card-header border-bottom-0">
                                 <div>
                                     <div class="d-flex">
-                                        <label class="main-content-label my-auto pt-2">Rekap dokumen</label>
+                                        <label class="pt-2 my-auto main-content-label">Rekap dokumen</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table mb-0" id="rekapDokumen-tabel" style="width: 100%">
+                                    <table class="table mb-0 table-bordered" id="rekapDokumen-tabel" style="width: 100%">
                                         <thead>
                                             <tr class="border-bottom" style="text-align: center;">
                                                 <th>No</th>
@@ -93,7 +94,7 @@
             <div class="overflow-y-auto">
                 <form action="" method="get">
                     <h5 class="m-0">Filter Data</h5>
-                    <hr class="border-bottom border-3 mt-0">
+                    <hr class="mt-0 border-bottom border-3">
                     <div class="form-group">
                         <label for="jenis_dokumen" class="form-label">Jenis Dokumen</label>
                         <select name="jenis_dokumen" id="jenis_dokumen" class="form-control">
@@ -127,10 +128,10 @@
                             @endforeach
                         </select>
                     </div>
-                    <hr class="border-bottom border-3 mt-0">
+                    <hr class="mt-0 border-bottom border-3">
                     <h5 class="m-0">Filter Waktu</h5>
                     <small class="text-danger">Pilihlah berdasarkan bulan dan tahun, atau berdasarkan tanggal</small>
-                    <hr class="border-bottom border-3 mt-0">
+                    <hr class="mt-0 border-bottom border-3">
                     <div class="row">
                         <div class="col-6 form-group">
                             <label for="bulan" class="form-label">Bulan</label>
@@ -168,7 +169,8 @@
                                 <option value="">Pilih Tahun</option>
                                 @for ($i = 2021; $i <= date('Y'); $i++)
                                     <option {{ request()->query('tahun') == $i ? 'selected' : '' }}
-                                        value="{{ $i }}">{{ $i }}</option>
+                                        value="{{ $i }}">{{ $i }}
+                                    </option>
                                 @endfor
                             </select>
                         </div>
@@ -217,15 +219,18 @@
                 ];
             @endphp
 
-            message = 'Rekapan Dokumen Bulan {{ $bulan[request()->query('bulan')] }}',
+            message = "Rekapan Dokumen Bulan {{ $bulan[request()->query('bulan')] }}",
 
                 @if (request()->query('tahun'))
-                    message += ' Tahun {{ request()->query('tahun') }}',
+                    message += ' Tahun {{ request()->query('
+                    tahun ') }}',
                 @endif
         @elseif (request()->query('tahun'))
-            message = 'Rekapan Dokumen Tahun {{ request()->query('tahun') }}',
+            message = 'Rekapan Dokumen Tahun {{ request()->query('
+            tahun ') }}',
         @elseif (request()->query('tanggal'))
-            message = 'Rekapan Dokumen Tanggal {{ request()->query('tanggal') }}',
+            message = 'Rekapan Dokumen Tanggal {{ request()->query('
+            tanggal ') }}',
         @endif
 
         $(document).ready(function() {

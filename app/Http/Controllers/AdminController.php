@@ -7,9 +7,10 @@ use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
 use App\Models\Instansi;
 
-class AdminController extends Controller {
-
-    public function dashboard() {
+class AdminController extends Controller
+{
+    public function dashboard()
+    {
         // init data
         $instansi = Instansi::all();
         $kategori_dokumen = DokumenKategori::all();
@@ -92,8 +93,6 @@ class AdminController extends Controller {
             }
             );
 
-        // dd($dokumen_instansi);
-
         // filter data
         if (request()->query('tahun')) {
             $dokumen_masuk_month = DokumenMasuk::selectRaw('MONTH(created_at) as month, MONTHNAME(created_at) as month_name, COUNT(*) as total')
@@ -123,11 +122,12 @@ class AdminController extends Controller {
             'dokumen_masuk_today',
             'dokumen_keluar_today',
             'dokumen_today',
-            "dokumen_instansi",
+            'dokumen_instansi',
         ));
     }
 
-    public function rekapDokumen() {
+    public function rekapDokumen()
+    {
         return view('rekap_dokumen');
     }
 }

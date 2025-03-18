@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\DokumenKategori;
 use App\Models\Instansi;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -18,14 +17,14 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Administrator',
                 'email' => 'admin@earsip.com',
                 'password' => Hash::make('12345678'),
-                'role' => 'admin'
+                'role' => 'admin',
             ],
             [
                 'name' => 'Pimpinan',
                 'email' => 'pimpinan@earsip.com',
                 'password' => Hash::make('12345678'),
-                'role' => 'pimpinan'
-            ]
+                'role' => 'pimpinan',
+            ],
         ];
         $dokumen_kategoris = [
             [

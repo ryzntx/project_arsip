@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instansi;
-use Illuminate\Support\Str;
-use App\Models\DokumenMasuk;
-use Illuminate\Http\Request;
-use App\Models\DokumenKeluar;
 use App\Models\DokumenKategori;
+use App\Models\DokumenKeluar;
+use App\Models\DokumenMasuk;
+use App\Models\Instansi;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class Pencarian extends Controller {
-
+class Pencarian extends Controller
+{
     /**
      * Melakukan pencarian dokumen PDF berdasarkan query yang diberikan.
      *
-     * @param \Illuminate\Http\Request $request Objek request yang berisi query pencarian.
+     * @param  \Illuminate\Http\Request  $request  Objek request yang berisi query pencarian.
      * @return \Illuminate\View\View Mengembalikan view hasil pencarian dengan data pencarian.
      */
-    public function pencarian(Request $request) {
+    public function pencarian(Request $request)
+    {
 
         $rquery = $request->query() ?? [];
         // Mengambil semua kategori dokumen dari database
@@ -65,16 +66,16 @@ class Pencarian extends Controller {
         if (isset($rquery['kata_kunci'])) {
             // Melakukan pencarian dokumen PDF berdasarkan query yang diberikan
             $arsip_masuk = $arsip_masuk->when($request->query('kata_kunci'), function ($query, $kata_kunci) {
-                    $query->whereFullText(['nama_dokumen', 'pdf_content'], $kata_kunci);
-                }, function ($query) {
-                    return $query->latest();
-                });
+                $query->whereFullText(['nama_dokumen', 'pdf_content'], $kata_kunci);
+            }, function ($query) {
+                return $query->latest();
+            });
 
             $arsip_keluar = $arsip_keluar->when($request->query('kata_kunci'), function ($query, $kata_kunci) {
-                    $query->whereFullText(['nama_dokumen', 'pdf_content'], $kata_kunci);
-                }, function ($query) {
-                    return $query->latest();
-                });
+                $query->whereFullText(['nama_dokumen', 'pdf_content'], $kata_kunci);
+            }, function ($query) {
+                return $query->latest();
+            });
         }
 
         // Mengambil semua dokumen masuk yang telah difilter
@@ -89,40 +90,42 @@ class Pencarian extends Controller {
             if ($rquery['jenis_dokumen'] == 'dokumen_masuk') {
                 // Jika jenis dokumen adalah dokumen masuk, urutkan dokumen masuk saja
                 $pencarian = $arsip_masuk->sortByDesc('created_at')->paginate(5);
-            } else if ($rquery['jenis_dokumen'] == 'dokumen_keluar') {
+            } elseif ($rquery['jenis_dokumen'] == 'dokumen_keluar') {
                 // Jika jenis dokumen adalah dokumen keluar, urutkan dokumen keluar saja
                 $pencarian = $arsip_keluar->sortByDesc('created_at')->paginate(5);
             }
         }
 
         // Mengembalikan view hasil pencarian dengan data pencarian
-        return view("pencarian/pencarian_dokumen", compact("pencarian", "kategori", "instansi"));
+        return view('pencarian/pencarian_dokumen', compact('pencarian', 'kategori', 'instansi'));
     }
 
     /**
      * Menampilkan detail pencarian berdasarkan slug.
      *
-     * @param string $slug Slug yang akan dikonversi menjadi teks normal untuk mencari data.
+     * @param  string  $slug  Slug yang akan dikonversi menjadi teks normal untuk mencari data.
      * @return \Illuminate\View\View Tampilan detail pencarian dengan data dokumen yang ditemukan.
      */
-    public function detail_pencarian($slug) {
+    public function detailPencarian($slug)
+    {
         // Mengubah slug menjadi teks normal
-        $title = Str::title(str_replace("-", " ", $slug));
+        $title = Str::title(str_replace('-', ' ', $slug));
         // Mencari dokumen masuk berdasarkan nama dokumen
-        $jenis_dokumen = "Dokumen Masuk";
-        $dokumen = DokumenMasuk::where("nama_dokumen", $title)
-            ->with("instansi")
-            ->with("dokumen_kategori")
+        $jenis_dokumen = 'Dokumen Masuk';
+        $dokumen = DokumenMasuk::where('nama_dokumen', $title)
+            ->with('instansi')
+            ->with('dokumen_kategori')
             ->first();
         // Jika dokumen masuk tidak ditemukan, maka cari dokumen keluar
         if ($dokumen == null) {
-            $jenis_dokumen = "Dokumen Keluar";
-            $dokumen = DokumenKeluar::where("nama_dokumen", $title)
-                ->with("instansi")
-                ->with("dokumen_kategori")
+            $jenis_dokumen = 'Dokumen Keluar';
+            $dokumen = DokumenKeluar::where('nama_dokumen', $title)
+                ->with('instansi')
+                ->with('dokumen_kategori')
                 ->first();
         }
+
         // Mengembalikan tampilan detail pencarian
-        return view("pencarian/detail_pencarian", compact("dokumen", "jenis_dokumen"));
+        return view('pencarian/detail_pencarian', compact('dokumen', 'jenis_dokumen'));
     }
 }

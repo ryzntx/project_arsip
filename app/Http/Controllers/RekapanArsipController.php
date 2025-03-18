@@ -8,12 +8,13 @@ use App\Models\DokumenMasuk;
 use App\Models\Instansi;
 use Illuminate\Http\Request;
 
-class RekapanArsipController extends Controller {
+class RekapanArsipController extends Controller
+{
     //
     /**
      * Mengelola rekap dokumen berdasarkan filter yang diberikan melalui query string.
      *
-     * @param \Illuminate\Http\Request $request Objek request yang berisi query string untuk filter.
+     * @param  \Illuminate\Http\Request  $request  Objek request yang berisi query string untuk filter.
      * @return \Illuminate\View\View Mengembalikan view 'rekapan_dokumen.rekap_dokumen' dengan data rekapan dokumen.
      *
      * Query string yang didukung:
@@ -29,7 +30,8 @@ class RekapanArsipController extends Controller {
      * - kategori: Semua kategori dokumen.
      * - instansi: Semua instansi.
      */
-    public function kelola_rekap(Request $request) {
+    public function kelola_rekap(Request $request)
+    {
 
         // Mengambil query string dari request atau menginisialisasi array kosong jika tidak ada
         $rquery = $request->query() ?? [];
@@ -93,7 +95,7 @@ class RekapanArsipController extends Controller {
                 // Jika jenis dokumen adalah dokumen masuk, urutkan dokumen masuk saja
                 $rekapanDokumen = $arsip_masuk->sortByDesc('created_at');
                 $dokumen_rekapan = $rekapanDokumen;
-            } else if ($rquery['jenis_dokumen'] == 'dokumen_keluar') {
+            } elseif ($rquery['jenis_dokumen'] == 'dokumen_keluar') {
                 // Jika jenis dokumen adalah dokumen keluar, urutkan dokumen keluar saja
                 $rekapanDokumen = $arsip_keluar->sortByDesc('created_at');
                 $dokumen_rekapan = $rekapanDokumen;
@@ -103,5 +105,4 @@ class RekapanArsipController extends Controller {
         // Mengembalikan view 'rekapan_dokumen.rekap_dokumen' dengan data yang telah difilter dan diurutkan
         return view('rekapan_dokumen.rekap_dokumen', compact('dokumen_rekapan', 'kategori', 'instansi'));
     }
-
 }

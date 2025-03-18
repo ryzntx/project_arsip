@@ -34,3 +34,26 @@
     -   Fungsi pakai cURL
 
 -   Notif ke Email / Whatsapp [1/3]
+
+NEXT UPDATE
+
+-   Nomor Surat Keluar Berdasarkan Kategori Surat [3/3]
+
+    -   Auto Increment Nomor Surat Keluar [Done] - DB Penambahan
+        Contoh Kode Surat: PST-MOU/11.001
+
+-   Approve Dokumen Keluar [3/3]
+
+    -   Approve Dokumen Keluar
+    -   Tanda Tangan oleh Pimpinan dengan signature pad
+    -   Verifikasi Tanda Tangan yang di gambar oleh Pimpinan
+
+-   Tanda Tangan Surat dengan Barcode [Belum Jelas Konsep nya]
+
+    -   Verifikasi Tanda Tangan Surat dengan Barcode
+
+-   Hapus Fitur Upload Dokumen Keluar [2/2]
+
+    -   Semua Dokumen Keluar Generate by sistem
+
+-   Docx Viewer [Dirubah menjadi PDF] [1/1]

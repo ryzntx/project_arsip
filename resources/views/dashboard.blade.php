@@ -35,10 +35,6 @@
                                                     <span class="text-white font-weight-bold ">Selamat Datang,
                                                         {{ auth()->user()->name }}!</span>
                                                 </h4>
-                                                <p class="mb-1 tx-white-7">You have two projects to finish, you had
-                                                    completed <b class="text-warning">57%</b> from your montly
-                                                    level,
-                                                    Keep going to your level
                                             </div>
                                             <img src="{{ asset('assets/img/pngs/29.png') }}" alt="user-img">
                                         </div>

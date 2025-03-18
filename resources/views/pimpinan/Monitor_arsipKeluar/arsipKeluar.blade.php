@@ -42,9 +42,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table mb-0" id="dokumenKeluar-tabel" style="width: 100%">
+                                    <table class="table mb-0 table-bordered text-wrap" id="dokumenKeluar-tabel"
+                                        style="width: 100%">
                                         <thead>
-                                            <tr class="border-bottom" style="text-align: center;">
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Nama Dokumen</th>
                                                 <th>Dinas</th>
@@ -57,13 +58,13 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($arsip_keluar as $item)
-                                                <tr style="text-align: center;">
+                                                <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-wrap"
-                                                        onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->pengirim }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ $item->lampiran }}')">
+                                                        onclick="showDetails('{{ $item->dokumen_kategori->nama_kategori }}','{{ $item->nama_dokumen }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ str_replace('.docx', '.pdf', $item->lampiran) }}')">
                                                         {{ $item->nama_dokumen }}</td>
                                                     <td>{{ $item->instansi->singkatan_instansi }}</td>
-                                                    <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
+                                                    <td class="text-wrap">{{ $item->dokumen_kategori->nama_kategori }}</td>
                                                     <td>{{ $item->tanggal_keluar }}</td>
                                                     <td class="d-flex flex-column">
                                                         @if ($item->persetujuan == 'ya')
@@ -106,42 +107,24 @@
                                                     </td>
                                                     <td>
                                                         @if ($item->bukti_dikirimkan)
-                                                            <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}"
-                                                                alt="Bukti Diterima"
-                                                                style="max-width: 100px; max-height: 100px;">
+                                                            <a href="#"
+                                                                class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
+                                                                id="BuktiTerima" data-bs-toggle="modal"
+                                                                data-bs-target="#tambahBuktiterima{{ $item->id }}">
+                                                                Bukti Terima</a>
                                                         @else
                                                             <span class="text-danger">Tidak ada bukti</span>
                                                         @endif
                                                     </td>
                                                     <td class="gap-1 d-flex justify-content-center">
                                                         <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
-                                                            target="_blank" class="btn btn-primary btn-sm">Cetak</a>
-                                                        @if ($item->persetujuan == 'ya')
+                                                            target="_blank" class="btn btn-primary btn-sm"><i
+                                                                class="fa fa-print"></i></a>
+                                                        @if ($item->disetujui == 0)
                                                             <a class="btn ripple btn-warning btn-sm"
                                                                 data-bs-target="#tandatangan{{ $item->id }}"
-                                                                data-bs-toggle="modal" href="#">
-                                                                Tanda Tangani Dokumen</a>
-                                                            {{-- <div class="confirm-dropdown-sm">
-                                                        <button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="dropdownConfirm" type="button">Konfirmasi Status<i class="fas fa-caret-down ms-1"></i></button>
-                                                            <div  class="dropdown-menu">
-                                                                <a class="dropdown-item" data-status="Disetujui" data-bs-toggle="modal"  data-bs-target="#modalConfirmSetuju" href="#">Disetujui</a>
-                                                                <a class="dropdown-item" data-status="Ditolak" data-bs-toggle="modal" data-bs-target="#modalConfirmTolak" href="#">Ditolak</a>
-                                                            </div>
-                                                    </div> --}}
-
-                                                            {{-- <div class="confirm-dropdown-sm">
-                                                        <button data-bs-target="#dropdownConfirm" aria-expanded="false" aria-haspopup="true" class="btn ripple btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="dropdownConfirm" type="button">Konfirmasi Status<i class="fas fa-caret-down ms-1"></i></button>
-                                                        <div  class="dropdown-menu">
-                                                            <a class="dropdown-item" data-status="Disetujui" onclick="openModal(this)" href="#">Disetujui</a>
-                                                            <a class="dropdown-item" data-status="Ditolak" onclick="openModal(this)" href="#">Ditolak</a>
-                                                        </div>
-                                                    </div> --}}
-
-                                                            {{-- <a href="#" target="_blank" class="btn btn-danger btn-sm">
-                                                        Konfirmasi status</a> --}}
-                                                            {{-- <a href="{{ route('pimpinan.arsipKeluar.persetujuan_arsip_keluar', $item->id) }}"
-                                                                class="btn btn-warning btn-sm">
-                                                                Tanda Tangani Dokumen</a> --}}
+                                                                data-bs-toggle="modal" href="#"><i
+                                                                    class="fa fa-pen-fancy me-2"></i>TTD Dokumen</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -181,10 +164,6 @@
                                 <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="pengirim" class="form-label">Pengirim</label>
-                                <input type="text" name="pengirim" id="pengirim" class="form-control" readonly>
-                            </div>
-                            <div class="form-group">
                                 <label for="penerima" class="form-label">Penerima</label>
                                 <input type="text" name="penerima" id="penerima" class="form-control" readonly>
                             </div>
@@ -210,6 +189,36 @@
         </div>
     </div>
     <!--end modal-->
+
+    @foreach ($arsip_keluar as $item)
+        <div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1"
+            aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-l">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tambahBuktiterima">Bukti Dikirimkan / Terima</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
+                                    width="100%" height="100%" />
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            @if ($item->bukti_dikirimkan == null)
+                                <button type="submit" class="btn btn-outline btn-danger">Tambah</button>
+                            @endif
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
     <!--modal button tandatangani dokumen-->
     @foreach ($arsip_keluar as $item)
@@ -237,7 +246,8 @@
                 <div class="modal-content tx-size-sm">
                     <form id="formRejection" action="{{ route('pimpinan.arsipKeluar.tambahAlasan', $item->id) }}"
                         method="POST" enctype="multipart/form-data">
-                        @csrf <!-- Pastikan untuk menyertakan token CSRF -->
+                        @csrf
+                        <!-- Pastikan untuk menyertakan token CSRF -->
                         <div class="modal-body tx-center">
                             <i class="icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
                             <h4 class="tx-danger mg-b-20">Ditolak</h4>
@@ -258,151 +268,56 @@
             </div>
         </div>
     @endforeach
-    {{-- <div class="modal" id="tandatangan">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content tx-size-sm">
-			<div class="modal-body tx-center">
-                <div class="modal-header">
-                    <h6 class="modal-title">Tandatangani dokumen</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                </div>
-            <div class="modal-body">
-                <p>Apakah anda yakin ingin menandatangani dokumen keluar ini?</p>
-            </div>
-            <div class="modal-footer-centered">
-                <button class="btn ripple btn-primary" type="button" href="#" style="margin-right: 10px;">Ya</button>
-                <button class="btn ripple btn-secondary" type="button" href="#">Tidak</button>
-            </div>
-        </div>
-        </div>
-    </div>
-</div> --}}
     <!--end modal-->
 
-    <!--modal konfirmasi Disetujui-->
-    <div class="modal" id="modalConfirmSetuju">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content tx-size-sm">
-                <div class="modal-body tx-center">
-                    <i class="icon ion-ios-checkmark-circle-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
-                    <h4 class="tx-success tx-semibold mg-b-20">Disetujui</h4>
-                    <p class="mg-b-20 mg-x-20" id="modalBodyTextSuccess">Apakah Anda yakin ingin mengubah status menjadi
-                        Disetujui?</p>
-                    <button aria-label="Close" class="btn ripple btn-success pd-x-25" data-bs-dismiss="modal"
-                        type="button">Simpan</button>
-                    <div class="modal-footer">
-                        <a id="btnDownloadPDF" href="" target="_blank" class="btn btn-danger"><i
-                                class="fa fa-file-download me-2"></i>Unduh PDF</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--end modal-->
+@endsection
+@push('scripts')
+    <script>
+        $('#dokumenKeluar-tabel').DataTable({
+            "responsive": true,
+            "autoWidth": true,
+        });
 
-        <!--modal konfirmasi Ditolak-->
-        <div class="modal" id="modalConfirmTolak">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content tx-size-sm">
-                    {{-- <form id="formRejection" action="{{ url('/pimpinan/arsipKeluar/tambahAlasan/' . $item->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf <!-- Pastikan untuk menyertakan token CSRF --> --}}
-                    <div class="modal-body tx-center pd-y-20 pd-x-20">
-                        <button aria-label="Close" class="btn-close float-end" data-bs-dismiss="modal"
-                            type="button"></button>
-                        <i class="icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                        <h4 class="tx-danger mg-b-20">Ditolak</h4>
-                        <p class="mg-b-20 mg-x-20" id="modalBodyTextError">Silakan isi alasan penolakan di bawah ini:</p>
-                        <div class="mb-3">
-                            <label for="rejectionReason" class="form-label">Alasan Penolakan (Wajib diisi)</label>
-                            <textarea id="rejectionReason" name="rejectionReason" class="form-control" rows="4" required></textarea>
-                        </div>
-                        <div class="modal-footer-centered">
-                            <button class="btn ripple btn-danger pd-x-25" type="submit">Simpan</button>
-                        </div>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!--end modal-->
+        function showDetails(kategori_dokumen, nama_dokumen, penerima, dinas, tanggal, pdfUrl) {
+            // kita siapin dulu nih variabel nya
+            var tabel = document.getElementById(
+                'dokumenKeluar-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
+            var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
 
-        <!--untuk membuka modal konfirmasi status-->
-        {{-- <script>
-    function openModal(element) {
-        const status = element.getAttribute('data-status');
-        if (status === 'Disetujui') {
-            document.getElementById('modalBodyTextSuccess').innerText = "Apakah Anda yakin ingin mengubah status menjadi " + status + "?";
-            const modal = new bootstrap.Modal(document.getElementById('modalConfirmSetuju'));
-            modal.show();
+            // Fungsi untuk menampilkan/menutup right-panel
+            // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
+            if (tabel.classList.contains('selected')) {
+                // Toggle modal to show
+                modal.hide();
+                // Kalau ada kita hapus dulu
+                tabel.classList.remove('selected');
+            } else {
+                modal.show();
+                // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
+                // tapi dengan cara kita cek di setiap baris tabel nya
+                document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function(row) {
+                    // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
+                    row.classList.remove('selected');
+                });
+                // trus tambahin lagi class selected nya deh
+                // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
+                tabel.classList.add('selected');
 
-            // Menangani aksi tombol "Simpan" pada modal Disetujui
-            document.getElementById('btnConfirmSuccess').onclick = function() {
-                confirmedStatus = status; // Simpan status konfirmasi
-                modal.hide(); // Sembunyikan modal
-                alert('Status telah disetujui: ' + confirmedStatus); // Menampilkan alert atau mengelola logika selanjutnya
-            };
-        } else if (status === 'Ditolak') {
-            document.getElementById('modalBodyTextError').innerText = "Jika ada ingin mengubah status menjadi " + status + " , Harap isi form dibawah!";
-            const modal = new bootstrap.Modal(document.getElementById('modalConfirmTolak'));
-            modal.show();
-
-            // Menangani aksi tombol "simpan" pada modal Ditolak
-            document.getElementById('btnConfirmError').onclick = function() {
-                confirmedStatus = status; // Simpan status konfirmasi
-                modal.hide(); // Sembunyikan modal
-                alert('Status telah ditolak: ' + confirmedStatus); // Menampilkan alert atau mengelola logika selanjutnya
-            };
-        }
-    }
-</script> --}}
-        <!--end-->
-
-
-        <script>
-            $('#dokumenKeluar-tabel').DataTable({
-                "responsive": true,
-                "autoWidth": true,
-            });
-
-            function showDetails(kategori_dokumen, nama_dokumen, penerima, pengirim, dinas, tanggal, pdfUrl) {
-                // kita siapin dulu nih variabel nya
-                var tabel = document.getElementById(
-                    'dokumenKeluar-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
-                var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
-
-                // Fungsi untuk menampilkan/menutup right-panel
-                // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
-                if (tabel.classList.contains('selected')) {
-                    // Toggle modal to show
-                    modal.hide();
-                    // Kalau ada kita hapus dulu
-                    tabel.classList.remove('selected');
-                } else {
-                    modal.show();
-                    // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
-                    // tapi dengan cara kita cek di setiap baris tabel nya
-                    document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function(row) {
-                        // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
-                        row.classList.remove('selected');
-                    });
-                    // trus tambahin lagi class selected nya deh
-                    // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
-                    tabel.classList.add('selected');
-
-                }
-
-                // trus kita tampilin deh data nya ke right-panel
-                document.getElementById('kategori_dokumen').value = kategori_dokumen;
-                document.getElementById('nama_dokumen').value = nama_dokumen;
-                document.getElementById('penerima').value = penerima;
-                document.getElementById('pengirim').value = pengirim;
-                document.getElementById('dinas').value = dinas;
-                document.getElementById('tanggal_keluar').value = tanggal;
-
-
-                // Menampilkan PDF di iframe
-                var viewer = document.getElementById('pdf-viewer');
-                viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
-
-                // udah deh segitu aja
             }
-        </script>
-    @endsection
+
+            // trus kita tampilin deh data nya ke right-panel
+            document.getElementById('kategori_dokumen').value = kategori_dokumen;
+            document.getElementById('nama_dokumen').value = nama_dokumen;
+            document.getElementById('penerima').value = penerima;
+            document.getElementById('dinas').value = dinas;
+            document.getElementById('tanggal_keluar').value = tanggal;
+
+
+            // Menampilkan PDF di iframe
+            var viewer = document.getElementById('pdf-viewer');
+            viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
+
+            // udah deh segitu aja
+        }
+    </script>
+@endpush

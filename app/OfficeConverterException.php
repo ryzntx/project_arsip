@@ -2,5 +2,4 @@
 
 namespace App;
 
-class OfficeConverterException extends \Exception {
-}
+class OfficeConverterException extends \Exception {}

@@ -2,49 +2,62 @@
 
 namespace App;
 
-class OfficeConverter {
+class OfficeConverter
+{
     /** @var string */
     private $file;
+
     /** @var string */
     private $bin;
+
     /** @var string */
     private $tempPath;
+
     /** @var string */
     private $extension;
+
     /** @var string */
     private $basename;
+
     /** @var bool */
     private $prefixExecWithExportHome;
+
     /** @var string */
     private $filter = '';
+
     private $logPath;
 
     /**
      * OfficeConverter constructor.
      *
-     * @param string      $filename
-     * @param string|null $tempPath
-     * @param string      $bin
-     * @param bool        $prefixExecWithExportHome
+     * @param  string  $filename
+     * @param  string|null  $tempPath
+     * @param  string  $bin
+     * @param  bool  $prefixExecWithExportHome
      */
-    public function __construct($filename, $tempPath = null, $bin = 'soffice', $prefixExecWithExportHome = true, $logPath = null) {
+    public function __construct($filename, $tempPath = null, $bin = 'soffice', $prefixExecWithExportHome = true, $logPath = null)
+    {
         if ($this->open($filename)) {
             $this->setup($tempPath, $bin, $prefixExecWithExportHome, $logPath);
+        }
+
+        if (config('libpath.libreoffice_path') != null) {
+            $this->bin = config('libpath.libreoffice_path');
         }
     }
 
     /**
-     * @param string $filename
-     *
+     * @param  string  $filename
      * @return string|null
      *
      * @throws OfficeConverterException
      */
-    public function convertTo($filename) {
+    public function convertTo($filename)
+    {
         $outputExtension = pathinfo($filename, PATHINFO_EXTENSION);
         $supportedExtensions = $this->getAllowedConverter($this->extension);
 
-        if (!in_array($outputExtension, $supportedExtensions)) {
+        if (! in_array($outputExtension, $supportedExtensions)) {
             throw new OfficeConverterException("Output extension ($outputExtension) not supported for input file($this->basename)");
         }
 
@@ -54,21 +67,22 @@ class OfficeConverter {
         return $this->prepOutput($outdir, $filename, $outputExtension);
     }
 
-    protected static function trimString($value, $limit = 200, $end = '...') {
+    protected static function trimString($value, $limit = 200, $end = '...')
+    {
         return (mb_strwidth($value, 'UTF-8') <= $limit)
-        ? $value
-        : rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')) . $end;
+            ? $value
+            : rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')) . $end;
     }
 
     /**
-     * @param string $filename
-     *
+     * @param  string  $filename
      * @return bool
      *
      * @throws OfficeConverterException
      */
-    protected function open($filename) {
-        if (!file_exists($filename) || false === realpath($filename)) {
+    protected function open($filename)
+    {
+        if (! file_exists($filename) || realpath($filename) === false) {
             throw new OfficeConverterException('File does not exist --' . $filename);
         }
 
@@ -78,42 +92,42 @@ class OfficeConverter {
     }
 
     /**
-     * @param string|null $tempPath
-     * @param string      $bin
-     * @param bool        $prefixExecWithExportHome
-     *
+     * @param  string|null  $tempPath
+     * @param  string  $bin
+     * @param  bool  $prefixExecWithExportHome
      * @return void
      *
      * @throws OfficeConverterException
      */
-    protected function setup($tempPath, $bin, $prefixExecWithExportHome, $logPath) {
-        //basename
+    protected function setup($tempPath, $bin, $prefixExecWithExportHome, $logPath)
+    {
+        // basename
         $this->basename = pathinfo($this->file, PATHINFO_BASENAME);
 
-        //extension
+        // extension
         $extension = pathinfo($this->file, PATHINFO_EXTENSION);
 
-        //Check for valid input file extension
-        if (!array_key_exists($extension, $this->getAllowedConverter())) {
+        // Check for valid input file extension
+        if (! array_key_exists($extension, $this->getAllowedConverter())) {
             throw new OfficeConverterException('Input file extension not supported -- ' . $extension);
         }
         $this->extension = $extension;
 
-        //setup output path
-        if (null === $tempPath || !is_dir($tempPath)) {
+        // setup output path
+        if ($tempPath === null || ! is_dir($tempPath)) {
             $tempPath = dirname($this->file);
         }
 
-        if (false === realpath($tempPath)) {
+        if (realpath($tempPath) === false) {
             $this->tempPath = sys_get_temp_dir();
         } else {
             $this->tempPath = realpath($tempPath);
         }
 
-        //binary location
+        // binary location
         $this->bin = $bin;
 
-        //use prefix export home or not
+        // use prefix export home or not
         $this->prefixExecWithExportHome = $prefixExecWithExportHome;
 
         // log path
@@ -121,12 +135,12 @@ class OfficeConverter {
     }
 
     /**
-     * @param string $outputDirectory
-     * @param string $outputExtension
-     *
+     * @param  string  $outputDirectory
+     * @param  string  $outputExtension
      * @return string
      */
-    protected function makeCommand($outputDirectory, $outputExtension) {
+    protected function makeCommand($outputDirectory, $outputExtension)
+    {
         $oriFile = escapeshellarg($this->file);
         $outputDirectory = escapeshellarg($outputDirectory);
         $logCmd = $this->logPath ? ">> {$this->logPath}" : '';
@@ -136,30 +150,32 @@ class OfficeConverter {
         // Add the userInstallationDirectory option
         if (isset($_SERVER['HOME'])) {
             $userInstallationDirectoryOption = "-env:UserInstallation=file://{$_SERVER['HOME']}/.config/libreoffice-profile{$randomNumber}";
+
             return "\"$this->bin\" --headless --convert-to {$outputExtension}{$this->filter} $userInstallationDirectoryOption $oriFile --outdir $outputDirectory";
         }
+
         return "\"$this->bin\" --headless --convert-to {$outputExtension}{$this->filter} $oriFile --outdir $outputDirectory";
     }
 
     /**
-     * @param string $filter
-     *
+     * @param  string  $filter
      * @return OfficeConverter
      */
-    public function setFilter($filter) {
+    public function setFilter($filter)
+    {
         $this->filter = ':' . $filter;
 
         return $this;
     }
 
     /**
-     * @param string $outdir
-     * @param string $filename
-     * @param string $outputExtension
-     *
+     * @param  string  $outdir
+     * @param  string  $filename
+     * @param  string  $outputExtension
      * @return string|null
      */
-    protected function prepOutput($outdir, $filename, $outputExtension) {
+    protected function prepOutput($outdir, $filename, $outputExtension)
+    {
         $DS = DIRECTORY_SEPARATOR;
         $tmpName = ($this->extension ? basename($this->basename, $this->extension) : $this->basename . '.') . $outputExtension;
         if (rename($outdir . $DS . $tmpName, $outdir . $DS . $filename)) {
@@ -174,11 +190,11 @@ class OfficeConverter {
     }
 
     /**
-     * @param string|null $extension
-     *
+     * @param  string|null  $extension
      * @return array|mixed
      */
-    private function getAllowedConverter($extension = null) {
+    private function getAllowedConverter($extension = null)
+    {
         $allowedConverter = [
             '' => ['pdf'],
             'html' => ['pdf', 'docx'],
@@ -238,7 +254,7 @@ class OfficeConverter {
             'csv' => ['pdf'],
         ];
 
-        if (null !== $extension) {
+        if ($extension !== null) {
             if (isset($allowedConverter[$extension])) {
                 return $allowedConverter[$extension];
             }
@@ -254,22 +270,23 @@ class OfficeConverter {
      *
      * @see http://php.net/manual/en/function.system.php
      *
-     * @param string $cmd
-     * @param string $input
+     * @param  string  $cmd
+     * @param  string  $input
      */
-    private function exec($cmd, $input = '') {
+    private function exec($cmd, $input = '')
+    {
         // Cannot use $_SERVER superglobal since that's empty during UnitUnishTestCase
         // getenv('HOME') isn't set on Windows and generates a Notice.
-        if ($this->prefixExecWithExportHome && false === stripos(PHP_OS, 'WIN')) {
+        if ($this->prefixExecWithExportHome && stripos(PHP_OS, 'WIN') === false) {
             $home = getenv('HOME');
-            if (!is_writable($home)) {
+            if (! is_writable($home)) {
                 $cmd = 'export HOME=/tmp && ' . $cmd;
             }
         }
 
         $exec = exec($cmd . ' 2>&1', $output, $rtn);
 
-        if (false === $exec || 0 !== $rtn) {
+        if ($exec === false || $rtn !== 0) {
             $croppedStderr = self::trimString(implode("\n", $output), 1000);
 
             throw new OfficeConverterException('Convertion Failure! Contact Server Admin:' . "code $rtn \nerror: $croppedStderr");

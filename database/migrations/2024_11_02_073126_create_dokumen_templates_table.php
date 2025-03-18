@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('nama');
             $table->string('file');
             $table->json('data');
-            $table->foreignId('dokumen_kategori_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('dokumen_kategori_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dokumen_template');
+        Schema::dropIfExists('dokumen_templates');
     }
 };

@@ -1,154 +1,103 @@
-{{-- <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
-@csrf
-
-<!-- Email Address -->
-<div>
-    <x-input-label for="email" :value="__('Email')" />
-    <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-        autofocus autocomplete="username" />
-    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-</div>
-
-<!-- Password -->
-<div class="mt-4">
-    <x-input-label for="password" :value="__('Password')" />
-
-    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-        autocomplete="current-password" />
-
-    <x-input-error :messages="$errors->get('password')" class="mt-2" />
-</div>
-
-<!-- Remember Me -->
-<div class="block mt-4">
-    <label for="remember_me" class="inline-flex items-center">
-        <input id="remember_me" type="checkbox"
-            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-    </label>
-</div>
-
-<div class="flex items-center justify-end mt-4">
-    @if (Route::has('password.request'))
-    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        href="{{ route('password.request') }}">
-        {{ __('Forgot your password?') }}
-    </a>
-    @endif
-
-    <x-primary-button class="ms-3">
-        {{ __('Log in') }}
-    </x-primary-button>
-</div>
-</form>
-</x-guest-layout> --}}
-
-
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
+<head>
 
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-        <meta name="description" content="Spruha -  Admin Panel HTML Dashboard Template">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    {{-- <meta name="description" content="Spruha -  Admin Panel HTML Dashboard Template">
         <meta name="author" content="Spruko Technologies Private Limited">
         <meta name="keywords"
-            content="admin,dashboard,panel,bootstrap admin template,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin template,themeforest admin dashboard,cool admin,it dashboard,admin design,dash templates,saas dashboard,dmin ui design">
+            content="admin,dashboard,panel,bootstrap admin template,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin template,themeforest admin dashboard,cool admin,it dashboard,admin design,dash templates,saas dashboard,dmin ui design"> --}}
 
-        <!-- Favicon -->
-        <link rel="icon" href="../assets/img/brand/favicon.ico" type="image/x-icon" />
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('assets/img/brand/favicon.ico') }}" type="image/x-icon" />
 
-        <!-- Title -->
-        <title>Spruha - Bootstrap Premium HTML Dashboard Template</title>
+    <!-- Title -->
+    <title>Masuk | E-Arsip</title>
 
-        <!-- Bootstrap css-->
-        <link id="style" href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap css-->
+    <link id="style" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
 
-        <!-- Icons css-->
-        <link href="../assets/plugins/web-fonts/icons.css" rel="stylesheet" />
-        <link href="../assets/plugins/web-fonts/font-awesome/font-awesome.min.css" rel="stylesheet">
-        <link href="../assets/plugins/web-fonts/plugin.css" rel="stylesheet" />
+    <!-- Icons css-->
+    <link href="{{ asset('assets/plugins/web-fonts/icons.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/web-fonts/font-awesome/font-awesome.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/web-fonts/plugin.css') }}" rel="stylesheet" />
 
-        <!-- Style css-->
-        <link href="../assets/css/style.css" rel="stylesheet">
+    <!-- Style css-->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
 
-    </head>
+</head>
 
-    <body class="ltr main-body leftmenu error-1">
+<body class="ltr main-body leftmenu error-1">
 
-        <!-- Loader -->
-        <div id="global-loader">
-            <img src="../assets/img/loader.svg" class="loader-img" alt="Loader">
-        </div>
-        <!-- End Loader -->
+    <!-- Loader -->
+    <div id="global-loader">
+        <img src="{{ asset('assets/img/loader.svg') }}" class="loader-img" alt="Loader">
+    </div>
+    <!-- End Loader -->
 
-        <!-- Page -->
-        <div class="page main-signin-wrapper">
+    <!-- Page -->
+    <div class="page main-signin-wrapper">
 
-            <!-- Row -->
-            <div class="row signpages text-center">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="row row-sm">
-                            <div class="col-lg-6 col-xl-5 d-none d-lg-block text-center bg-primary details">
-                                <div class="mt-5 pt-4 p-2 pos-absolute">
-                                    <img src="../assets/img/brand/logo-light.png"
-                                        class="d-lg-none header-brand-img text-start float-start mb-4 error-logo-light"
-                                        alt="logo">
-                                    <img src="../assets/img/brand/logo.png"
-                                        class=" d-lg-none header-brand-img text-start float-start mb-4 error-logo"
-                                        alt="logo">
-                                    <div class="clearfix"></div>
-                                    <img src="../assets/img/svgs/user.svg" class="ht-100 mb-0" alt="user">
-                                    <h5 class="mt-4 text-white">Create Your Account</h5>
-                                    <span class="tx-white-6 tx-13 mb-5 mt-xl-0">Signup to create, discover and connect
-                                        with the global community</span>
-                                </div>
+        <!-- Row -->
+        <div class="text-center row signpages">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="row row-sm">
+                        <div
+                            class="text-center col-lg-6 col-xl-5 d-none d-lg-flex justify-content-center bg-primary details">
+                            <div class="p-2 pt-4 mt-5 pos-absolute">
+                                <img src="{{ asset('assets/img/brand/logo-light.png') }}"
+                                    class="mb-4 d-lg-none header-brand-img text-start float-start error-logo-light"
+                                    alt="logo">
+                                <img src="{{ asset('assets/img/brand/logo.png') }}"
+                                    class="mb-4 d-lg-none header-brand-img text-start float-start error-logo"
+                                    alt="logo">
+                                <div class="clearfix"></div>
+                                <img src="{{ asset('assets/img/svgs/user.svg') }}" class="mb-0 ht-100" alt="user">
+                                <h5 class="mt-4 text-center text-white">Selamat Datang di E-Arsip</h5>
+                                <span class="mb-5 text-center tx-white-6 tx-13 mt-xl-0">Sistem Informasi Pengarsipan
+                                    Surat</span>
                             </div>
-                            <div class="col-lg-6 col-xl-7 col-xs-12 col-sm-12 login_form ">
-                                <div class="main-container container-fluid">
-                                    <div class="row row-sm">
-                                        <div class="card-body mt-2 mb-2">
-                                            <img src="../assets/img/brand/logo.png"
-                                                class=" d-lg-none header-brand-img text-start float-start mb-4"
-                                                alt="logo">
-                                            <div class="clearfix"></div>
+                        </div>
+                        <div class="col-lg-6 col-xl-7 col-xs-12 col-sm-12 login_form ">
+                            <div class="main-container container-fluid">
+                                <div class="row row-sm">
+                                    <div class="mt-2 mb-2 card-body">
+                                        <img src="{{ asset('assets/img/brand/logo.png') }}"
+                                            class="mb-4 d-lg-none header-brand-img text-start float-start"
+                                            alt="logo">
+                                        <div class="clearfix"></div>
 
-                                            <form method="POST" action="{{ route('login') }}">
-                                                @csrf
+                                        <form method="POST" action="{{ route('login') }}">
+                                            @csrf
 
-                                                <h5 class="text-start mb-2">Signin to Your Account</h5>
-                                                <p class="mb-4 text-muted tx-13 ms-0 text-start">Signin to create,
-                                                    discover and connect with the global community</p>
-                                                <div class="form-group text-start">
-                                                    <label>Email</label>
-                                                    <input class="form-control" placeholder="Enter your email"
-                                                        name="email" type="text">
-                                                    @error('email')
+                                            <h5 class="mb-2 text-start">
+                                                Masuk ke akun Anda
+                                            </h5>
+                                            <p class="mb-4 text-muted tx-13 ms-0 text-start">
+                                                Silahkan masukkan email dan password Anda
+                                            </p>
+                                            <div class="form-group text-start">
+                                                <label>Email</label>
+                                                <input class="form-control" placeholder="Masukan email anda"
+                                                    name="email" type="text">
+                                                @error('email')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                <div class="form-group text-start">
-                                                    <label>Password</label>
-                                                    <input class="form-control" placeholder="Enter your password"
-                                                        name="password" type="password">
-                                                    @error('password')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                <button class="btn ripple btn-main-primary btn-block">Sign In</button>
-                                            </form>
-
-                                            <div class="text-start mt-5 ms-0">
-                                                <div class="mb-1"><a href="">Forgot password?</a></div>
-                                                <div>Don't have an account? <a href="#">Register Here</a></div>
+                                                @enderror
                                             </div>
-                                        </div>
+                                            <div class="form-group text-start">
+                                                <label>Password</label>
+                                                <input class="form-control" placeholder="Masukan password anda"
+                                                    name="password" type="password">
+                                                @error('password')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <button class="btn ripple btn-main-primary btn-block">Masuk</button>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
@@ -156,31 +105,32 @@
                     </div>
                 </div>
             </div>
-            <!-- End Row -->
-
         </div>
-        <!-- End Page -->
+        <!-- End Row -->
 
-        <!-- Jquery js-->
-        <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    </div>
+    <!-- End Page -->
 
-        <!-- Bootstrap js-->
-        <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
-        <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Jquery js-->
+    <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 
-        <!-- Select2 js-->
-        <script src="../assets/plugins/select2/js/select2.min.js"></script>
-        <script src="../assets/js/select2.js"></script>
+    <!-- Bootstrap js-->
+    <script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 
-        <!-- Perfect-scrollbar js -->
-        <script src="../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <!-- Select2 js-->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.js') }}"></script>
 
-        <!-- Color Theme js -->
-        <script src="../assets/js/themeColors.js"></script>
+    <!-- Perfect-scrollbar js -->
+    <script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
-        <!-- Custom js -->
-        <script src="../assets/js/custom.js"></script>
+    <!-- Color Theme js -->
+    <script src="{{ asset('assets/js/themeColors.js') }}"></script>
 
-    </body>
+    <!-- Custom js -->
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+</body>
 
 </html>

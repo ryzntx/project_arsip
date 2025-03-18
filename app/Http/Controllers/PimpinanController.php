@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\DokumenKategori;
 use App\Models\DokumenKeluar;
 use App\Models\DokumenMasuk;
 use App\Models\Instansi;
 
-class PimpinanController extends Controller {
-    public function dashboard() {
+class PimpinanController extends Controller
+{
+    public function dashboard()
+    {
         // init data
         $instansi = Instansi::all();
         $kategori_dokumen = DokumenKategori::all();
@@ -123,7 +124,7 @@ class PimpinanController extends Controller {
             'dokumen_masuk_today',
             'dokumen_keluar_today',
             'dokumen_today',
-            "dokumen_instansi",
+            'dokumen_instansi',
         ));
     }
 }

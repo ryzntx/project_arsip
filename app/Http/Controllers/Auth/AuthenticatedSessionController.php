@@ -30,10 +30,10 @@ class AuthenticatedSessionController extends Controller
 
         // $url = "dashboard";
 
-        if (auth()->user()->role == "admin") {
-            $url = "admin/dashboard";
-        } else if(auth()->user()->role == "pimpinan"){
-            $url = "pimpinan/dashboard";
+        if (auth()->user()->role == 'admin') {
+            $url = 'admin/dashboard';
+        } elseif (auth()->user()->role == 'pimpinan') {
+            $url = 'pimpinan/dashboard';
         }
 
         return redirect()->intended($url);

@@ -1,0 +1,377 @@
+@extends('layout.index')
+@section('title', 'Keranjang Sampah Dokumen Keluar')
+@section('content')
+
+    <div class="pt-0 main-content side-content">
+        @if (session('pesan'))
+            <div class="alert alert-primary">
+                {{ session('pesan') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="main-container container-fluid">
+            <div class="inner-body">
+
+                <!-- Page Header -->
+                <div class="page-header" style="margin-bottom: 20px;">
+                    <div class="flex-row d-flex justify-content-between align-items-center w-100">
+                        <h2 class="main-content-label tx-24 mg-b-5"
+                            style="color: darkslateblue; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">
+                            <i class="fas fa-folder-open" style="margin-right: 10px; font-size: 28px;"></i>
+                            ARSIP DOKUMEN
+                        </h2>
+                        <a href="{{ route('admin.arsip_keluar') }}" class="btn btn-dark">
+                            <i class="fa fa-arrow-left"></i> Kembali
+                        </a>
+                    </div>
+                </div>
+                <!-- End Page Header -->
+
+                <!-- Row -->
+                <div class="row row-sm">
+                    <!-- Left Panel (Daftar Dokumen) -->
+                    <div class="col-md-12" id="left-panel">
+                        <div class="card custom-card">
+                            <div class="pb-0 card-header border-bottom-0">
+                                <div>
+                                    <div class="d-flex">
+                                        <label class="pt-2 my-auto main-content-label">SAMPAH DOKUMEN KELUAR</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table mb-0 table-bordered" id="dokumenKeluar-tabel" style="width: 100%">
+                                        <thead>
+                                            <tr class="border-bottom" style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Nama Dokumen</th>
+                                                <th>Dinas</th>
+                                                <th>Kategori</th>
+                                                <th>Tanggal</th>
+                                                <th>Status</th>
+                                                <th>Bukti Diterima</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($arsip_keluar as $item)
+                                                <tr style="text-align: center;">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td class="text-wrap"
+                                                        onclick="showDetails('{{ $item->dokumen_kategori ? $item->dokumen_kategori->nama_kategori : 'Tidak ada kategori' }}','{{ $item->nama_dokumen }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ str_replace('.docx', '.pdf', $item->lampiran) }}')">
+                                                        {{ $item->nama_dokumen }}</td>
+                                                    <td>{{ $item->instansi ? $item->instansi->singkatan_instansi : 'Tidak ada Instansi / Dinas' }}
+                                                    </td>
+                                                    <td>{{ $item->dokumen_kategori ? $item->dokumen_kategori->nama_kategori : 'Tidak ada kategori' }}
+                                                    <td>{{ $item->tanggal_keluar }}</td>
+                                                    <td class="d-flex flex-column">
+                                                        @if ($item->persetujuan == 'ya')
+                                                            <span
+                                                                class="my-1 text-white align-middle badge bg-warning align-items-center align-content-center">
+                                                                Perlu Tanda Tangan
+                                                            </span>
+                                                        @endif
+                                                        @if ($item->status == 'Menunggu Persetujuan')
+                                                            <span
+                                                                class="my-1 text-white align-middle badge bg-secondary align-items-center align-content-center">
+                                                                Menunggu Persetujuan
+                                                            </span>
+                                                        @elseif ($item->status == 'Disetujui')
+                                                            <span
+                                                                class="my-1 text-white align-middle badge bg-success align-items-center align-content-center">
+                                                                Disetujui
+                                                            </span>
+                                                        @elseif ($item->status == 'Ditolak')
+                                                            <span
+                                                                class="my-1 text-white align-middle badge bg-danger align-items-center align-content-center">
+                                                                Ditolak
+                                                            </span>
+                                                        @elseif ($item->status == 'Menunggu Dikirim')
+                                                            <span
+                                                                class="my-1 text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                Menunggu Dikirim
+                                                            </span>
+                                                        @elseif ($item->status == 'Dikirimkan')
+                                                            <span
+                                                                class="my-1 text-white align-middle badge bg-info align-items-center align-content-center">
+                                                                Dikirimkan
+                                                            </span>
+                                                        @elseif ($item->status == 'Selesai')
+                                                            <span
+                                                                class="my-1 text-white align-middle badge bg-primary align-items-center align-content-center">
+                                                                Selesai
+                                                            </span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->status == 'Dikirimkan' || $item->status == 'Selesai')
+                                                            <a href="#"
+                                                                class="btn {{ $item->bukti_dikirimkan == null ? 'btn-warning' : 'btn-info' }} btn-sm"
+                                                                id="BuktiTerima" data-bs-toggle="modal"
+                                                                data-bs-target="#tambahBuktiterima{{ $item->id }}">
+                                                                Bukti Terima</a>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <div class="gap-1 d-flex justify-content-center">
+                                                            @if ($item->status === 'Ditolak')
+                                                                <a href="#" class="btn btn-primary btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#alasanModal{{ $item->id }}">
+                                                                    <i class="fa fa-info"></i>
+                                                                </a>
+                                                            @endif
+                                                            {{-- <a href="{{ route('admin.arsip_keluar.download', $item->id) }}"
+                                                                class="btn btn-danger btn-sm" target="_blank">
+                                                                <i class="fa fa-download"></i>
+                                                            </a> --}}
+                                                            {{-- <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}"
+                                                                class="btn btn-warning btn-sm"><i
+                                                                    class="fe fe-edit"></i></a> --}}
+                                                            <a href="#" class="btn btn-info btn-sm"
+                                                                onclick="showRestore({{ $item->id }}, '{{ $item->nama_dokumen }}')">
+                                                                <i class="fa fa-undo"></i>
+                                                                <a href="#" class="btn btn-danger btn-sm"
+                                                                    onclick="showDelete({{ $item->id }}, '{{ $item->nama_dokumen }}')">
+                                                                    <i class="fe fe-trash"></i>
+                                                                </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Row -->
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Menampilkan Alasan --}}
+    @foreach ($arsip_keluar as $item)
+        <div class="modal fade" id="alasanModal{{ $item->id }}" tabindex="-1" aria-labelledby="alasanModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-l">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="alasanModalLabel">Alasan Penolakan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="alasanBody">
+                        <!-- Add your modal content here -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="alasan" class="form-label">Alasan Penolakan</label>
+                                    <textarea name="alasan" id="alasan" class="form-control" readonly>{{ $item->alasan }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline btn-primary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <!-- Modal Tambah Bukti-->
+    @foreach ($arsip_keluar as $item)
+        <div class="modal fade" id="tambahBuktiterima{{ $item->id }}" tabindex="-1"
+            aria-labelledby="tambahBuktiTerimaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-l">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tambahBuktiterima">Bukti Dikirimkan / Terima</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Pastikan untuk menyertakan token CSRF -->
+                        <div class="row">
+                            <div class="col-12">
+                                @if ($item->bukti_dikirimkan == null)
+                                    <p>Tidak
+                                        ada bukti dikirimkan</p>
+                                @else
+                                    <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}" class="img-thumbnail"
+                                        width="100%" height="100%" />
+                                @endif
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            @if ($item->bukti_dikirimkan == null)
+                                <button type="button" class="btn btn-outline btn-primary"
+                                    data-bs-dismiss="modal">Tutup</button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    <!-- Modal -->
+    <div class="modal fade" id="lihatPDF" tabindex="-1" aria-labelledby="lihatPDFLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lihatPDFLabel" style="font-weight: bold; font-size: 24px;">
+                        <i class="fas fa-file-pdf" style="margin-right: 10px;"></i>
+                        Detail Dokumen
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your modal content here -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="kategori_dokumen" class="form-label">Kategori Dokumen</label>
+                                <input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="nama_dokumen" class="form-label">Nama Dokumen</label>
+                                <input type="text" name="nama_dokumen" id="nama_dokumen" class="form-control"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="penerima" class="form-label">Penerima</label>
+                                <input type="text" name="penerima" id="penerima" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="dinas" class="form-label">Dinas</label>
+                                <input type="text" name="dinas" id="dinas" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="tanggal_keluar" class="form-label">Tanggal</label>
+                                <input type="text" name="tanggal_keluar" id="tanggal_keluar" class="form-control"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="pdf-viewer-container">
+                                <iframe id="pdf-viewer" src="" width="100%" height="500px"
+                                    style="border: none;" allowfullscreen webkitallowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@push('scripts')
+    <script>
+        function showDetails(kategori_dokumen, nama_dokumen, penerima, dinas, tanggal, pdfUrl) {
+            // kita siapin dulu nih variabel nya
+            var tabel = document.getElementById(
+                'dokumenKeluar-tabel'); // buat dapetin element dengan dokumenMasuk-tabel
+            var modal = new bootstrap.Modal(document.getElementById('lihatPDF'));
+
+            // Fungsi untuk menampilkan/menutup right-panel
+            // Kita cek dulu nih di element dengan id dokumenMasuk-tabel itu ada class selected ga?
+            if (tabel.classList.contains('selected')) {
+                // Toggle modal to show
+                modal.hide();
+                // Kalau ada kita hapus dulu
+                tabel.classList.remove('selected');
+            } else {
+                modal.show();
+                // Kalau tidak ada, kita cek lagi di element id dokumenMasuk-tabel itu ada gasih class selected?
+                // tapi dengan cara kita cek di setiap baris tabel nya
+                document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function(row) {
+                    // kalau di setiap baris tabel itu ada class selected, maka kita hapus class nya
+                    row.classList.remove('selected');
+                });
+                // trus tambahin lagi class selected nya deh
+                // loh buat kenapa di tambahin lagi? biar nanti ketika baris data lain di klik itu, tetep muncul right-panel nya
+                tabel.classList.add('selected');
+
+            }
+
+            // trus kita tampilin deh data nya ke right-panel
+            document.getElementById('kategori_dokumen').value = kategori_dokumen;
+            document.getElementById('nama_dokumen').value = nama_dokumen;
+            document.getElementById('penerima').value = penerima;
+            document.getElementById('dinas').value = dinas;
+            document.getElementById('tanggal_keluar').value = tanggal;
+
+
+            // Menampilkan PDF di iframe
+            var viewer = document.getElementById('pdf-viewer');
+            viewer.src = "{{ asset('/laraview/#../storage/') }}/" + pdfUrl;
+
+            // udah deh segitu aja
+        }
+    </script>
+    <script type="module">
+        $('#dokumenKeluar-tabel').DataTable({
+            "responsive": true,
+            "autoWidth": true,
+        });
+    </script>
+    <script>
+        function showDelete(id, nama_dokumen) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Menghapus Data " + nama_dokumen + " akan menghapus data secara permanen",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya",
+                backdrop: true, // Mengaktifkan backdrop
+                allowOutsideClick: false // Mencegah penutupan jika klik di luar modal
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ url('/admin/arsip_keluar/sampah/delete/') }}/" + id;
+                    Swal.fire({
+                        title: "Hapus Data!",
+                        text: "Data berhasil dihapus",
+                        icon: "success",
+                        timer: 1500, // Menampilkan pesan selama 1.5 detik
+                        showConfirmButton: false // Sembunyikan tombol konfirmasi
+                    });
+                }
+            });
+        }
+
+        function showRestore(id, nama_dokumen) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Mengembalikan Data " + nama_dokumen + " dari sampah",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya",
+                backdrop: true, // Mengaktifkan backdrop
+                allowOutsideClick: false // Mencegah penutupan jika klik di luar modal
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ url('/admin/arsip_keluar/sampah/restore/') }}/" + id;
+                    Swal.fire({
+                        title: "Kembalikan Data!",
+                        text: "Data berhasil dikembalikan",
+                        icon: "success",
+                        timer: 1500, // Menampilkan pesan selama 1.5 detik
+                        showConfirmButton: false // Sembunyikan tombol konfirmasi
+                    });
+                }
+            });
+        }
+    </script>
+@endpush

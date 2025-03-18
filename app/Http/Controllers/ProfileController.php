@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
     /**
      * Menampilkan formulir profil pengguna.
      */
-    public function ubah_profil(Request $request): View {
+    public function ubah_profil(Request $request): View
+    {
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -22,7 +24,8 @@ class ProfileController extends Controller {
     /**
      * Update informasi profil pengguna.
      */
-    public function update_profil(ProfileUpdateRequest $request): RedirectResponse {
+    public function update_profil(ProfileUpdateRequest $request): RedirectResponse
+    {
         // Mengisi data pengguna dengan data yang telah divalidasi
         $request->user()->fill($request->validated());
 
@@ -63,7 +66,8 @@ class ProfileController extends Controller {
     /**
      * Hapus akun pengguna.
      */
-    public function hapus_profil(Request $request): RedirectResponse {
+    public function hapus_profil(Request $request): RedirectResponse
+    {
         // Validasi password pengguna sebelum penghapusan
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],

@@ -2,40 +2,44 @@
 
 namespace App;
 
-use DOMNode;
-use DOMElement;
 use DOMDocument;
+use DOMElement;
+use DOMNode;
 
 class TagPrefixFixer
 {
     //
 
     protected static $notClosedTags = [
-        'br', 'hr', 'img', 'input', 'meta', 'link', 'base', 'col', 'frame', 'area', 'param', 'command', 'keygen', 'source', 'track', 'wbr'
+        'br', 'hr', 'img', 'input', 'meta', 'link', 'base', 'col', 'frame', 'area', 'param', 'command', 'keygen', 'source', 'track', 'wbr',
     ];
 
     /**
-      * @desc Removes all prefixes from tags
-      * @param string $xml The XML code to replace against.
-      * @return string The XML code with no prefixes in the tags.
-    */
-    public static function Clean(string $xml) {
+     * @desc Removes all prefixes from tags
+     *
+     * @param  string  $xml  The XML code to replace against.
+     * @return string The XML code with no prefixes in the tags.
+     */
+    public static function Clean(string $xml)
+    {
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument;
         /* Load the XML */
         $doc->loadXML($xml,
-            LIBXML_HTML_NOIMPLIED | # Make sure no extra BODY
-            LIBXML_HTML_NODEFDTD |  # or DOCTYPE is created
-            LIBXML_NOERROR |        # Suppress any errors
-            LIBXML_NOWARNING        # or warnings about prefixes.
+            LIBXML_HTML_NOIMPLIED | // Make sure no extra BODY
+            LIBXML_HTML_NODEFDTD |  // or DOCTYPE is created
+            LIBXML_NOERROR |        // Suppress any errors
+            LIBXML_NOWARNING        // or warnings about prefixes.
         );
         /* Run the code */
         self::removeTagPrefixes($doc);
+
         /* Return only the XML */
         return $doc->saveXML();
     }
 
-    private static function removeTagPrefixes(DOMNode $domNode) {
+    private static function removeTagPrefixes(DOMNode $domNode)
+    {
         /* Iterate over each child */
         foreach ($domNode->childNodes as $node) {
             /* Make sure the element is renameable and has children */
@@ -45,12 +49,12 @@ class TagPrefixFixer
                  * If we rename this element, then the children, the element
                  * would need to be moved a lot more times due to how
                  * renameNode works. */
-                if($node->hasChildNodes()) {
+                if ($node->hasChildNodes()) {
                     self::removeTagPrefixes($node);
                 }
                 /* Check if the tag contains a ':' */
                 if (strpos($node->tagName, ':') !== false) {
-                    print $node->tagName;
+                    echo $node->tagName;
                     /* Get the last part of the tag name */
                     $parts = explode(':', $node->tagName);
                     $newTagName = end($parts);
@@ -63,7 +67,8 @@ class TagPrefixFixer
         }
     }
 
-    private static function renameNode($node, $newName) {
+    private static function renameNode($node, $newName)
+    {
         /* Create a new node with the new name */
         $newNode = $node->ownerDocument->createElement($newName);
         /* Copy over every attribute from the old node to the new one */
@@ -78,11 +83,12 @@ class TagPrefixFixer
         $node->parentNode->replaceChild($newNode, $node);
     }
 
-    private static function giveCloseTag(DOMElement $node) {
+    private static function giveCloseTag(DOMElement $node)
+    {
         /* Check if the tag is not self-closing */
         if (in_array($node->tagName, self::$notClosedTags)) {
             /* If the tag is self-closing, add a slash to close it properly */
-            $node->parentNode->replaceChild($node->ownerDocument->createTextNode('<' . $node->tagName . '/>'), $node);
+            $node->parentNode->replaceChild($node->ownerDocument->createTextNode('<'.$node->tagName.'/>'), $node);
         } else {
             /* Create a new node with the same name */
             $newNode = $node->ownerDocument->createElement($node->tagName);
@@ -99,7 +105,8 @@ class TagPrefixFixer
         }
     }
 
-    private static function moveNestedParagraphs(DOMNode $domNode) {
+    private static function moveNestedParagraphs(DOMNode $domNode)
+    {
         foreach ($domNode->childNodes as $node) {
             if ($node->nodeType === XML_ELEMENT_NODE && $node->nodeName === 'p') {
                 self::moveParagraphContent($node);
@@ -110,7 +117,8 @@ class TagPrefixFixer
         }
     }
 
-    private static function moveParagraphContent(DOMNode $paragraph) {
+    private static function moveParagraphContent(DOMNode $paragraph)
+    {
         $parent = $paragraph->parentNode;
         $nextSibling = $paragraph->nextSibling;
         while ($paragraph->firstChild) {
@@ -119,14 +127,15 @@ class TagPrefixFixer
         $parent->removeChild($paragraph);
     }
 
-    public static function cleanHTML($html) {
-        $doc = new DOMDocument();
+    public static function cleanHTML($html)
+    {
+        $doc = new DOMDocument;
         /* Load the HTML */
         $doc->loadHTML($html,
-                LIBXML_HTML_NOIMPLIED | # Make sure no extra BODY
-                LIBXML_HTML_NODEFDTD |  # or DOCTYPE is created
-                LIBXML_NOERROR |        # Suppress any errors
-                LIBXML_NOWARNING        # or warnings about prefixes.
+            LIBXML_HTML_NOIMPLIED | // Make sure no extra BODY
+            LIBXML_HTML_NODEFDTD |  // or DOCTYPE is created
+            LIBXML_NOERROR |        // Suppress any errors
+            LIBXML_NOWARNING        // or warnings about prefixes.
         );
         /* Run the code */
         foreach ($doc->getElementsByTagName('*') as $element) {
@@ -138,13 +147,15 @@ class TagPrefixFixer
         return $doc->saveHTML();
     }
 
-    public static function addNamespaces($xml) {
+    public static function addNamespaces($xml)
+    {
         $root = '<w:wordDocument
             xmlns:w="http://schemas.microsoft.com/office/word/2003/wordml"
             xmlns:wx="http://schemas.microsoft.com/office/word/2003/auxHint"
             xmlns:o="urn:schemas-microsoft-com:office:office">';
         $root .= $xml;
         $root .= '</w:wordDocument>';
+
         return $root;
     }
 }
