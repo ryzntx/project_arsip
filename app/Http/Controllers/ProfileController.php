@@ -39,16 +39,6 @@ class ProfileController extends Controller
             $request->user()->photo_path = $path;
         }
 
-        // Cek bila ada sebuah file yang di upload ke server
-        if ($request->hasFile('ttd_path') && $request->file('ttd_path')->isValid()) {
-            // Ambil file yang diupload dan simpan di variabel
-            $file = $request->file('ttd_path');
-            // Upload file ke storage dengan nama folder 'ttd', nama file di-hash, dan ambil path-nya
-            $path = $file->storeAs('users/ttd', $file->hashName(), 'public');
-            // Simpan path file yang diupload ke database
-            $request->user()->ttd_path = $path;
-        }
-
         // Cek bila pengguna mengubah email
 
         // Jika email pengguna berubah, set email_verified_at menjadi null

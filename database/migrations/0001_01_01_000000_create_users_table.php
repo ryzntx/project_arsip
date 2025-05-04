@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'pimpinan']);
             $table->string('photo_path')->nullable();
-            $table->string('ttd_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

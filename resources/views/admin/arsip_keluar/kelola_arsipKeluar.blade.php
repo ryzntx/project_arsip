@@ -49,6 +49,7 @@
                                         <thead>
                                             <tr class="border-bottom" style="text-align: center;">
                                                 <th>No</th>
+                                                <th>Nomor Surat</th>
                                                 <th>Nama Dokumen</th>
                                                 <th>Dinas</th>
                                                 <th>Kategori</th>
@@ -62,13 +63,16 @@
                                             @foreach ($arsip_keluar as $item)
                                                 <tr style="text-align: center;">
                                                     <td>{{ $loop->iteration }}</td>
+                                                    <td class="text-wrap">
+                                                        {!! $item->disetujui == 2 ? $item->nomor_surat : '&mdash;' !!}</td>
+                                                    </td>
                                                     <td class="text-wrap"
                                                         onclick="showDetails('{{ $item->dokumen_kategori ? $item->dokumen_kategori->nama_kategori : 'Tidak ada kategori' }}','{{ $item->nama_dokumen }}', '{{ $item->penerima }}', '{{ $item->instansi->nama_instansi }}', '{{ $item->tanggal_keluar }}', '{{ str_replace('.docx', '.pdf', $item->lampiran) }}')">
                                                         {{ $item->nama_dokumen }}</td>
                                                     <td>{{ $item->instansi ? $item->instansi->singkatan_instansi : 'Tidak ada Instansi / Dinas' }}
                                                     </td>
                                                     <td>{{ $item->dokumen_kategori ? $item->dokumen_kategori->nama_kategori : 'Tidak ada kategori' }}
-                                                    <td>{{ $item->tanggal_keluar }}</td>
+                                                    <td>{!! $item->tanggal_keluar ?? '&mdash;' !!}</td>
                                                     <td class="d-flex flex-column">
                                                         @if ($item->persetujuan == 'ya')
                                                             <span
@@ -126,14 +130,16 @@
                                                                     <i class="fa fa-info"></i>
                                                                 </a>
                                                             @endif
-                                                            {{-- <a href="{{ route('admin.arsip_keluar.download', $item->id) }}"
+                                                            @if ($item->disetujui == 2)
+                                                            <a href="{{ route('admin.arsip_keluar.download', $item->id) }}"
                                                                 class="btn btn-danger btn-sm" target="_blank">
                                                                 <i class="fa fa-download"></i>
-                                                            </a> --}}
-                                                            <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
-                                                                target="_blank" class="btn btn-primary btn-sm">
-                                                                <i class="fa fa-print"></i>
                                                             </a>
+                                                                <!-- <a href="{{ route('admin.arsip_keluar.print', $item->id) }}"
+                                                                    target="_blank" class="btn btn-primary btn-sm">
+                                                                    <i class="fa fa-print"></i>
+                                                                </a> -->
+                                                            @endif
                                                             <a href="{{ route('admin.arsip_keluar.edit', $item->id) }}"
                                                                 class="btn btn-warning btn-sm"><i
                                                                     class="fe fe-edit"></i></a>
@@ -205,6 +211,14 @@
                                 <div class="col-12">
                                     @if ($item->bukti_dikirimkan == null)
                                         <div class="form-group">
+                                            <label for="penerima" class="form-label">Nama Penerima</label>
+                                            <input type="text" class="form-control" id="penerima" name="penerima"
+                                                required>
+                                            @error('penerima')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="foto_bukti" class="form-label">Lampiran Bukti Terima</label>
                                             <input type="file" class="form-control" id="foto_bukti" name="foto_bukti"
                                                 required>
@@ -213,6 +227,10 @@
                                             @enderror
                                         </div>
                                     @else
+                                        <div>
+                                            <label for="">Diterima Oleh:
+                                                <strong>{{ $item->penerima }}</strong></label>
+                                        </div>
                                         <img src="{{ asset('storage/' . $item->bukti_dikirimkan) }}"
                                             class="img-thumbnail" width="100%" height="100%" />
                                     @endif
@@ -326,6 +344,18 @@
 
             // udah deh segitu aja
         }
+
+        var modal = document.getElementById('lihatPDF');
+
+        // Ketika modal ditutup, hapus class selected dari tabel
+        modal.addEventListener('hidden.bs.modal', function(event) {
+            document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function(row) {
+                row.classList.remove('selected');
+            });
+
+            var viewer = document.getElementById('pdf-viewer');
+            viewer.src = "";
+        });
     </script>
     <script type="module">
         $('#dokumenKeluar-tabel').DataTable({

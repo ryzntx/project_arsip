@@ -31,11 +31,11 @@
                                 <i class="fe fe-user-plus"></i>
                                 Tambah User</button>
                         </a>
-                        <a href="/admin/kelola_user/sampah">
+                        <!-- <a href="/admin/kelola_user/sampah">
                             <button type="button" class="my-2 btn btn-secondary btn-icon-text">
                                 <i class="fa fa-trash"></i>
                                 Keranjang Sampah</button>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             </div>

@@ -6,11 +6,15 @@ use App\Models\DokumenKategori;
 use App\Models\DokumenKeluar;
 use App\Models\DokumenTemplate;
 use App\Models\Instansi;
+use App\Models\User;
+use App\Notifications\ApprovedDokKeluarNotification;
+use App\Notifications\NewDokKeluarNotification;
 use App\OfficeConverter;
 use App\OfficeProcessor;
 use App\PdfOptimzer;
 use App\TagPrefixFixer;
 use App\TemplateProcessor;
+use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Endroid\QrCode\Color\Color;
@@ -23,6 +27,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\File;
@@ -35,6 +40,17 @@ class ArsipKeluarController extends Controller
     use OfficeProcessor;
 
     // FITUR ADMIN
+    public function buatArsipKeluar()
+    {
+        $instansi = Instansi::all();
+        $kategori = DokumenKategori::all();
+        $template_dok = DokumenTemplate::all();
+        return view(
+            'admin.tambah_dokumen.dokumen_keluar',
+            compact('instansi', 'kategori', 'template_dok')
+        );
+    }
+
     public function kelolaArsipKeluar()
     {
         $arsip_keluar = DokumenKeluar::with('dokumen_kategori')->with('instansi')->orderBy('disetujui', 'asc')->orderBy('sifat_dokumen', 'desc')->orderBy('tanggal_keluar', 'desc')->get();
@@ -82,6 +98,7 @@ class ArsipKeluarController extends Controller
         $kategori = DokumenKategori::all();
         $template_dok = DokumenTemplate::all();
 
+
         return view('admin.arsip_keluar.edit_arsipKeluar', compact('arsip_keluar', 'instansi', 'kategori', 'template_dok'));
         // To-do tampilan edit
     }
@@ -92,8 +109,8 @@ class ArsipKeluarController extends Controller
 
         $validated = $request->validate([
             'nama_dokumen' => 'required',
-            'nama_penerima' => 'required',
-            'tanggal_keluar' => 'required',
+            // 'nama_penerima' => 'required',
+            // 'tanggal_keluar' => 'required',
             'dinas_id' => 'required',
             'kategori_id' => 'required',
             'sifat_dokumen' => 'required',
@@ -123,7 +140,7 @@ class ArsipKeluarController extends Controller
         $data = [
             'nama_dokumen' => $request->nama_dokumen,
             'penerima' => $request->nama_penerima,
-            'tanggal_keluar' => $request->tanggal_keluar,
+            // 'tanggal_keluar' => $request->tanggal_keluar,
             'keterangan' => $request->keterangan,
             'sifat_dokumen' => $request->sifat_dokumen,
             'instansi_id' => $request->dinas_id,
@@ -131,6 +148,10 @@ class ArsipKeluarController extends Controller
             'user_id' => auth()->user()->id,
             'nomor_surat' => $request->nomor_surat,
             'nomor_urut' => $request->nomor_urut,
+
+            'status' => 'Menunggu Persetujuan',
+            'disetujui' => 0,
+            'alasan' => null,
         ];
 
         // if (isset($request->pengajuan_ke_pimpinan)) {
@@ -209,6 +230,10 @@ class ArsipKeluarController extends Controller
 
         $arsip_keluar->update($data);
 
+        $user = User::where('role', 'pimpinan')->first();
+
+        Notification::send($user, new NewDokKeluarNotification($arsip_keluar, 'edit'));
+
         return redirect()->route('admin.arsip_keluar')->with('pesan', 'Data berhasil diubah!');
 
         // To-Do Fungsi update
@@ -246,8 +271,10 @@ class ArsipKeluarController extends Controller
     {
 
         $request->validate([
+            'penerima' => 'required',
             'foto_bukti' => ['required', File::image()->max('5mb')],
         ], [
+            'penerima.required' => 'Penerima wajib diisi!',
             'foto_bukti.required' => 'Foto bukti wajib diisi!',
             'foto_bukti.image' => 'File tidak valid. Hanya mendukung format PNG | JPG | JPEG',
             'foto_bukti.size' => 'Ukuran foto bukti maksimal 5MB!',
@@ -258,6 +285,7 @@ class ArsipKeluarController extends Controller
         $lokasi_file = $file->storeAs('dokumen/keluar/foto_bukti', $fileName, 'public');
 
         $data = [
+            'penerima' => $request->penerima,
             'bukti_dikirimkan' => $lokasi_file,
             'status' => 'Selesai',
         ];
@@ -291,6 +319,10 @@ class ArsipKeluarController extends Controller
             'status' => 'Ditolak',
             'disetujui' => '1',
         ]);
+
+        $user = User::where('role', 'admin')->first();
+
+        Notification::send($user, new ApprovedDokKeluarNotification($arsip_keluar, 'ditolak'));
 
         return redirect()->back()->with('pesan', 'Dokumen di tolak!, alasan penolakan berhasil ditambahkan');
     }
@@ -359,7 +391,12 @@ class ArsipKeluarController extends Controller
                 'disetujui' => '2',
                 'lampiran' => $lampiran,
                 'pdf_content' => $content,
+                'tanggal_keluar' => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
             ]);
+
+            $user = User::where('role', 'admin')->first();
+
+            Notification::send($user, new ApprovedDokKeluarNotification($arsip_keluar, 'approved'));
 
             return redirect()->back()->with('pesan', 'Data berhasil disetujui!');
         }

@@ -29,10 +29,10 @@
                             <i class="fe fe-plus"></i>
                             Tambah Template
                         </a>
-                        <a href="/admin/template_dokumen/sampah" class="my-2 btn btn-secondary btn-icon-text">
+                        <!-- <a href="/admin/template_dokumen/sampah" class="my-2 btn btn-secondary btn-icon-text">
                             <i class="fa fa-trash"></i>
                             Keranjang Sampah
-                        </a>
+                        </a> -->
                     </div>
                 </div>
                 <!-- End Page Header -->

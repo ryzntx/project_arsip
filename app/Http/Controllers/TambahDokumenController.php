@@ -8,6 +8,7 @@ use App\Models\DokumenMasuk;
 use App\Models\DokumenTemplate;
 use App\Models\Instansi;
 use App\Models\User;
+use App\Notifications\NewDokKeluarNotification;
 use App\Notifications\SignDocumentKeluars;
 use App\OfficeConverter;
 use App\PdfOptimzer;
@@ -18,6 +19,7 @@ use DateTimeZone;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\File;
@@ -145,11 +147,11 @@ class TambahDokumenController extends Controller
             $validated = $request->validate(
                 [
                     'nama_dokumen' => 'required',
-                    'nama_penerima' => 'required',
-                    'tanggal_keluar' => 'required',
+                    // 'nama_penerima' => 'required',
+                    // 'tanggal_keluar' => 'required',
                     'dinas_id' => 'required',
                     'kategori_id' => 'required',
-                    'sifat_dokumen' => 'required',
+                    // 'sifat_dokumen' => 'required',
                     'pilihTemplate' => 'required',
                 ],
                 [
@@ -181,6 +183,7 @@ class TambahDokumenController extends Controller
                     }
                 }
                 $validated = $request->validate($rules, $message);
+                // dd($validated);
             }
             $hasil = $this->__simpanDokumenKeluar($request);
         }
@@ -344,9 +347,9 @@ class TambahDokumenController extends Controller
         // Membuat array dengan data yang akan disimpan ke database untuk 'dokumen_keluar'
         $data = [
             'nama_dokumen' => $request->nama_dokumen,
-            'penerima' => $request->nama_penerima,
+            // 'penerima' => $request->nama_penerima,
             // "pengirim" => $request->nama_pengirim,
-            'tanggal_keluar' => $request->tanggal_keluar,
+            'tanggal_keluar' => null,
             'keterangan' => $request->keterangan,
             'status' => 'Menunggu Persetujuan',
             'sifat_dokumen' => $request->sifat_dokumen,
@@ -356,6 +359,16 @@ class TambahDokumenController extends Controller
             'nomor_surat' => $request->nomor_surat,
             'nomor_urut' => $request->nomor_urut,
         ];
+        $isi_surat = [];
+        foreach ($request->all() as $key => $value) {
+            if (Str::startsWith($key, 'var_')) {
+                $isi_surat[$key] = $value;
+            }
+        }
+
+        $data['data_surat'] = json_encode($isi_surat);
+
+        $data['dok_template_id'] = $request->pilihTemplate;
 
         // Nama file menggunakan nama_dokumen yang sudah dirubah (mengganti spasi dengan underscore) dan ditambahkan dengan waktu
         $nama_dokumen = preg_replace("/\s+/", '_', $request->nama_dokumen);
@@ -405,7 +418,9 @@ class TambahDokumenController extends Controller
                 $request,
                 $nama_dokumen . '_' . $dtFormat
             );
-            // dd($hasil);
+            if ($hasil instanceof RedirectResponse) {
+                return $hasil;
+            }
             $data['lampiran'] = $hasil;
         } else {
             // Mengembalikan redirect dengan pesan kesalahan
@@ -417,20 +432,23 @@ class TambahDokumenController extends Controller
 
         // dd($request->all());
 
+        $dokumenKeluar = DokumenKeluar::create($data);
+
         // if ($request->pengajuan_ke_pimpinan == 'ya') {
         // ambil data kategori dan instansi untuk notifikasi
         $kategori = DokumenKategori::find($request->kategori_id);
         $instansi = Instansi::find($request->dinas_id);
         // Mengirim notifikasi ke telegram
         $user = User::where('role', 'pimpinan')->first();
+
+        Notification::send($user, new NewDokKeluarNotification($dokumenKeluar, 'created'));
+
         try {
-            $user->notify(
-                new SignDocumentKeluars(
-                    $request->nama_dokumen,
-                    $kategori->nama_kategori,
-                    $instansi->nama_instansi
-                )
-            );
+            Notification::send($user, new SignDocumentKeluars(
+                $request->nama_dokumen,
+                $kategori->nama_kategori,
+                $instansi->nama_instansi
+            ));
         } catch (\Exception $e) {
             Log::error('Whatsapp Notification: ' . $e);
             // Mengembalikan redirect dengan pesan kesalahan
@@ -439,7 +457,7 @@ class TambahDokumenController extends Controller
         // }
 
         // Membuat record 'DokumenKeluar' baru di database dengan array data
-        return DokumenKeluar::create($data);
+        return $dokumenKeluar;
     }
 
     protected function __prosesTemplateDokumen(
@@ -448,7 +466,6 @@ class TambahDokumenController extends Controller
     ): string|RedirectResponse {
         $fileTemplate = DokumenTemplate::findOrFail($request->pilihTemplate)
             ->file;
-
         // cek jika file template tidak ditemukan
         if (! Storage::disk('public')->exists($fileTemplate)) {
             return redirect()

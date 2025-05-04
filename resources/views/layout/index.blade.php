@@ -58,6 +58,12 @@
     <link href="{{ asset('assets/plugins/quill/quill.snow.css') }}" rel="stylesheet">
 
     <style>
+        * {
+            /* border: solid 1px red; */
+        }
+    </style>
+
+    <style>
         body.dt-print-view h1 {
             text-align: center;
             margin-top: 1em;
@@ -146,6 +152,37 @@
                     <div class="navbar navbar-expand-lg nav nav-item navbar-nav-right responsive-navbar navbar-dark ">
                         <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                             <div class="d-flex order-lg-2 ms-auto">
+                                <div class="dropdown main-profile-menu">
+                                    <a class="nav-link icon" href="#" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa fa-bell"></i>
+                                        <span
+                                            class="badge bg-secondary">{{ count(auth()->user()->unreadNotifications) }}</span>
+                                    </a>
+                                    <div class="w-full dropdown-menu">
+                                        <div class="header-navheading">
+                                            <h6 class="main-notification-title">Notifikasi</h6>
+                                        </div>
+                                        @forelse (auth()->user()->notifications as $notif)
+                                            <div class="dropdown-item" href="#">
+                                                <div class="d-flex align-items-center align-content-center">
+                                                    <div class="notifyimg text-primary">
+                                                        <i class="fa fa-bell"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="main-notification-title">
+                                                            {{ $notif->data['nama_dokumen'] }}</h6>
+                                                        <p class="main-notification-text">
+                                                            Berhasil dibuat</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <p class="text-center">Tidak ada Notifikasi</p>
+                                        @endforelse
+                                        {{--  --}}
+                                    </div>
+                                </div>
                                 <!-- Theme-Layout -->
                                 <div class="dropdown d-flex main-header-theme">
                                     <a class="nav-link icon layout-setting">

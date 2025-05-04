@@ -202,10 +202,84 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                {{-- Notifikasi Sistem Per User --}}
+                                <div class="card custom-card">
+                                    <div class="card-body">
+                                        <div
+                                            class="flex-row d-flex justify-content-between align-content-center align-items-center">
+                                            <div class="d-flex flex-column">
+                                                <label class="pt-2 my-auto d-flex main-content-label">Pemberitahuan
+                                                    Terkini</label>
+                                                <span class="mb-2 d-flex fs-12 text-muted">
+                                                    {{ date('d M Y') }}
+                                                </span>
+                                            </div>
+                                            <a href="{{ route('notif.dibacaSemua') }}"
+                                                class="flex align-middle align-items-center">Tandai semua
+                                                telah dibaca.</a>
+                                        </div>
+                                        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                                            <table class="table mt-2 m-b-0 transcations">
+                                                <tbody>
+                                                    @forelse (auth()->user()->unreadNotifications as $item)
+                                                        <tr>
+                                                            <td>
+                                                                <div class="align-middle d-flex ms-3">
+                                                                    <div class="d-inline-block">
+                                                                        @if ($item->data['status'] == 'created')
+                                                                            <p class="mb-0">Sekretaris telah membuat
+                                                                                dokumen keluar
+                                                                                terbaru:
+                                                                            </p>
+                                                                        @elseif($item->data['status'] == 'edit')
+                                                                            <p class="mb-0">Sekretaris telah mengedit
+                                                                                dokumen keluar:
+                                                                            </p>
+                                                                        @elseif($item->data['status'] == 'approved')
+                                                                            <p class="mb-0">
+                                                                                Pimpinan telah menyetujui dokumen keluar
+                                                                                berikut:
+                                                                            </p>
+                                                                        @elseif($item->data['status'] == 'ditolak')
+                                                                            <p class="mb-0">
+                                                                                Pimpinan telah menolak dokumen keluar
+                                                                                berikut:
+                                                                            </p>
+                                                                        @endif
+                                                                        <h6 class="mb-1">
+                                                                            Nama Dokumen: {{ $item->data['nama_dokumen'] }}
+                                                                        </h6>
+                                                                        <p class="mb-0 fs-13 text-muted">
+                                                                            Kategori: {{ $item->data['kategori'] }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <div class="d-inline-block">
+                                                                    <h6 class="mb-2 fs-15 fw-semibold">
+                                                                        {{ $item->data['dinas'] }}
+                                                                        ({{ $item->data['sifat'] ? 'Penting' : 'Biasa' }})
+                                                                        <i
+                                                                            class="fa {{ $item->data['status'] === 'ditolak' ? 'fa-x' : 'fa-level-up-alt' }} ms-2 text-success m-l-10"></i>
+                                                                    </h6>
+                                                                    <p class="mb-0 tx-11 text-muted">
+                                                                        {{ $item->created_at->format('d M Y') }}</p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        <p class="text-center">Tidak ada pemberitahuan</p>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                                 {{-- Daftar Arsip Masuk & Keluar Terbaru --}}
                                 <div class="card custom-card">
                                     <div class="card-body">
-                                        <label class="main-content-label tx-13 font-weight-bold">Dokumen Arsip
+                                        <label class="pt-2 my-auto main-content-label">Dokumen Arsip
                                             Terkini</label>
                                         <span class="mb-2 d-block fs-12 text-muted">
                                             {{ date('d M Y') }}
@@ -248,9 +322,11 @@
                                 <div class="card custom-card">
                                     <div class="pb-0 card-header border-bottom-0">
                                         <div>
-                                            <div class="d-flex"> <label class="pt-2 my-auto main-content-label">
+                                            <div class="d-flex">
+                                                <label class="pt-2 my-auto main-content-label">
                                                     Dokumen per Instansi
-                                                </label> </div> <span class="mt-2 mb-0 d-block fs-12 text-muted">
+                                                </label>
+                                            </div> <span class="mt-2 mb-0 d-block fs-12 text-muted">
                                                 Total keseluruhan dokumen per instansi
                                             </span>
                                         </div>
@@ -448,16 +524,16 @@
                 datasets: [{
                     label: '# Total Arsip Masuk',
                     data: [
-                        @foreach ($dokumen_masuk_kategori as $item)
-                            '{{ $item->total }}',
+                        @foreach ($kategori_dokumen as $item)
+                            '{{ $item->dokumen_masuk_total }}',
                         @endforeach
                     ],
                     borderWidth: 1,
                 }, {
                     label: '# Total Arsip Keluar',
                     data: [
-                        @foreach ($dokumen_keluar_kategori as $item)
-                            '{{ $item->total }}',
+                        @foreach ($kategori_dokumen as $item)
+                            '{{ $item->dokumen_keluar_total }}',
                         @endforeach
                     ],
                     borderWidth: 1,
@@ -477,7 +553,6 @@
                         }
                     }
                 }
-
             }
         });
     </script>

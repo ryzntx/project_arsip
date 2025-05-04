@@ -31,6 +31,13 @@ Route::get('/verifikasi-dokumen/{nomor_surat}', [
 ])->name('verifikasi_dokumen');
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/markasread', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+
+        return redirect()->back();
+    })->name('notif.dibacaSemua');
+
     Route::get('/profile/edit', [
         ProfileController::class,
         'ubah_profil',
@@ -216,6 +223,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         'restoreArsipMasuk',
     ])->name('admin.arsip_masuk.sampah.restore');
 
+    Route::get('/admin/arsip_keluar/tambah', [
+        ArsipKeluarController::class,
+        'buatArsipKeluar',
+    ])->name('admin.arsip_keluar.add');
     Route::get('/admin/arsip_keluar', [
         ArsipKeluarController::class,
         'kelolaArsipKeluar',

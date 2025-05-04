@@ -24,112 +24,8 @@
                 </div>
                 <!-- End Page Header -->
 
-                <!-- Pilihan Jenis Dokumen -->
-                <div class="form-group">
-                    <label for="jenis_dokumen" class="tx-medium">Jenis Dokumen</label>
-                    <select id="jenis_dokumen" class="form-control" name="jenis_dokumen">
-                        <option value="pus_">Pilih</option>
-                        <option value="masuk" @selected(old('jenis_dokumen') === 'dokumen_masuk')>Dokumen Masuk</option>
-                        <option value="keluar" @selected(old('jenis_dokumen') === 'dokumen_keluar')>Dokumen Keluar</option>
-                    </select>
-                </div>
-
-                <!-- Template Form Dokumen Masuk -->
-                <div class="row row-sm form-container" id="formMasuk" style="display: none;">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card custom-card">
-                            <div class="card-header">
-                                <h5>Form Dokumen Masuk</h5>
-                            </div>
-                            <form action="/admin/tambah_dokumen/insert" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" name="jenis_dokumen" value="dokumen_masuk">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label class="tx-medium">Tanggal</label>
-                                        <input type="date" class="form-control" name="tanggal_masuk" id="tanggal_masuk"
-                                            value="{{ old('tanggal_masuk') }}">
-                                        @error('tanggal_masuk')
-                                            <small class="text-danger text-bold">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="tx-medium">Nama Dokumen</label>
-                                        <input type="text" class="form-control" name="nama_dokumen" id="nama_dokumen"
-                                            value="{{ old('nama_dokumen') }}">
-                                        @error('nama_dokumen')
-                                            <small class="text-danger text-bold">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="namaDinas" class="tx-medium">Dinas / Instansi</label>
-                                        <select id="namaDinas" name="dinas_id" class="form-control">
-                                            <!-- Option list remains unchanged -->
-                                            <option selected>Pilih Dinas / Instansi</option>
-                                            @foreach ($instansi as $data)
-                                                <option value="{{ $data->id }}" @selected(old('dinas_id') == $data->id)>
-                                                    {{ $data->nama_instansi }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('dinas_id')
-                                            <small class="text-danger text-bold">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="tx-medium">Pengirim</label>
-                                        <input type="text" class="form-control" name="nama_pengirim" id="nama_pengirim"
-                                            value="{{ old('nama_pengirim') }}">
-                                        @error('nama_pengirim')
-                                            <small class="text-danger text-bold">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="tx-medium">Penerima</label>
-                                        <input type="text" class="form-control" name="nama_penerima" id="nama_penerima"
-                                            value="{{ old('nama_penerima') }}">
-                                        @error('nama_penerima')
-                                            <small class="text-danger text-bold">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class=" form-group">
-                                        <label>Kategori Dokumen</label>
-                                        <select name="kategori_id" id="kategori_dokumen_masuk" class="form-control">
-                                            <option value="">Pilih Kategori Dokumen</option>
-                                            @foreach ($kategori as $item)
-                                                <option value="{{ $item->id }}" @selected(old('kategori_id') == $data->id)>
-                                                    {{ $item->nama_kategori }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('kategori_id')
-                                            <small class="text-danger text-bold">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="tx-medium">Lampiran Dokumen</label>
-                                        <input type="file" name="file_dokumen" id="file_dokumen" class="form-control"
-                                            accept=".pdf, .doc, .docx">
-                                        @error('file_dokumen')
-                                            <small class="text-danger text-bold">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="tx-medium">Keterangan</label>
-                                        <textarea name="keterangan" rows="3" class="form-control">{{ old('keterangan') }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Simpan Dokumen</button>
-                                    <button type="reset" class="btn btn-danger">Reset</button>
-                                </div>
-                            </form>
-                            <!-- Submit Buttons -->
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Template Form Dokumen Keluar -->
-                <div class="row row-sm form-container" id="formKeluar" style="display: none;">
+                <div class="row row-sm form-container" id="formKeluar">
                     <div class="col-lg-12 col-md-12">
                         <div class="card custom-card">
                             <div class="card-header">
@@ -196,8 +92,8 @@
                                     <div id="fieldSet"></div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="button" class=" btn btn-primary" data-bs-toggle="modal"
-                                        id="btnLampiran" data-bs-target="#modalSimpan">
+                                    <button type="button" class=" btn btn-primary" data-bs-toggle="modal" id="btnLampiran"
+                                        data-bs-target="#modalSimpan">
                                         Simpan </button>
                                     <button type="reset" class="btn btn-danger">Reset</button>
                                 </div>
@@ -206,7 +102,7 @@
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Draft Dokumen</h4>
+                                                <h4 class="modal-title">Lampiran File</h4>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
@@ -278,6 +174,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -303,15 +200,6 @@
 
         let isi_surat = false;
         var quill;
-
-        var formMasuk = document.getElementById('formMasuk');
-        var formKeluar = document.getElementById('formKeluar');
-
-        @if (old('jenis_dokumen') == 'dokumen_masuk')
-            formMasuk.style.display = 'block';
-        @elseif (old('jenis_dokumen') == 'dokumen_keluar')
-            formKeluar.style.display = 'block';
-        @endif
 
         @if (old('kategori_id'))
             if (kategoriDokKeluar.value === '{{ old('kategori_id') }}') {
@@ -512,22 +400,6 @@
         observer.observe(fieldSet, {
             childList: true,
             subtree: true
-        });
-
-
-        document.getElementById('jenis_dokumen').addEventListener('change', function() {
-            var type = this.value;
-
-            // Reset visibility
-            formMasuk.style.display = 'none';
-            formKeluar.style.display = 'none';
-
-            // Show form based on selected document type
-            if (type === 'masuk') {
-                formMasuk.style.display = 'block';
-            } else if (type === 'keluar') {
-                formKeluar.style.display = 'block';
-            }
         });
     </script>
 @endpush

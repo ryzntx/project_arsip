@@ -117,9 +117,13 @@
                                                         @endif
                                                     </td>
                                                     <td class="gap-1 d-flex justify-content-center">
-                                                        <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
+                                                        <!-- <a href="{{ route('pimpinan.arsipKeluar.print', $item->id) }}"
                                                             target="_blank" class="btn btn-primary btn-sm"><i
-                                                                class="fa fa-print"></i></a>
+                                                                class="fa fa-print"></i></a> -->
+                                                        <a href="{{ route('pimpinan.arsipKeluar.download', $item->id) }}"
+                                                            class="btn btn-danger btn-sm" target="_blank">
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
                                                         @if ($item->disetujui == 0)
                                                             <a class="btn ripple btn-warning btn-sm"
                                                                 data-bs-target="#tandatangan{{ $item->id }}"
@@ -319,5 +323,17 @@
 
             // udah deh segitu aja
         }
+
+        var modal = document.getElementById('lihatPDF');
+
+        // Ketika modal ditutup, hapus class selected dari tabel
+        modal.addEventListener('hidden.bs.modal', function(event) {
+            document.querySelectorAll('#dokumenKeluar-tabel tbody tr.selected').forEach(function(row) {
+                row.classList.remove('selected');
+            });
+
+            var viewer = document.getElementById('pdf-viewer');
+            viewer.src = "";
+        });
     </script>
 @endpush

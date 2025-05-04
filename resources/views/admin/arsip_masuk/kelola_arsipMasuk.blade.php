@@ -72,14 +72,14 @@
                                                     <td>{{ $item->tanggal_masuk }}</td>
                                                     <td>
                                                         <div class="gap-1 d-flex justify-content-center">
-                                                            <!-- <a href="{{ route('admin.arsip_masuk.download', $item->id) }}"
-                                                            class="btn btn-danger btn-sm" target="_blank">
-                                                            <i class="fa fa-download"></i>
-                                                        </a> -->
-                                                            <a href="{{ route('admin.arsip_masuk.print', $item->id) }}"
+                                                            <a href="{{ route('admin.arsip_masuk.download', $item->id) }}"
+                                                                class="btn btn-danger btn-sm" target="_blank">
+                                                                <i class="fa fa-download"></i>
+                                                            </a>
+                                                            <!-- <a href="{{ route('admin.arsip_masuk.print', $item->id) }}"
                                                                 target="_blank" class="btn btn-primary btn-sm">
                                                                 <i class="fa fa-print"></i>
-                                                            </a>
+                                                            </a> -->
                                                             <a href="{{ route('admin.arsip_masuk.edit', $item->id) }}"
                                                                 class="btn btn-warning btn-sm"><i
                                                                     class="fe fe-edit"></i></a>

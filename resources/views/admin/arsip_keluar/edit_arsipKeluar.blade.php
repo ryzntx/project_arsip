@@ -21,6 +21,18 @@
                         Dokumen Keluar
                     </div>
                     <div class="card-body">
+
+                        @if ($arsip_keluar->disetujui == 1)
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Perhatian!</strong> Dokumen ini di tolak oleh pimpinan, silahkan perbaiki dan
+                                kirimkan
+                                kembali.
+                                <p>Alasan Ditolak: <strong>{{ $arsip_keluar->alasan }}</strong></p>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+
                         <div class="row">
                             <div class="col-6">
                                 <form action="/admin/arsip_keluar/update/{{ $arsip_keluar->id }}" method="POST"
@@ -33,18 +45,19 @@
                                         <div class="row">
                                             <div class="col-sm-15">
                                                 <div class="form-group">
-                                                    <label class="tx-medium">Tanggal</label>
+                                                    <label class="tx-medium">Tanggal Keluar</label>
                                                     <input type="date" class="form-control" name="tanggal_keluar"
                                                         id="tanggal_keluar"
-                                                        value="{{ old('tanggal_keluar') ?? $arsip_keluar->tanggal_keluar }}"
-                                                        required>
+                                                        value="{{ old('tanggal_keluar') ?? date('Y-m-d', strtotime($arsip_keluar->tanggal_keluar)) }}"
+                                                        readonly>
                                                     @error('tanggal_keluar')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="namaDinas" class="tx-medium">Dinas</label>
-                                                    <select id="namaDinas" name="dinas_id" class="form-control">
+                                                    <select id="namaDinas" name="dinas_id" class="form-control"
+                                                        {{ $arsip_keluar->status == 'Selesai' ? 'readonly' : '' }}>
                                                         <!-- Option list remains unchanged -->
                                                         <option value="" selected>Pilih</option>
                                                         @foreach ($instansi as $data)
@@ -58,19 +71,22 @@
                                                     <label class="tx-medium">Penerima</label>
                                                     <input type="text" class="form-control" name="nama_penerima"
                                                         id="nama_penerima"
-                                                        value="{{ old('penerima') ?? $arsip_keluar->penerima }}">
+                                                        value="{{ old('penerima') ?? $arsip_keluar->penerima }}"
+                                                        {{ $arsip_keluar->status == 'Selesai' ? 'readonly' : ($arsip_keluar->disetujui == 2 ? '' : 'readonly') }}>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="tx-medium">Nama Dokumen</label>
                                                     <input type="text" class="form-control" name="nama_dokumen"
                                                         id="nama_dokumen"
                                                         value="{{ old('nama_dokumen') ?? $arsip_keluar->nama_dokumen }}"
-                                                        required>
+                                                        required
+                                                        {{ $arsip_keluar->status == 'Selesai' ? 'readonly' : '' }}>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kategori Dokumen</label>
                                                     <select name="kategori_id" id="kategori_dokumen_keluar"
-                                                        class="form-control">
+                                                        class="form-control"
+                                                        {{ $arsip_keluar->status == 'Selesai' ? 'readonly' : '' }}>
                                                         <option value="">Pilih Kategori Dokumen</option>
                                                         @foreach ($kategori as $item)
                                                             <option value="{{ $item->id }}"
@@ -84,7 +100,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="tx-medium">Sifat Dokumen</label>
-                                                    <select name="sifat_dokumen" class="form-control" id="sifat_dokumen">
+                                                    <select name="sifat_dokumen" class="form-control" id="sifat_dokumen"
+                                                        {{ $arsip_keluar->status == 'Selesai' ? 'readonly' : '' }}>
                                                         <option value="0"
                                                             {{ old('sifat_dokumen', $arsip_keluar->sifat_dokumen) == '0' ? 'selected' : '' }}>
                                                             Biasa</option>
@@ -96,7 +113,7 @@
                                                         <small class="text-danger text-bold">{{ $message }}</small>
                                                     @enderror
                                                 </div>
-                                                @if ($arsip_keluar->disetujui == 0)
+                                                @if ($arsip_keluar->disetujui == 1)
                                                     <div class="form-group">
                                                         <label class="tx-medium d-block">Lampiran Dokumen</label>
                                                         {{-- <input type="file" name="file_dokumen" id="file_dokumen_keluar"
@@ -105,7 +122,7 @@
                                                         <button type="button" class=" btn btn-primary"
                                                             data-bs-toggle="modal" id="btnLampiran"
                                                             data-bs-target="#modalLampiran">
-                                                            Tambahkan Lampiran dari Template </button>
+                                                            Rubah Lampiran dari Template </button>
                                                         {{-- @error('file_dokumen')
                                                             <small class="text-danger text-bold">{{ $message }}</small>
                                                         @enderror --}}
@@ -140,7 +157,8 @@
                                                 @endif
                                                 <div class="form-group">
                                                     <label class="tx-medium">Keterangan</label>
-                                                    <textarea name="keterangan" rows="3" class="form-control">{{ old('keterangan') }}</textarea>
+                                                    <textarea name="keterangan" rows="3" class="form-control"
+                                                        {{ $arsip_keluar->status == 'Selesai' ? 'readonly' : '' }}>{{ old('keterangan') }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -182,10 +200,9 @@
                                                             Template</label>
                                                         <select id="pilihTemplate" name="pilihTemplate"
                                                             class="form-control">
-                                                            <option value="">Pilih Template Dokumen</option>
                                                             @foreach ($template_dok as $data)
                                                                 <option value="{{ $data->id }}"
-                                                                    @selected(old('pilihTemplate') == $data->id)>
+                                                                    @selected($arsip_keluar->dok_template_id == $data->id)>
                                                                     {{ $data->nama }}</option>
                                                             @endforeach
                                                         </select>
@@ -228,196 +245,310 @@
                 </div>
             </div>
         </div>
+    </div>
 
-    @endsection
+@endsection
 
-    @push('scripts')
-        <!-- Script to toggle between forms based on document type -->
-        <script>
-            let pilihTemplate = document.getElementById('pilihTemplate');
-            let fieldSet = document.getElementById('fieldSet');
-            let uploadFileInput = document.getElementById('file_dokumen_keluar');
-            let form_loading = document.getElementById('form-loading')
-            // let pengajuan_ke_pimpinan = document.getElementById('pengajuan_ke_pimpinan');
-            // let btnLampiran = document.getElementById('btnLampiran');
-            let kategoriDokKeluar = document.getElementById('kategori_dokumen_keluar');
-            let modalLampiran = new bootstrap.Modal(document.getElementById('modalLampiran'));
+@push('scripts')
+    <!-- Script to toggle between forms based on document type -->
+    <script>
+        let pilihTemplate = document.getElementById('pilihTemplate');
+        let fieldSet = document.getElementById('fieldSet');
+        let uploadFileInput = document.getElementById('file_dokumen_keluar');
+        let form_loading = document.getElementById('form-loading')
+        // let pengajuan_ke_pimpinan = document.getElementById('pengajuan_ke_pimpinan');
+        let btnLampiran = document.getElementById('btnLampiran');
+        let kategoriDokKeluar = document.getElementById('kategori_dokumen_keluar');
+        let modalLampiran = new bootstrap.Modal(document.getElementById('modalLampiran'));
 
-            var kategoriDokKeluarValue = '{{ old('kategori_id', $arsip_keluar->dokumen_kategori_id) }}';
+        var kategoriDokKeluarValue = '{{ old('kategori_id', $arsip_keluar->dokumen_kategori_id) }}';
 
-            let isi_surat = false;
-            var quill;
+        // let pilihTemplate = "{{ $arsip_keluar->dok_template_id }}";
 
-            @if (old('pilihTemplate'))
-                if (pilihTemplate.value ===
-                    '{{ old(' pilihTemplate ') }}') {
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Your code to run since DOM is loaded and ready
-                        fetching({
-                            {
-                                old('pilihTemplate')
-                            }
-                        });
-                    });
-                }
-            @endif
+        let isi_surat = false;
+        var quill;
 
-            kategoriDokKeluar.addEventListener('change', function() {
-                kategoriDokKeluarValue = this.value;
-            });
+        let dataSurat = [];
 
-            // pengajuan_ke_pimpinan.addEventListener('change', function() {
-            //     if (this.value === 'ya') {
-            //         uploadFileInput.classList.add('d-none');
-            //         uploadFileInput.removeAttribute('required');
-            //         btnLampiran.classList.remove('d-none');
-            //     } else {
-            //         uploadFileInput.classList.remove('d-none');
-            //         uploadFileInput.setAttribute('required', true);
-            //         btnLampiran.classList.add('d-none');
-            //     }
-            // });
+        // @if (old('pilihTemplate'))
+        //     if (pilihTemplate.value ===
+        //         '{{ old(' pilihTemplate ') }}') {
+        //         document.addEventListener('DOMContentLoaded', function() {
+        //             // Your code to run since DOM is loaded and ready
+        //             fetching({
+        //                 {
+        //                     old('pilihTemplate')
+        //                 }
+        //             });
+        //         });
+        //     }
+        // @endif
 
-            const fetching = async (id) => {
-                fetch('/admin/tambah_dokumen/ambiltemplate/' + id)
-                    .then(response => response.json())
-                    .then(data => {
-                        var dataTemplates = data.data;
-                        let dataTemplate = JSON.parse(dataTemplates);
+        kategoriDokKeluar.addEventListener('change', function() {
+            kategoriDokKeluarValue = this.value;
+        });
 
-                        dataTemplate.forEach(item => {
-                            // create form group element inside fieldset
-                            let formGroup = document.createElement('div');
-                            formGroup.classList.add('form-group');
+        // pengajuan_ke_pimpinan.addEventListener('change', function() {
+        //     if (this.value === 'ya') {
+        //         uploadFileInput.classList.add('d-none');
+        //         uploadFileInput.removeAttribute('required');
+        //         btnLampiran.classList.remove('d-none');
+        //     } else {
+        //         uploadFileInput.classList.remove('d-none');
+        //         uploadFileInput.setAttribute('required', true);
+        //         btnLampiran.classList.add('d-none');
+        //     }
+        // });
 
-                            // create label element
-                            let label = document.createElement('label');
-                            label.classList.add('tx-medium');
-                            label.textContent = RegExp('(/[^A-Za-z0-9\-]/)', 'g').test(item) ? item : item
-                                .replace(/_/g,
-                                    ' ');
+        // const fetching = async (id) => {
 
-                            // create input element
-                            let input;
-                            let element;
-                            if (item == 'KONTEN' || item == 'ISISURAT' || item == 'isi_surat' || item ==
-                                'konten' || item == 'CONTENT' || item == 'content') {
-                                input = document.createElement('input');
-                                element = document.createElement('div');
-                                element.setAttribute('id', 'quill');
-                                // input.classList.add('form-control');
-                                // element.classList.add('quill')
-                                input.setAttribute('id', 'isi_surat');
-                                input.setAttribute('name', "var_" + item);
-                                input.setAttribute('type', 'hidden');
-                                // input.setAttribute('required', false);
+        //     @foreach ($arsip_keluar->data_surat as $key => $item)
+        //         dataSurat.push({
+        //             id: '{{ $key }}',
+        //             value: '{{ $item }}'
+        //         });
+        //     @endforeach
 
-                                isi_surat = true;
-                            } else if (item == 'TANGGAL' || item == 'TANGGAL_SURAT' || item == 'tanggal' ||
-                                item == 'tanggal_surat') {
-                                input = document.createElement('input');
-                                input.classList.add('form-control');
-                                input.setAttribute('name', "var_" + item);
-                                input.setAttribute('type', 'date');
-                                @foreach (old() as $old => $value)
-                                    @if (strpos($old, 'var_') !== false)
-                                        if ('{{ $old }}' === 'var_' + item) input.setAttribute(
-                                            'value', '{{ $value }}');
-                                    @endif
-                                @endforeach
-                                // input.setAttribute('required', false);
-                            } else {
-                                input = document.createElement('input');
-                                input.classList.add('form-control');
-                                input.setAttribute('name', "var_" + item);
-                                input.setAttribute('type', 'text');
-                                input.setAttribute('id', item);
-                                @foreach (old() as $old => $value)
-                                    @if (strpos($old, 'var_') !== false)
-                                        if ('{{ $old }}' === 'var_' + item) input.setAttribute(
-                                            'value', '{{ $value }}');
-                                    @endif
-                                @endforeach
-                                // input.setAttribute('required', false);
-                            }
+        //     fetch('/admin/tambah_dokumen/ambiltemplate/' + id)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             var dataTemplates = data.data;
+        //             let dataTemplate = JSON.parse(dataTemplates);
 
-                            // append label and input to form group
-                            formGroup.appendChild(label);
-                            formGroup.appendChild(input);
-                            if (element) formGroup.appendChild(element);
+        //             dataTemplate.forEach(item => {
+        //                 dataSurat.forEach(itemData => {
+        //                     let valueInput = '';
+        //                     if (itemData.id == item) {
+        //                         valueInput = itemData.value;
+        //                     }
 
-                            // append form group to fieldset
-                            fieldSet.appendChild(formGroup);
-                        });
+        //                     // create form group element inside fieldset
+        //                     let formGroup = document.createElement('div');
+        //                     formGroup.classList.add('form-group');
 
-                    }).finally(() => {
-                        form_loading.classList.replace('d-flex', 'd-none');
-                        var nomorSuratEl = document.getElementById('NOMOR_SURAT');
-                        if (nomorSuratEl) {
-                            nomorSuratEl.value = "{{ $arsip_keluar->nomor_surat }}";
+        //                     // create label element
+        //                     let label = document.createElement('label');
+        //                     label.classList.add('tx-medium');
+        //                     label.textContent = RegExp('(/[^A-Za-z0-9\-]/)', 'g').test(item) ?
+        //                         item : item
+        //                         .replace(/_/g,
+        //                             ' ');
+
+        //                     // create input element
+        //                     let input;
+        //                     let element;
+        //                     if (item == 'KONTEN' || item == 'ISISURAT' || item == 'isi_surat' ||
+        //                         item ==
+        //                         'konten' || item == 'CONTENT' || item == 'content') {
+        //                         input = document.createElement('input');
+        //                         element = document.createElement('div');
+        //                         element.setAttribute('id', 'quill');
+        //                         // input.classList.add('form-control');
+        //                         // element.classList.add('quill')
+        //                         input.setAttribute('id', 'isi_surat');
+        //                         input.setAttribute('name', "var_" + item);
+        //                         input.setAttribute('type', 'hidden');
+        //                         // input.setAttribute('required', false);
+        //                         input.setAttribute('value', valueInput);
+
+        //                         isi_surat = true;
+        //                     } else if (item == 'TANGGAL' || item == 'TANGGAL_SURAT' || item ==
+        //                         'tanggal' ||
+        //                         item == 'tanggal_surat') {
+        //                         input = document.createElement('input');
+        //                         input.classList.add('form-control');
+        //                         input.setAttribute('name', "var_" + item);
+        //                         input.setAttribute('type', 'date');
+        //                         input.setAttribute('value', valueInput);
+        //                         @foreach (old() as $old => $value)
+        //                             @if (strpos($old, 'var_') !== false)
+        //                                 if ('{{ $old }}' === 'var_' + item) input
+        //                                     .setAttribute(
+        //                                         'value', '{{ $value }}');
+        //                             @endif
+        //                         @endforeach
+        //                         // input.setAttribute('required', false);
+        //                     } else {
+        //                         input = document.createElement('input');
+        //                         input.classList.add('form-control');
+        //                         input.setAttribute('name', "var_" + item);
+        //                         input.setAttribute('type', 'text');
+        //                         input.setAttribute('id', item);
+        //                         input.setAttribute('value', valueInput);
+        //                         @foreach (old() as $old => $value)
+        //                             @if (strpos($old, 'var_') !== false)
+        //                                 if ('{{ $old }}' === 'var_' + item) input
+        //                                     .setAttribute(
+        //                                         'value', '{{ $value }}');
+        //                             @endif
+        //                         @endforeach
+        //                         // input.setAttribute('required', false);
+        //                     }
+
+        //                     // append label and input to form group
+        //                     formGroup.appendChild(label);
+        //                     formGroup.appendChild(input);
+        //                     if (element) formGroup.appendChild(element);
+
+        //                     // append form group to fieldset
+        //                     fieldSet.appendChild(formGroup);
+        //                 });
+        //             });
+
+        //         }).finally(() => {
+        //             form_loading.classList.replace('d-flex', 'd-none');
+        //             var nomorSuratEl = document.getElementById('NOMOR_SURAT');
+        //             if (nomorSuratEl) {
+        //                 nomorSuratEl.value = "{{ $arsip_keluar->nomor_surat }}";
+        //             }
+        //         });
+        //     // fetch('/admin/tambah_dokumen/ambilnomorsurat/' + kategoriDokKeluarValue)
+        //     //     .then(response => response.json())
+        //     //     .then(data => {
+        //     //         var dataNomorSurat = data.nomor_surat;
+        //     //         var nomorSuratEl = document.getElementById('NOMOR_SURAT');
+        //     //         var nomorSuratHidden = document.getElementById('h_nomor_surat');
+        //     //         var nomorUrutHidden = document.getElementById('h_nomor_urut');
+        //     //         if (nomorSuratEl) {
+        //     //             nomorSuratEl.value = dataNomorSurat;
+        //     //         }
+        //     //         if (nomorSuratHidden) {
+        //     //             nomorSuratHidden.value = dataNomorSurat;
+        //     //         }
+        //     //         if (nomorUrutHidden) {
+        //     //             nomorUrutHidden.value = data.nomor_urut;
+        //     //         }
+        //     //     });
+        // }
+
+        const fetching = async (id) => {
+            // Bikin dataSuratMap dari dataSurat
+            const dataSuratMap = {};
+            @foreach ($arsip_keluar->data_surat as $key => $item)
+                dataSuratMap['{{ $key }}'] = '{{ $item }}';
+            @endforeach
+
+            // Fetch template
+            fetch('/admin/tambah_dokumen/ambiltemplate/' + id)
+                .then(response => response.json())
+                .then(data => {
+                    const dataTemplate = JSON.parse(data.data);
+
+                    dataTemplate.forEach(item => {
+                        // Cek apakah ada data di dataSuratMap
+                        const valueInput = dataSuratMap[item] ?? '';
+
+                        // Buat form group
+                        const formGroup = document.createElement('div');
+                        formGroup.classList.add('form-group');
+                        formGroup.style.opacity = 0; // Mulai invisible
+
+                        // Buat label
+                        const label = document.createElement('label');
+                        label.classList.add('tx-medium');
+                        label.textContent = item.replace(/_/g, ' ');
+
+                        // Buat input
+                        let input;
+                        let element;
+
+                        if (['KONTEN', 'ISISURAT', 'isi_surat', 'konten', 'CONTENT', 'content']
+                            .includes(item)) {
+                            input = document.createElement('input');
+                            element = document.createElement('div');
+                            element.setAttribute('id', 'quill');
+                            // input.classList.add('form-control');
+                            // element.classList.add('quill')
+                            input.setAttribute('id', 'isi_surat');
+                            input.setAttribute('name', "var_" + item);
+                            input.setAttribute('type', 'hidden');
+                            // input.setAttribute('required', false);
+                            input.setAttribute('value', valueInput);
+                        } else if (['TANGGAL', 'TANGGAL_SURAT', 'tanggal', 'tanggal_surat'].includes(
+                                item)) {
+                            input = document.createElement('input');
+                            input.classList.add('form-control');
+                            input.type = 'date';
+                            input.name = 'var_' + item;
+                            input.setAttribute('value', valueInput);
+                        } else {
+                            input = document.createElement('input');
+                            input.classList.add('form-control');
+                            input.type = 'text';
+                            input.name = 'var_' + item;
+                            input.id = item;
+                            input.setAttribute('value', valueInput);
                         }
+
+                        // Masukkan label dan input ke formGroup
+                        formGroup.appendChild(label);
+                        formGroup.appendChild(input);
+                        if (element) formGroup.appendChild(element);
+
+                        // Masukkan formGroup ke fieldSet
+                        fieldSet.appendChild(formGroup);
+
+                        // Animasi fade-in
+                        setTimeout(() => {
+                            formGroup.style.transition = 'opacity 0.5s';
+                            formGroup.style.opacity = 1;
+                        }, 50);
                     });
-                // fetch('/admin/tambah_dokumen/ambilnomorsurat/' + kategoriDokKeluarValue)
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         var dataNomorSurat = data.nomor_surat;
-                //         var nomorSuratEl = document.getElementById('NOMOR_SURAT');
-                //         var nomorSuratHidden = document.getElementById('h_nomor_surat');
-                //         var nomorUrutHidden = document.getElementById('h_nomor_urut');
-                //         if (nomorSuratEl) {
-                //             nomorSuratEl.value = dataNomorSurat;
-                //         }
-                //         if (nomorSuratHidden) {
-                //             nomorSuratHidden.value = dataNomorSurat;
-                //         }
-                //         if (nomorUrutHidden) {
-                //             nomorUrutHidden.value = data.nomor_urut;
-                //         }
-                //     });
+                })
+                .finally(() => {
+                    form_loading.classList.replace('d-flex', 'd-none');
+                    const nomorSuratEl = document.getElementById('NOMOR_SURAT');
+                    if (nomorSuratEl) {
+                        nomorSuratEl.value = "{{ $arsip_keluar->nomor_surat }}";
+                    }
+                });
+        };
+
+
+        btnLampiran.addEventListener('click', function() {
+            console.log("open");
+            fieldSet.innerHTML = '';
+            //fetch data from server
+            if (this.value === '') {
+                form_loading.classList.replace('d-flex', 'd-none')
             }
 
-            pilihTemplate.addEventListener('change', function() {
-                fieldSet.innerHTML = '';
-                //fetch data from server
-                if (this.value === '') {
-                    form_loading.classList.replace('d-flex', 'd-none')
-                    return;
-                }
+            form_loading.classList.replace('d-none', 'd-flex')
 
-                form_loading.classList.replace('d-none', 'd-flex')
+            fetching(pilihTemplate.value);
 
-                fetching(this.value);
-
-            });
+        });
 
 
-            let previousIsiSurat = isi_surat;
+        let previousIsiSurat = isi_surat;
 
-            const observer = new MutationObserver(() => {
-                if (isi_surat && !previousIsiSurat) {
-                    quill = new Quill('#quill', {
-                        theme: 'snow'
-                    });
+        const observer = new MutationObserver(() => {
+            if (isi_surat && !previousIsiSurat) {
+                quill = new Quill('#quill', {
+                    theme: 'snow'
+                });
 
-                    quill.on('text-change', function() {
-                        document.getElementById('isi_surat').value = quill.root.innerHTML;
-                    });
-                    previousIsiSurat = isi_surat;
-                    @foreach (old() as $old => $value)
-                        @if (strpos($old, 'var_') !== false)
-                            if ('{{ $old }}' === 'var_' + 'isi_surat' || '{{ $old }}' === 'var_' +
-                                'konten' || '{{ $old }}' === 'var_' + 'KONTEN' || '{{ $old }}' ===
-                                'var_' + 'ISISURAT') {
-                                quill.setText('{{ html_entity_decode($value) }}');
-                            }
-                        @endif
-                    @endforeach
-                }
-            });
+                quill.on('text-change', function() {
+                    document.getElementById('isi_surat').value = quill.root.innerHTML;
+                });
+                previousIsiSurat = isi_surat;
+                @foreach (old() as $old => $value)
+                    @if (strpos($old, 'var_') !== false)
+                        if ('{{ $old }}' === 'var_' + 'isi_surat' ||
+                            '{{ $old }}' === 'var_' +
+                            'konten' || '{{ $old }}' === 'var_' + 'KONTEN' ||
+                            '{{ $old }}' ===
+                            'var_' + 'ISISURAT') {
+                            quill.setText('{{ html_entity_decode($value) }}');
+                        }
+                    @endif
+                @endforeach
+            }
+        });
 
-            observer.observe(fieldSet, {
-                childList: true,
-                subtree: true
-            });
-        </script>
-    @endpush
+        observer.observe(fieldSet, {
+            childList: true,
+            subtree: true
+        });
+    </script>
+@endpush

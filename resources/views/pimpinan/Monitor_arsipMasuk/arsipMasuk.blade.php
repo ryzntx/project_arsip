@@ -65,9 +65,13 @@
                                                     <td>{{ $item->dokumen_kategori->nama_kategori }}</td>
                                                     <td>{{ $item->tanggal_masuk }}</td>
                                                     <td class="gap-1 d-flex justify-content-center">
-                                                        <a href="{{ route('pimpinan.arsipMasuk.print', $item->id) }}"
+                                                        <a href="{{ route('pimpinan.arsipMasuk.download', $item->id) }}"
+                                                            class="btn btn-danger btn-sm" target="_blank">
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
+                                                        <!-- <a href="{{ route('pimpinan.arsipMasuk.print', $item->id) }}"
                                                             target="_blank" class="btn btn-primary btn-sm"><i
-                                                                class="fa fa-print"></i></a>
+                                                                class="fa fa-print"></i></a> -->
                                                     </td>
                                                 </tr>
                                             @endforeach

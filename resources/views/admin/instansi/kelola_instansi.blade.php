@@ -30,11 +30,11 @@
                                 <i class="fe fe-plus"></i>
                                 Tambah Instansi</button>
                         </a>
-                        <a href="/admin/kelola_instansi/sampah">
+                        <!-- <a href="/admin/kelola_instansi/sampah">
                             <button type="button" class="my-2 btn btn-secondary btn-icon-text">
                                 <i class="fa fa-trash"></i>
                                 Keranjang Sampah</button>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             </div>

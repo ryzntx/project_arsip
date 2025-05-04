@@ -107,20 +107,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (auth()->user()->role === 'pimpinan')
-                                        <div class="form-group ">
-                                            <div class="row row-sm">
-                                                <div class="col-md-3">
-                                                    <label class="form-label">File Tanda Tangan</label>
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <input type="file" class="form-control"
-                                                        placeholder="File Tanda Tangan" name="ttd_path"
-                                                        accept="iamge/*">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
                                         <button type="submit" class="btn btn-primary rounded-5">Simpan</button>
                                     </form>
                                 </div>

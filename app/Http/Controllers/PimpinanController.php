@@ -71,6 +71,18 @@ class PimpinanController extends Controller
             ->groupBy('dokumen_kategori_id')
             ->get();
 
+        // Menggabungkan kategori dokumen dengan data masuk dan keluar
+        $kategori_dokumen = $kategori_dokumen->map(function ($kategori) use ($dokumen_masuk_kategori, $dokumen_keluar_kategori) {
+            $kategori->dokumen_masuk = $dokumen_masuk_kategori->firstWhere('dokumen_kategori_id', $kategori->id);
+            $kategori->dokumen_keluar = $dokumen_keluar_kategori->firstWhere('dokumen_kategori_id', $kategori->id);
+
+            // Jika tidak ada data untuk dokumen masuk atau keluar, setel ke 0
+            $kategori->dokumen_masuk_total = $kategori->dokumen_masuk ? $kategori->dokumen_masuk->total : 0;
+            $kategori->dokumen_keluar_total = $kategori->dokumen_keluar ? $kategori->dokumen_keluar->total : 0;
+
+            return $kategori;
+        });
+
         // group by instansi
         $dokumen_masuk_instansi = DokumenMasuk::selectRaw('instansi_id, COUNT(*) as total_masuk, "DokumenMasuk" as type')
             ->with('instansi')
@@ -83,14 +95,15 @@ class PimpinanController extends Controller
 
         $dokumen_instansi = collect($dokumen_masuk_instansi)->merge($dokumen_keluar_instansi)
             ->groupBy('instansi_id')
-            ->map(function ($group) {
-                return [
-                    'instansi_id' => $group->first()['instansi_id'],
-                    'instansi' => $group->first()['instansi'],
-                    'total_masuk' => $group->sum('total_masuk'),
-                    'total_keluar' => $group->sum('total_keluar'),
-                ];
-            }
+            ->map(
+                function ($group) {
+                    return [
+                        'instansi_id' => $group->first()['instansi_id'],
+                        'instansi' => $group->first()['instansi'],
+                        'total_masuk' => $group->sum('total_masuk'),
+                        'total_keluar' => $group->sum('total_keluar'),
+                    ];
+                }
             );
 
         // dd($dokumen_instansi);
